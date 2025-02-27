@@ -16,4 +16,5 @@ app.get("/", (req, res) => {
 //laps?
 app.get("/laps", (req, res) => {
   console.log("laps page");
+  res.json("amongus");
 });
