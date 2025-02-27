@@ -8,7 +8,8 @@ export const Route = createFileRoute("/posts")({
 function Posts() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["mydata"], //unique key for caching ?? huuuuuuuh okay
-    queryFn: () => fetch("localhost:3000/laps").then((res) => res.json()),
+    queryFn: () =>
+      fetch("https://sstr.reinis.space/laps").then((res) => res.json()),
   });
 
   if (isLoading) return <p>Loading...</p>;
