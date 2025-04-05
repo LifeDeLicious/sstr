@@ -15,7 +15,7 @@ function Posts() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return <pre className="underline">{JSON.stringify(data, null, 2)}</pre>;
 
   // return (
   //   <div className="p-2">

@@ -8,25 +8,29 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersettingsImport } from './routes/usersettings'
+import { Route as SessionsImport } from './routes/sessions'
 import { Route as PostsImport } from './routes/posts'
-
-// Create Virtual Routes
-
-const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
+import { Route as AnalysisImport } from './routes/analysis'
+import { Route as AdminImport } from './routes/admin'
+import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const UsersettingsRoute = UsersettingsImport.update({
+  id: '/usersettings',
+  path: '/usersettings',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any)
+
+const SessionsRoute = SessionsImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PostsRoute = PostsImport.update({
   id: '/posts',
@@ -34,11 +38,23 @@ const PostsRoute = PostsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const AnalysisRoute = AnalysisImport.update({
+  id: '/analysis',
+  path: '/analysis',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminRoute = AdminImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -48,7 +64,21 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminImport
+      parentRoute: typeof rootRoute
+    }
+    '/analysis': {
+      id: '/analysis'
+      path: '/analysis'
+      fullPath: '/analysis'
+      preLoaderRoute: typeof AnalysisImport
       parentRoute: typeof rootRoute
     }
     '/posts': {
@@ -58,11 +88,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/sessions': {
+      id: '/sessions'
+      path: '/sessions'
+      fullPath: '/sessions'
+      preLoaderRoute: typeof SessionsImport
+      parentRoute: typeof rootRoute
+    }
+    '/usersettings': {
+      id: '/usersettings'
+      path: '/usersettings'
+      fullPath: '/usersettings'
+      preLoaderRoute: typeof UsersettingsImport
       parentRoute: typeof rootRoute
     }
   }
@@ -71,43 +108,71 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analysis': typeof AnalysisRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analysis': typeof AnalysisRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analysis': typeof AnalysisRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts' | '/about'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/analysis'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts' | '/about'
-  id: '__root__' | '/' | '/posts' | '/about'
+  to: '/' | '/admin' | '/analysis' | '/posts' | '/sessions' | '/usersettings'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/analysis'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AnalysisRoute: typeof AnalysisRoute
   PostsRoute: typeof PostsRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  SessionsRoute: typeof SessionsRoute
+  UsersettingsRoute: typeof UsersettingsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AnalysisRoute: AnalysisRoute,
   PostsRoute: PostsRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  SessionsRoute: SessionsRoute,
+  UsersettingsRoute: UsersettingsRoute,
 }
 
 export const routeTree = rootRoute
@@ -121,18 +186,30 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/admin",
+        "/analysis",
         "/posts",
-        "/about"
+        "/sessions",
+        "/usersettings"
       ]
     },
     "/": {
-      "filePath": "index.lazy.jsx"
+      "filePath": "index.jsx"
+    },
+    "/admin": {
+      "filePath": "admin.jsx"
+    },
+    "/analysis": {
+      "filePath": "analysis.jsx"
     },
     "/posts": {
       "filePath": "posts.jsx"
     },
-    "/about": {
-      "filePath": "about.lazy.jsx"
+    "/sessions": {
+      "filePath": "sessions.jsx"
+    },
+    "/usersettings": {
+      "filePath": "usersettings.jsx"
     }
   }
 }
