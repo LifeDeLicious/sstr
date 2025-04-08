@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/usersettings')({
+export const Route = createFileRoute("/usersettings")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/usersettings"!</div>
+  return (
+    <>
+      <h1 className="ml-65 text-3xl mb-8">User settings</h1>
+      <div className="flex flex-col items-center ">
+        <div className="w-350 bg-amber-400">Hello "/sessions"!</div>
+      </div>
+    </>
+  );
 }

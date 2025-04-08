@@ -14,9 +14,12 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as UsersettingsImport } from './routes/usersettings'
 import { Route as SessionsImport } from './routes/sessions'
 import { Route as PostsImport } from './routes/posts'
-import { Route as AnalysisImport } from './routes/analysis'
+import { Route as AnalyticsImport } from './routes/analytics'
 import { Route as AdminImport } from './routes/admin'
 import { Route as IndexImport } from './routes/index'
+import { Route as SessionSessionIdImport } from './routes/session.$sessionId'
+import { Route as AnalyticsAnalyticsIdImport } from './routes/analytics_.$analyticsId'
+import { Route as AnalyticsAnalyticsIdGraphsImport } from './routes/analytics_.$analyticsId_.graphs'
 
 // Create/Update Routes
 
@@ -38,9 +41,9 @@ const PostsRoute = PostsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AnalysisRoute = AnalysisImport.update({
-  id: '/analysis',
-  path: '/analysis',
+const AnalyticsRoute = AnalyticsImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -55,6 +58,26 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const SessionSessionIdRoute = SessionSessionIdImport.update({
+  id: '/session/$sessionId',
+  path: '/session/$sessionId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AnalyticsAnalyticsIdRoute = AnalyticsAnalyticsIdImport.update({
+  id: '/analytics_/$analyticsId',
+  path: '/analytics/$analyticsId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AnalyticsAnalyticsIdGraphsRoute = AnalyticsAnalyticsIdGraphsImport.update(
+  {
+    id: '/analytics_/$analyticsId_/graphs',
+    path: '/analytics/$analyticsId/graphs',
+    getParentRoute: () => rootRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -74,11 +97,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
-    '/analysis': {
-      id: '/analysis'
-      path: '/analysis'
-      fullPath: '/analysis'
-      preLoaderRoute: typeof AnalysisImport
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsImport
       parentRoute: typeof rootRoute
     }
     '/posts': {
@@ -102,6 +125,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersettingsImport
       parentRoute: typeof rootRoute
     }
+    '/analytics_/$analyticsId': {
+      id: '/analytics_/$analyticsId'
+      path: '/analytics/$analyticsId'
+      fullPath: '/analytics/$analyticsId'
+      preLoaderRoute: typeof AnalyticsAnalyticsIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/session/$sessionId': {
+      id: '/session/$sessionId'
+      path: '/session/$sessionId'
+      fullPath: '/session/$sessionId'
+      preLoaderRoute: typeof SessionSessionIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/analytics_/$analyticsId_/graphs': {
+      id: '/analytics_/$analyticsId_/graphs'
+      path: '/analytics/$analyticsId/graphs'
+      fullPath: '/analytics/$analyticsId/graphs'
+      preLoaderRoute: typeof AnalyticsAnalyticsIdGraphsImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -110,29 +154,38 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/analysis': typeof AnalysisRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
   '/sessions': typeof SessionsRoute
   '/usersettings': typeof UsersettingsRoute
+  '/analytics/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics/$analyticsId/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/analysis': typeof AnalysisRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
   '/sessions': typeof SessionsRoute
   '/usersettings': typeof UsersettingsRoute
+  '/analytics/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics/$analyticsId/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/analysis': typeof AnalysisRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
   '/sessions': typeof SessionsRoute
   '/usersettings': typeof UsersettingsRoute
+  '/analytics_/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics_/$analyticsId_/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRouteTypes {
@@ -140,39 +193,60 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
-    | '/analysis'
+    | '/analytics'
     | '/posts'
     | '/sessions'
     | '/usersettings'
+    | '/analytics/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics/$analyticsId/graphs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/analysis' | '/posts' | '/sessions' | '/usersettings'
+  to:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
+    | '/analytics/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics/$analyticsId/graphs'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/analysis'
+    | '/analytics'
     | '/posts'
     | '/sessions'
     | '/usersettings'
+    | '/analytics_/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics_/$analyticsId_/graphs'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AnalysisRoute: typeof AnalysisRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   PostsRoute: typeof PostsRoute
   SessionsRoute: typeof SessionsRoute
   UsersettingsRoute: typeof UsersettingsRoute
+  AnalyticsAnalyticsIdRoute: typeof AnalyticsAnalyticsIdRoute
+  SessionSessionIdRoute: typeof SessionSessionIdRoute
+  AnalyticsAnalyticsIdGraphsRoute: typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AnalysisRoute: AnalysisRoute,
+  AnalyticsRoute: AnalyticsRoute,
   PostsRoute: PostsRoute,
   SessionsRoute: SessionsRoute,
   UsersettingsRoute: UsersettingsRoute,
+  AnalyticsAnalyticsIdRoute: AnalyticsAnalyticsIdRoute,
+  SessionSessionIdRoute: SessionSessionIdRoute,
+  AnalyticsAnalyticsIdGraphsRoute: AnalyticsAnalyticsIdGraphsRoute,
 }
 
 export const routeTree = rootRoute
@@ -187,10 +261,13 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/admin",
-        "/analysis",
+        "/analytics",
         "/posts",
         "/sessions",
-        "/usersettings"
+        "/usersettings",
+        "/analytics_/$analyticsId",
+        "/session/$sessionId",
+        "/analytics_/$analyticsId_/graphs"
       ]
     },
     "/": {
@@ -199,8 +276,8 @@ export const routeTree = rootRoute
     "/admin": {
       "filePath": "admin.jsx"
     },
-    "/analysis": {
-      "filePath": "analysis.jsx"
+    "/analytics": {
+      "filePath": "analytics.jsx"
     },
     "/posts": {
       "filePath": "posts.jsx"
@@ -210,6 +287,15 @@ export const routeTree = rootRoute
     },
     "/usersettings": {
       "filePath": "usersettings.jsx"
+    },
+    "/analytics_/$analyticsId": {
+      "filePath": "analytics_.$analyticsId.jsx"
+    },
+    "/session/$sessionId": {
+      "filePath": "session.$sessionId.jsx"
+    },
+    "/analytics_/$analyticsId_/graphs": {
+      "filePath": "analytics_.$analyticsId_.graphs.jsx"
     }
   }
 }

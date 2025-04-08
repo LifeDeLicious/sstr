@@ -1,7 +1,7 @@
 export default function Accordion() {
   return (
     <div>
-      <div className="mt-10 collapse collapse-arrow bg-base-100 border border-base-300">
+      <div className="mt-2 collapse collapse-arrow bg-base-100 border border-base-300">
         <input type="radio" name="my-accordion-2" defaultChecked />
         <div className="collapse-title font-semibold">
           How do I create an account?

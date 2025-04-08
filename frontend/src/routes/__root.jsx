@@ -30,7 +30,7 @@ export const Route = createRootRoute({
       {/* <Comp />
       <List />
       <Accordion className="mt-20" /> */}
-      {/* <TanStackRouterDevtools /> */}
+      <TanStackRouterDevtools />
     </>
   ),
 });

@@ -8,7 +8,7 @@ const userOptions = [
   },
   {
     title: "Analytics",
-    linkTo: "/analysis",
+    linkTo: "/analytics",
   },
   {
     title: "admin",
