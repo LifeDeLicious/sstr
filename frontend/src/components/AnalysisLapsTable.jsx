@@ -15,7 +15,7 @@ export default function AnalysisLapsTable() {
           <thead>
             <tr>
               <th className=" w-140">Lap</th>
-              <th className="w-20 bg-amber-600">Color thingy</th>
+              <th className="w-20">Color pickeri</th>
               <th className="ml-90 self-center">Lap time</th>
               <th className="hover:bg-yellow-100"></th>
             </tr>
@@ -41,7 +41,7 @@ export default function AnalysisLapsTable() {
             <tr className="hover:bg-base-300">
               <th>2</th>
               <th>a</th>
-              <td>Desktop Support Technician</td>
+              <td>xyz</td>
               <td className="w-15">
                 <div className="join">
                   <button className="btn h-8 join-item bg-slate-400">
@@ -62,7 +62,7 @@ export default function AnalysisLapsTable() {
             <tr className="hover:bg-base-300">
               <th>3</th>
               <th> a</th>
-              <td>Tax Accountant</td>
+              <td>abc</td>
             </tr>
           </tbody>
         </table>

@@ -38,7 +38,7 @@ export default function SessionLapsTable() {
             {/* row 2 */}
             <tr className="hover:bg-base-300">
               <th>2</th>
-              <td>Desktop Support Technician</td>
+              <td>abc</td>
               <td className="w-15">
                 <div className="join">
                   <button className="btn h-8 join-item bg-slate-400">
@@ -58,7 +58,7 @@ export default function SessionLapsTable() {
             {/* row 3 */}
             <tr className="hover:bg-base-300">
               <th>3</th>
-              <td>Tax Accountant</td>
+              <td>xyz</td>
             </tr>
           </tbody>
         </table>

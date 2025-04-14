@@ -18,7 +18,7 @@ function RouteComponent() {
   return (
     <>
       <div className="flex flex-col items-center ">
-        <div className="w-350 bg-amber-400">
+        <div className="w-350">
           <div className="grid grid-cols-5">
             <h1 className="text-3xl mb-8 col-span-4">
               {"Session 'name' - 03.02.2025 16:49"}
@@ -66,9 +66,10 @@ function RouteComponent() {
             </p>
           </div>
           <div className="">
-            <p>temperature thingies</p>
+            <p>temperaturas</p>
           </div>
-          <p>lap table</p>
+          {/* <p>lap table</p> */}
+          <br></br>
           <SessionLapsTable />
         </div>
       </div>

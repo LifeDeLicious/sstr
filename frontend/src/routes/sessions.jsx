@@ -22,7 +22,7 @@ function RouteComponent() {
     <>
       {/* <h1 className="ml-65 text-3xl mb-8">Recent activity</h1> */}
       <div className="flex flex-col items-center ">
-        <div className="w-350 bg-amber-700">
+        <div className="w-350">
           <h1 className="text-3xl mb-4">Recent activity</h1>
           <p>Hello "/sessions"!</p>
           {/* <Accordion /> */}
