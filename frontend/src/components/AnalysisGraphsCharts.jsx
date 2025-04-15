@@ -22,8 +22,19 @@ const data = telemetryData;
 
 const data2 = telemetryData2;
 
-const mergedData = data.map((item) => {
-  const item2 = data2.find;
+const trackPositions = Array.from(
+  new Set([...data, ...data2].map((d) => d.TrackPosition))
+).sort((a, b) => a - b);
+
+const combined = trackPositions.map((trackPos) => {
+  const a = data.find((d) => d.TrackPosition === trackPos);
+  const b = data2.find((d) => d.TrackPosition === trackPos);
+
+  return {
+    TrackPosition: trackPos,
+    SpeedA: a ? a.Speed : null,
+    SpeedB: b ? b.Speed : null,
+  };
 });
 
 const heightValue = 127;
@@ -38,7 +49,7 @@ export default function AnalysisGraphsCharts() {
           <LineChart
             width={500}
             height={heightValue}
-            //data={data}
+            data={combined}
             syncId="anyId"
             margin={{
               top: 10,
@@ -56,20 +67,22 @@ export default function AnalysisGraphsCharts() {
               }}
             />
             <Line
-              data={data}
+              //data={data}
               type="monotone"
-              dataKey="Speed"
+              dataKey="SpeedA"
               stroke={dataColors[0]}
               fill={dataColors[0]}
               dot={false}
+              connectNulls={true}
             />
             <Line
-              data={data2}
+              //data={data2}
               type="monotone"
-              dataKey="Speed"
+              dataKey="SpeedB"
               stroke={dataColors[1]}
-              fill={dataColors[0]}
+              fill={dataColors[1]}
               dot={false}
+              connectNulls={true}
             />
           </LineChart>
         </ResponsiveContainer>
