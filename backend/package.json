@@ -5,14 +5,24 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "node ./db/migrate.js",
+    "db:generate": "drizzle-kit generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.4.1",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.40.1",
     "express": "^4.21.2",
-    "mysql2": "^3.12.0"
+    "jsonwebtoken": "^9.0.2",
+    "minio": "^8.0.5",
+    "mysql2": "^3.13.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.5"
   }
 }
