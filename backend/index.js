@@ -33,4 +33,5 @@ app.post("/testpost", (req, res) => {
   const data = req.body;
 
   console.log(`request: ${JSON.stringify(data)}`);
+  res.json({ message: "post endpoint working fine" }).status(200);
 });
