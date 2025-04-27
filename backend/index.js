@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 //laps?
 app.get("/laps", (req, res) => {
   console.log("laps page");
-  res.json({ message: "amongus" });
+  res.json({ message: "amongus" }).status(200);
 });
 
 app.post("/testpost", (req, res) => {
