@@ -1,6 +1,12 @@
 import express from "express";
+import bodyParser from "body-parser";
 
-import { db } from "./db/index.js";
+// import { db } from "./db/index.js";
+
+import userRoutes from "./routes/userRoutes.js";
+import lapRoutes from "./routes/lapRoutes.js";
+import analysisRoutes from "./routes/analysisRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 
@@ -14,14 +20,19 @@ const port = 3000;
 //   // next();
 // });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.listen(port, () => {
   console.log("listening on port 3000");
 });
 
+app.use("/user", userRoutes);
+
 //login page
-app.get("/", (req, res) => {
-  console.log("req, received");
-});
+// app.get("/", (req, res) => {
+//   console.log("req, received");
+// });
 
 //laps?
 app.get("/laps", (req, res) => {
@@ -34,4 +45,9 @@ app.post("/testpost", (req, res) => {
 
   console.log(`request: ${JSON.stringify(data)}`);
   res.json({ message: "post endpoint working fine" }).status(200);
+});
+
+app.post("/createsession", (req, res) => {
+  const { userId, carAssetname, trackAssetName } = req.body;
+  console.log("/createsession");
 });
