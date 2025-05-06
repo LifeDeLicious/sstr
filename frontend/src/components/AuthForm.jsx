@@ -29,9 +29,9 @@ const AuthForm = ({ type }) => {
         navigate({ to: "/sessions" });
       } else {
         //! set auth state to true
-        setAuthState(true);
+        //setAuthState(true);
         console.log("auth state set to true");
-        navigate({ to: "/" });
+        navigate({ to: "/sessions" });
       }
     },
   });
