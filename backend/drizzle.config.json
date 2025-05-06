@@ -3,5 +3,5 @@
   "connectionString": "env:DATABASE_URL",
   "out": "./drizzle",
   "dialect": "mysql",
-  "migrationsFolder": "C:Users/reini/desktop/sstr/backend/drizzle"
+  "migrationsFolder": "./drizzle"
 }
