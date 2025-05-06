@@ -27,7 +27,13 @@ app.listen(port, () => {
   console.log("listening on port 3000");
 });
 
-app.use("/user", userRoutes);
+app.use("/", userRoutes);
+
+app.use("/laps", lapRoutes);
+
+app.use("/analysis", analysisRoutes);
+
+app.use("/session", sessionRoutes);
 
 //login page
 // app.get("/", (req, res) => {
@@ -35,10 +41,10 @@ app.use("/user", userRoutes);
 // });
 
 //laps?
-app.get("/laps", (req, res) => {
-  console.log("laps page");
-  res.json({ message: "amongus" }).status(200);
-});
+// app.get("/laps", (req, res) => {
+//   console.log("laps page");
+//   res.json({ message: "amongus" }).status(200);
+// });
 
 app.post("/testpost", (req, res) => {
   const data = req.body;

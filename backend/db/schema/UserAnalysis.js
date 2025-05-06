@@ -7,7 +7,8 @@ import {
   boolean,
   timestamp,
 } from "drizzle-orm/mysql-core";
-import { Users } from "./users";
+import { Users } from "./Users.js";
+import { Analysis } from "./Analysis.js";
 
 export const UserAnalysis = mysqlTable("UserAnalysis", {
   ID: int("ID").primaryKey().autoincrement().notNull(),

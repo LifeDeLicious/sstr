@@ -4,7 +4,11 @@ import {
   int,
   boolean,
   timestamp,
+  decimal,
 } from "drizzle-orm/mysql-core";
+import { Users } from "./Users.js";
+import { Cars } from "./Cars.js";
+import { Tracks } from "./Tracks.js";
 
 export const Sessions = mysqlTable("Sessions", {
   SessionID: int("SessionID").primaryKey().autoincrement().notNull(),
@@ -14,4 +18,5 @@ export const Sessions = mysqlTable("Sessions", {
   DateTime: timestamp("DateTime").defaultNow().notNull(),
   TrackTemperature: varchar("TrackTemperature", { length: 4 }).notNull(),
   AirTemperature: varchar("AirTemperature", { length: 4 }).notNull(),
+  FastestLapTime: double("FastestLapTime").notNull(),
 });
