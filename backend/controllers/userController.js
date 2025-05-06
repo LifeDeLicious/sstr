@@ -128,7 +128,7 @@ const loginUser = async (req, res) => {
 
     console.log("login successful");
     res.status(200).json({
-      userID: user.userID.toString(),
+      userID: user.UserID.toString(),
       userUsername: user.Username,
     });
   } catch (error) {
