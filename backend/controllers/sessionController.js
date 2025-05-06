@@ -54,12 +54,9 @@ const postCar = async (req, res) => {
       })
       .$returningId();
     //const [carIdResult] = await db.select({ insertId: sql`LAST_INSERT_ID()`});
-    const carID = carResult.id;
+    const carID = carResult;
     console.log("inserted carid: ", carID);
-    res
-      .status(200)
-      .json({ message: `car ${carID} inserted` })
-      .send();
+    res.status(200).json({ message: `car ${carID} inserted` });
 
     // const session = await db.insert(Sessions).values({});
   } catch (error) {
