@@ -8,6 +8,13 @@
       "when": 1746520532419,
       "tag": "0000_simple_arachne",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1746546397559,
+      "tag": "0001_free_violations",
+      "breakpoints": true
     }
   ]
 }

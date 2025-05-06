@@ -18,4 +18,5 @@ export const Sessions = mysqlTable("Sessions", {
   TrackTemperature: varchar("TrackTemperature", { length: 4 }).notNull(),
   AirTemperature: varchar("AirTemperature", { length: 4 }).notNull(),
   FastestLapTime: double("FastestLapTime").notNull(),
+  AmountOfLaps: int("AmountOfLaps").notNull(),
 });

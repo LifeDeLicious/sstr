@@ -5,15 +5,15 @@ import { Users } from "../db/schema/Users.js";
 import { Sessions } from "../db/schema/Sessions.js";
 
 const postLap = async (req, res) => {
-  const { userID } = req.body;
+  const { sessionID, userID, isFastestLap, telemetryData, lapTime } = req.body;
 
-  try {
-    const session = await db.insert(Sessions).values({});
-  } catch (error) {
-    console.log("error :", error);
-  }
+  //   try {
+  //     const session = await db.insert(Sessions).values({});
+  //   } catch (error) {
+  //     console.log("error :", error);
+  //   }
 
-  console.log("postLap");
+  console.log(lapTime);
 };
 
 const lapController = {

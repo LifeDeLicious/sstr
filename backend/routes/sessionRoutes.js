@@ -13,4 +13,6 @@ const router = express.Router();
 
 router.post("/car", sessionController.postCar);
 
+router.post("/create", sessionController.createSession);
+
 export default router;
