@@ -23,4 +23,4 @@ const db = drizzle(pool);
 
 export { db, pool };
 
-await migrate(db);
+//await migrate(db);
