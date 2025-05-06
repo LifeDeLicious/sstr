@@ -115,7 +115,7 @@ const loginUser = async (req, res) => {
 
     await db.insert(UserLogs).values({
       UserID: user.UserID,
-      Action: "LOGIN",
+      EventType: "LOGIN",
     });
 
     console.log("login successful");
