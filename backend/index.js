@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 // import { db } from "./db/index.js";
 
@@ -11,6 +12,15 @@ import sessionRoutes from "./routes/sessionRoutes.js";
 const app = express();
 
 const port = 3000;
+
+app.use(
+  cors({
+    origin: "https://sstr.reinis.space",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 //not needed if frontend is hosted it seems like!
 // app.use((req, res, next) => {

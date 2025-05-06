@@ -11,7 +11,7 @@ const AuthForm = ({ type }) => {
   const authMutation = useMutation({
     mutationFn: async (userData) => {
       const endpoint = type === "register" ? "/register" : "/login";
-      const res = await fetch(`https://api.sstr.reinis.space/${endpoint}`, {
+      const res = await fetch(`https://api.sstr.reinis.space${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
