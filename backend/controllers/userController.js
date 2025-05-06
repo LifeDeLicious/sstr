@@ -85,10 +85,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body; //username vieta email
-    console.log("/login", { username });
+    console.log("/login", { email });
 
     if (!email || !password) {
       //labot uz email
+      console.log("username and password are required");
       return res
         .status(400)
         .json({ message: "Username and password are requried!" });
