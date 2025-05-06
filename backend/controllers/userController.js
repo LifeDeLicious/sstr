@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, or } from "drizzle-orm";
 import { Users } from "../db/schema/Users.js";
 import { UserLogs } from "../db/schema/UserLogs.js";
 //import { UserLogs } from "./db/schema/UserLogs.js";
@@ -52,8 +52,7 @@ const registerUser = async (req, res) => {
     const existingUser = await db
       .select()
       .from(Users)
-      .where(eq(Users.Email, email))
-      .or(eq(Users.Username, username));
+      .where(or(eq(Users.Email, email), eq(Users.Username, username)));
 
     if (existingUser.length > 0) {
       return res
