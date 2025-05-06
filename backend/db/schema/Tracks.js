@@ -1,12 +1,4 @@
-import {
-  mysqlTable,
-  serial,
-  varchar,
-  int,
-  bigint,
-  boolean,
-  timestamp,
-} from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, int } from "drizzle-orm/mysql-core";
 
 export const Tracks = mysqlTable("Tracks", {
   TrackID: int("TrackID").primaryKey().autoincrement(),

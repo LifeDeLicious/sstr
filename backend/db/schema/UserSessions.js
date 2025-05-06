@@ -1,10 +1,4 @@
-import {
-  mysqlTable,
-  varchar,
-  int,
-  boolean,
-  timestamp,
-} from "drizzle-orm/mysql-core";
+import { mysqlTable, int } from "drizzle-orm/mysql-core";
 import { Sessions } from "./Sessions.js";
 import { Users } from "./Users.js";
 

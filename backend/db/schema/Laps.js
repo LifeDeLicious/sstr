@@ -2,8 +2,8 @@ import {
   mysqlTable,
   varchar,
   int,
+  double,
   boolean,
-  timestamp,
 } from "drizzle-orm/mysql-core";
 import { Users } from "./Users.js";
 import { Sessions } from "./Sessions.js";

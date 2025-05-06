@@ -1,12 +1,4 @@
-import {
-  mysqlTable,
-  serial,
-  varchar,
-  int,
-  bigint,
-  boolean,
-  timestamp,
-} from "drizzle-orm/mysql-core";
+import { mysqlTable, int } from "drizzle-orm/mysql-core";
 import { Laps } from "./Laps.js";
 import { Analysis } from "./Analysis.js";
 

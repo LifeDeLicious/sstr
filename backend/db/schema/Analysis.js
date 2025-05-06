@@ -1,9 +1,7 @@
 import {
   mysqlTable,
-  serial,
   varchar,
   int,
-  bigint,
   boolean,
   timestamp,
 } from "drizzle-orm/mysql-core";
