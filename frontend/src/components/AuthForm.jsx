@@ -26,12 +26,12 @@ const AuthForm = ({ type }) => {
 
     onSuccess: () => {
       if (type !== "login") {
-        navigate({ to: "/" });
+        navigate({ to: "/sessions" });
       } else {
         //! set auth state to true
         setAuthState(true);
         console.log("auth state set to true");
-        navigate({ to: "/data" });
+        navigate({ to: "/" });
       }
     },
   });
