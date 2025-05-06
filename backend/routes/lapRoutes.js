@@ -1,9 +1,8 @@
 import express from "express";
+import lapController from "../controllers/lapController";
 const router = express.Router();
 
-router.post("/lap", (req, res) => {
-  //console.log("/login");
-});
+router.post("/lap", lapController.postLap);
 
 router.post("/register", (req, res) => {
   console.log("/register");
