@@ -106,6 +106,7 @@ const loginUser = async (req, res) => {
     }
 
     const user = users[0];
+    console.log(user);
 
     const isPasswordValid = await bcrypt.compare(password, user.PasswordHash);
 
