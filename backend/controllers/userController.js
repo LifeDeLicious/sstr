@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-//import { desc, eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Users } from "../db/schema/Users.js";
 import { UserLogs } from "../db/schema/UserLogs.js";
 //import { UserLogs } from "./db/schema/UserLogs.js";
