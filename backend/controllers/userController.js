@@ -72,7 +72,7 @@ const registerUser = async (req, res) => {
 
     await db.insert(UserLogs).values({
       UserID: result.insertID,
-      Action: "REGISTER",
+      EventType: "REGISTER",
     });
 
     res.status(201).json({ message: "User registered successfully" });
