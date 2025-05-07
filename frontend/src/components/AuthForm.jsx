@@ -1,10 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "../context/AuthContext.jsx";
 
 //import { useAuthStore } from "../App";
 
 const AuthForm = ({ type }) => {
   const navigate = useNavigate();
+  const { refreshAuth } = useAuth();
 
   //const { setAuthState } = useAuthStore();
 
@@ -25,12 +27,14 @@ const AuthForm = ({ type }) => {
     },
 
     onSuccess: () => {
-      if (type !== "login") {
+      if (type === "login") {
+        refreshAuth();
+
         navigate({ to: "/sessions" });
-      } else {
+      } else if (type === "register") {
         //! set auth state to true
         //setAuthState(true);
-        console.log("auth state set to true");
+        console.log("Registration successful");
         navigate({ to: "/sessions" });
       }
     },

@@ -3,15 +3,30 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { List } from "../components/List";
 import Navbar from "../components/Navbar";
 import Accordion from "../components/Accordion";
+import { useAuth } from "../context/AuthContext.jsx";
 
 // It's the layout component
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Navbar></Navbar>
-      {/* sitaa diva vieta var ielikt navbaru un navbara salikt <Link'us> */}
-      {/* <div className="divider"></div> */}
-      <div className="p-2 flex gap-2">
+  component: () => {
+    const { user, loading } = useAuth();
+
+    return (
+      <>
+        {/* <Navbar></Navbar> */}
+        {user && <Navbar />}
+
+        <main className="p-2">
+          {loading ? (
+            <div className="flex justify-center items-center h-screen">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          ) : (
+            <Outlet />
+          )}
+        </main>
+        {/* sitaa diva vieta var ielikt navbaru un navbara salikt <Link'us> */}
+        {/* <div className="divider"></div> */}
+        {/* <div className="p-2 flex gap-2"> */}
         {/* <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>
@@ -24,15 +39,16 @@ export const Route = createRootRoute({
         <Link to="/simple" className="[&.active]:font-bold">
           Simple
         </Link> */}
-      </div>
-      {/* <hr /> */}
-      <Outlet />
-      {/* <Comp />
+        {/* </div> */}
+        {/* <hr /> */}
+        {/* <Outlet /> */}
+        {/* <Comp />
       <List />
       <Accordion className="mt-20" /> */}
-      <TanStackRouterDevtools />
-    </>
-  ),
+        <TanStackRouterDevtools />
+      </>
+    );
+  },
 });
 
 export function Comp() {

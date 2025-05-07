@@ -1,5 +1,6 @@
 //import { navbarItems } from "../assets/navbarItems";
 import { Link } from "@tanstack/react-router";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const userOptions = [
   {
@@ -17,6 +18,12 @@ const userOptions = [
 ];
 
 export default function Navbar() {
+  const { user, loading } = useAuth();
+
+  const handleLogout = async () => {
+    await logoutUser();
+  };
+
   //
   return (
     <div className="navbar light bg-base-100 shadow-sm">
@@ -157,7 +164,7 @@ export default function Navbar() {
           <div className="divider mt-0 mb-0"></div>
           {/* </>
           )} */}
-          <li>
+          <li onClick={handleLogout}>
             <a>Log out</a>
           </li>
         </ul>

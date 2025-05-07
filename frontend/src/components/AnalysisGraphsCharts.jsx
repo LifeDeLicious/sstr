@@ -1,7 +1,7 @@
 import { React } from "react";
 import telemetryData from "./telemetry3.json";
-import telemetryData2 from "./telemetry4.json";
-import faster from "./faster.json";
+import telemetryData2 from "./lap-2.json";
+import faster from "./lap-3.json";
 
 import {
   LineChart,

@@ -7,6 +7,21 @@ export const Route = createFileRoute("/analytics")({
 });
 
 function RouteComponent() {
+  const { user, loading } = useAuth();
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated
+  if (!user) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <div className="flex flex-col items-center ">

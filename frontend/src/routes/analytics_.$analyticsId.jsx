@@ -6,6 +6,21 @@ export const Route = createFileRoute("/analytics_/$analyticsId")({
 });
 
 function RouteComponent() {
+  const { user, loading } = useAuth();
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated
+  if (!user) {
+    return <Navigate to="/" />;
+  }
   const { analyticsId } = Route.useParams();
   return (
     <>
