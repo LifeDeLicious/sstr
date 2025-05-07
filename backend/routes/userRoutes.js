@@ -1,5 +1,6 @@
 import express from "express";
 import userController from "../controllers/userController.js";
+import { requireAuth } from "../utils/authmiddleware.js";
 const router = express.Router();
 
 // router.post("/login", (req, res) => {
@@ -18,5 +19,9 @@ router.get("/user", userController.getUser);
 router.post("/login", userController.loginUser);
 
 router.post("/loginclient", userController.loginUserClient);
+
+router.get("/auth/status", requireAuth, userController.checkAuthStatus);
+
+router.post("/logout", userController.logoutUser);
 
 export default router;

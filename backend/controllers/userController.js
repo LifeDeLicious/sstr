@@ -4,8 +4,9 @@ import { Users } from "../db/schema/Users.js";
 import { UserLogs } from "../db/schema/UserLogs.js";
 //import { UserLogs } from "./db/schema/UserLogs.js";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/jwtutil.js";
 
-const getUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const { id } = req.query;
     console.log("getuser", id);
@@ -37,7 +38,7 @@ const getUser = async (req, res) => {
   }
 };
 
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     console.log("/register", { username, email });
@@ -82,9 +83,9 @@ const registerUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body; //username vieta email
+    const { email, password, loginSource } = req.body; //username vieta email
     console.log("/login", { email });
 
     if (!email || !password) {
@@ -126,71 +127,105 @@ const loginUser = async (req, res) => {
       EventType: "LOGIN",
     });
 
-    console.log("login successful");
-    res.status(200).json({
-      userID: user.UserID.toString(),
-      userUsername: user.Username,
-    });
+    if (loginSource === "desktop_client") {
+      res.status(200).json({
+        userID: user.UserID.toString(),
+        userUsername: user.Username,
+      });
+    } else {
+      const token = generateToken(user[0]);
+
+      res.cookie("auth_token", token, {
+        httpOnly: true,
+        //secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 21 * 24 * 60 * 60 * 1000,
+      });
+
+      console.log("login successful");
+      res.status(200).json({
+        userID: user.UserID,
+        userUsername: user.Username,
+      });
+    }
   } catch (error) {
     console.log("error logging in ", error);
     res.status(500).json({ message: "Error during login!" });
   }
 };
 
-const loginUserClient = async (req, res) => {
-  try {
-    const { email, password } = req.body; //username vieta email
-    //console.log("/loginclient", { email });
+export const logoutUser = (req, res) => {
+  res.cookie("auth_token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    sameSite: "lax",
+    //secure: process.env.NODE_ENV === "production",
+  });
 
-    if (!email || !password) {
-      //labot uz email
-      console.log("email or password missing");
-      return res
-        .status(400)
-        .json({ message: "Username and password are requried!" });
-    }
-
-    console.log("looking up user with emial");
-    const users = await db
-      .select()
-      .from(Users)
-      .where(eq(Users.Email, email))
-      .limit(1); //labot uz email
-
-    //console.log("query completed, found user", users.length);
-
-    if (users.length === 0) {
-      console.log("no user found with this email");
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    const user = users[0];
-    console.log("user found", user.Username);
-
-    console.log("comparing passwords");
-    const isPasswordValid = await bcrypt.compare(password, user.PasswordHash);
-
-    if (!isPasswordValid) {
-      console.log("password invalid");
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    console.log("password valid, ,inserting log entry");
-    await db.insert(UserLogs).values({
-      UserID: user.UserID,
-      EventType: "LOGIN",
-    });
-
-    console.log("login successful");
-    res.status(200).json({
-      userID: user.UserID, //.toString(),
-      userUsername: user.Username,
-    });
-  } catch (error) {
-    console.log("error logging in ", error);
-    res.status(500).json({ message: "Error during login!" });
-  }
+  res.status(200).json({ message: "Logged out successfully" });
 };
+
+export const checkAuthStatus = (req, res) => {
+  res.status(200).json({
+    userId: req.user.UserId,
+    username: req.user.username,
+  });
+};
+
+// const loginUserClient = async (req, res) => {
+//   try {
+//     const { email, password } = req.body; //username vieta email
+//     //console.log("/loginclient", { email });
+
+//     if (!email || !password) {
+//       //labot uz email
+//       console.log("email or password missing");
+//       return res
+//         .status(400)
+//         .json({ message: "Username and password are requried!" });
+//     }
+
+//     console.log("looking up user with emial");
+//     const users = await db
+//       .select()
+//       .from(Users)
+//       .where(eq(Users.Email, email))
+//       .limit(1); //labot uz email
+
+//     //console.log("query completed, found user", users.length);
+
+//     if (users.length === 0) {
+//       console.log("no user found with this email");
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+
+//     const user = users[0];
+//     console.log("user found", user.Username);
+
+//     console.log("comparing passwords");
+//     const isPasswordValid = await bcrypt.compare(password, user.PasswordHash);
+
+//     if (!isPasswordValid) {
+//       console.log("password invalid");
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+
+//     console.log("password valid, ,inserting log entry");
+//     await db.insert(UserLogs).values({
+//       UserID: user.UserID,
+//       EventType: "LOGIN",
+//     });
+
+//     console.log("login successful");
+//     res.status(200).json({
+//       userID: user.UserID, //.toString(),
+//       userUsername: user.Username,
+//     });
+//   } catch (error) {
+//     console.log("error logging in ", error);
+//     res.status(500).json({ message: "Error during login!" });
+//   }
+// };
 
 //export { getUser };
 const userController = {
