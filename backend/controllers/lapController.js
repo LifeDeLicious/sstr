@@ -17,6 +17,7 @@ const postLap = async (req, res) => {
   console.log(`userid: ${userID}`);
   console.log(`is fastestlap: ${isFastestLap}`);
   console.log(`laptime: ${lapTime}`);
+  res.status(200);
 };
 
 const lapController = {
