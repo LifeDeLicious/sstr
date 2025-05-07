@@ -90,7 +90,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    return loginMutation.mutateAsync();
+    return logoutMutation.mutateAsync();
   };
 
   const refreshAuth = () => {
