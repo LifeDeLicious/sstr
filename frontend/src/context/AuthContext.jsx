@@ -10,7 +10,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const queryClient = uerQueryClient();
+  const queryClient = useQueryClient();
 
   const { data, isLoading: loading } = useQuery({
     queryKey: ["authStatus"],
