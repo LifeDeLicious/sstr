@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   //const [user, setUser] = useState(null);
   const queryClient = useQueryClient();
 
-  const { data, isLoading: loading } = useQuery({
+  const { data: user, isLoading: loading } = useQuery({
     queryKey: ["authStatus"],
     queryFn: async () => {
       const response = await fetch(
