@@ -18,7 +18,10 @@ const createSession = async (req, res) => {
       airTemperature,
       fastestLapTime,
     } = req.body;
-
+    console.log("createsession");
+    console.log(`airtemp: ${airTemperature}`);
+    console.log(`tracktemp: ${trackTemperature}`);
+    console.log("endcreatesession");
     //insert car
     const carID = await carGetOrInsert(carAssetName);
 
