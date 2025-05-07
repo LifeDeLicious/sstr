@@ -232,6 +232,7 @@ const userController = {
   getUser,
   registerUser,
   loginUser,
+  checkAuthStatus,
   //loginUserClient,
 };
 
