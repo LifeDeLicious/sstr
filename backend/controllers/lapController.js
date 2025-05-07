@@ -3,7 +3,7 @@ import { desc, or, eq } from "drizzle-orm";
 import { Laps } from "../db/schema/Laps.js";
 import { Users } from "../db/schema/Users.js";
 import { Sessions } from "../db/schema/Sessions.js";
-import { uploadTelemetryFile } from "./fileUpload.js";
+import uploadTelemetryFile from "./fileUpload.js";
 
 const postLap = async (req, res) => {
   const { sessionID, userID, isFastestLap, telemetryData, lapTime } = req.body;

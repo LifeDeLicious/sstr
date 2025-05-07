@@ -1,0 +1,1 @@
+ALTER TABLE `Laps` DROP COLUMN `LapOfSession`;
