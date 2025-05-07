@@ -9,7 +9,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  //const [user, setUser] = useState(null);
+  //    const [user, setUser] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: user, isLoading: loading } = useQuery({
@@ -34,12 +34,12 @@ export function AuthProvider({ children }) {
       return response.json();
     },
     retry: false,
-    onSuccess: (data) => {
-      setUser(data);
-    },
-    onError: () => {
-      setUser(null);
-    },
+    // onSuccess: (data) => {
+    //   setUser(data);
+    // },
+    // onError: () => {
+    //   setUser(null);
+    // },
   });
 
   const loginMutation = useMutation({
@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
       return response.json();
     },
     onSuccess: (data) => {
-      setUser(data);
+      //   setUser(data);
 
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
       return response.json();
     },
     onSuccess: () => {
-      setUser(null);
+      //   setUser(null);
 
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
