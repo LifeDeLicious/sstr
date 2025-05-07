@@ -13,7 +13,10 @@ const postLap = async (req, res) => {
   //     console.log("error :", error);
   //   }
 
-  console.log(lapTime);
+  console.log(`session id: ${sessionID}`);
+  console.log(`userid: ${userID}`);
+  console.log(`is fastestlap: ${isFastestLap}`);
+  console.log(`laptime: ${lapTime}`);
 };
 
 const lapController = {
