@@ -232,7 +232,7 @@ const userController = {
   getUser,
   registerUser,
   loginUser,
-  loginUserClient,
+  //loginUserClient,
 };
 
 export default userController;
