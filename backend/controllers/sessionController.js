@@ -20,10 +20,10 @@ const createSession = async (req, res) => {
     } = req.body;
 
     //insert car
-    const carID = carGetOrInsert(carAssetName);
+    const carID = await carGetOrInsert(carAssetName);
 
     //insert track
-    const trackID = trackGetOrInsert(trackAssetName, trackLayoutName);
+    const trackID = await trackGetOrInsert(trackAssetName, trackLayoutName);
 
     //insert session
     const session = await db
@@ -35,6 +35,7 @@ const createSession = async (req, res) => {
         TrackTemperature: trackTemperature,
         AirTemperature: airTemperature,
         FastestLapTime: fastestLapTime,
+        AmountOfLaps: amountOfLaps,
       })
       .$returningId();
 
@@ -108,11 +109,11 @@ async function carGetOrInsert(carName) {
 
   if (existing.length > 0) {
     id = existing[0].CarID;
+    console.log("car existed, id: ", id);
   } else {
     await db.insert(Cars).values({
       CarAssetName: carName,
     });
-    console.log(`New car id: ${id} inserted`);
 
     const inserted = await db
       .select()
@@ -122,6 +123,7 @@ async function carGetOrInsert(carName) {
       .limit(1);
 
     id = inserted[0].CarID;
+    console.log(`New car id: ${id} inserted`);
   }
 
   return id;
@@ -143,12 +145,12 @@ async function trackGetOrInsert(trackName, trackLayoutName) {
 
   if (existing.length > 0) {
     id = existing[0].TrackID;
+    console.log("track existed, id: ", id);
   } else {
     await db.insert(Tracks).values({
       TrackAssetName: trackName,
       TrackLayout: trackLayoutName,
     });
-    console.log(`New track id: ${id} inserted`);
 
     const inserted = await db
       .select()
@@ -158,6 +160,7 @@ async function trackGetOrInsert(trackName, trackLayoutName) {
       .limit(1);
 
     id = inserted[0].TrackID;
+    console.log(`New track id: ${id} inserted`);
   }
 
   return id;
