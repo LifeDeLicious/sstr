@@ -18,10 +18,10 @@ const userOptions = [
 ];
 
 export default function Navbar() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   const handleLogout = async () => {
-    await logoutUser();
+    await logout();
   };
 
   //
