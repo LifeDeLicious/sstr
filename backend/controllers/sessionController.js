@@ -59,6 +59,7 @@ const createSession = async (req, res) => {
     //console.log("inserted carid: ", carID);
 
     //const session = await db.insert(Sessions).values({});
+    console.log("session created, id: ", sessionID);
     res.status(200).json({ message: "session created", sessionID: sessionID });
   } catch (error) {
     console.log("error :", error);
