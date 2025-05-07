@@ -17,7 +17,7 @@ export default async function uploadTelemetryFile(
 ) {
   console.log("amongus");
 
-  const key = `/laps/lap-${lapID}`;
+  const key = `laps/lap-${lapID}.json`;
 
   const params = {
     Bucket: "sstr-laps",

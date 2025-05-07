@@ -30,8 +30,7 @@ const postLap = async (req, res) => {
       .set({
         LapFileKey: lapFileKey,
       })
-      .where(eq(Laps.LapID, lapID))
-      .$returningId();
+      .where(eq(Laps.LapID, lapID));
 
     console.log("updated lapid: ", lapUpdate[0].LapID);
     //!db insertott apla keyu - /laps/lap-{lapid}
