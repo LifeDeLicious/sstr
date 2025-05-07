@@ -18,7 +18,7 @@ router.get("/user", userController.getUser);
 
 router.post("/login", userController.loginUser);
 
-router.post("/loginclient", userController.loginUserClient);
+//router.post("/loginclient", userController.loginUserClient);
 
 router.get("/auth/status", requireAuth, userController.checkAuthStatus);
 
