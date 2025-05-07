@@ -133,7 +133,7 @@ export const loginUser = async (req, res) => {
         userUsername: user.Username,
       });
     } else {
-      const token = generateToken(user[0]);
+      const token = generateToken(user);
 
       res.cookie("auth_token", token, {
         httpOnly: true,
