@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import Accordion from "../components/Accordion";
 import AnalysisEvent from "../components/AnalysisEvent";
+import { useAuth } from "./../context/AuthContext.jsx";
 
 export const Route = createFileRoute("/analytics")({
   component: RouteComponent,
