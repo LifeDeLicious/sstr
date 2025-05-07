@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { checkAuthStatus } from "../../../backend/controllers/userController";
+import { checkAuthStatus } from "../../../backend/controllers/userController.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AuthContext = createContext();
