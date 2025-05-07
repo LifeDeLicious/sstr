@@ -12,8 +12,8 @@ export const Route = createRootRoute({
 
     return (
       <>
-        {/* <Navbar></Navbar> */}
-        {user && <Navbar />}
+        <Navbar></Navbar>
+        {/* {user && <Navbar />}
 
         <main className="p-2">
           {loading ? (
@@ -23,7 +23,7 @@ export const Route = createRootRoute({
           ) : (
             <Outlet />
           )}
-        </main>
+        </main> */}
         {/* sitaa diva vieta var ielikt navbaru un navbara salikt <Link'us> */}
         {/* <div className="divider"></div> */}
         {/* <div className="p-2 flex gap-2"> */}
@@ -41,7 +41,7 @@ export const Route = createRootRoute({
         </Link> */}
         {/* </div> */}
         {/* <hr /> */}
-        {/* <Outlet /> */}
+        <Outlet />
         {/* <Comp />
       <List />
       <Accordion className="mt-20" /> */}
