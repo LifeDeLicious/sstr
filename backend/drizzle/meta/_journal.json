@@ -15,6 +15,20 @@
       "when": 1746546397559,
       "tag": "0001_free_violations",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1746614337861,
+      "tag": "0002_right_the_professor",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1746615181795,
+      "tag": "0003_faithful_shinko_yamashiro",
+      "breakpoints": true
     }
   ]
 }
