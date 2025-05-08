@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.post("/create", sessionController.createSession);
 
-router.get("/combo", requireAuth, sessionController.getSessionSummaries);
+router.get("/summaries", requireAuth, sessionController.getSessionSummaries);
 
 router.get("/list");
 
