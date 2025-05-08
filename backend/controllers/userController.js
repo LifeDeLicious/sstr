@@ -129,8 +129,8 @@ export const loginUser = async (req, res) => {
 
     if (loginSource === "desktop_client") {
       res.status(200).json({
-        userID: user.UserID.toString(),
-        userUsername: user.Username,
+        UserID: user.UserID.toString(),
+        Username: user.Username,
       });
     } else {
       const token = generateToken(user);
@@ -144,8 +144,8 @@ export const loginUser = async (req, res) => {
 
       console.log("login successful");
       res.status(200).json({
-        userID: user.UserID,
-        userUsername: user.Username,
+        UserID: user.UserID,
+        Username: user.Username,
       });
     }
   } catch (error) {
@@ -169,8 +169,8 @@ export const checkAuthStatus = (req, res) => {
   console.log("auth check user data: ", req.user);
 
   res.status(200).json({
-    userID: req.user.userId,
-    userUsername: req.user.username,
+    UserID: req.user.UserID,
+    Username: req.user.Username,
   });
 };
 
