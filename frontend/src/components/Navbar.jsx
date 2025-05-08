@@ -20,6 +20,8 @@ const userOptions = [
 export default function Navbar() {
   const { user, loading, logout } = useAuth();
 
+  console.log("navbar user: ", user);
+
   const handleLogout = async () => {
     await logout();
   };
