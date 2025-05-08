@@ -34,8 +34,8 @@ export function AuthProvider({ children }) {
       const data = await response.json();
       //return response.json();
       return {
-        UserID: data.UserID || data.userId || data.userID,
-        Username: data.userUsername || data.username || data.Username,
+        UserID: data.UserID,
+        Username: data.Username,
       };
     },
     retry: false,
