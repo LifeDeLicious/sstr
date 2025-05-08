@@ -1,5 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export const Route = createFileRoute("/session/$sessionId")({
   // loader: async ({ params }) => {
