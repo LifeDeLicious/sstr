@@ -7,7 +7,7 @@ const sessionsDropdown = [
   },
 ];
 
-export default function SessionsCollapseTable() {
+export default function SessionsCollapseTable({ sessions }) {
   return (
     <>
       <div className="overflow-x-auto">
@@ -22,11 +22,11 @@ export default function SessionsCollapseTable() {
             </tr>
           </thead>
           <tbody>
-            {sessionsDropdown.map((session) => (
+            {sessions.map((session) => (
               <tr key={session.sessionID} className="hover:bg-base-300">
                 <td>
                   <Link to={`/session/${session.sessionID}`}>
-                    {FormData(new Date(session.date), "MMM d, yyyy HH:mm")}
+                    {format(new Date(session.date), "MMM d, yyyy HH:mm")}
                   </Link>
                 </td>
                 <td>{session.laps}</td>
