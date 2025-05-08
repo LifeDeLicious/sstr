@@ -1,5 +1,6 @@
 import { createFileRoute, useParams, Outlet } from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export const Route = createFileRoute("/analytics_/$analyticsId")({
   component: RouteComponent,

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useAuth } from "../context/AuthContext.jsx";
 
 import { LineChart, Line } from "recharts";
 import AnalysisGraphsCharts from "../components/AnalysisGraphsCharts";

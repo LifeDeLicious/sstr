@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export const Route = createFileRoute("/usersettings")({
   component: RouteComponent,
