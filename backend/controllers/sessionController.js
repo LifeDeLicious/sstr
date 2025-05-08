@@ -146,8 +146,8 @@ const getSessionSummaries = async (req, res) => {
           laps: Number(session.laps),
           fastestLap: Number(session.fastestLap),
           timeOnTrack: Number(timeOnTrack),
-          trackTemperature: Number(trackTemperature),
-          airTemperature: Number(airTemperature),
+          trackTemperature: Number(session.trackTemperature),
+          airTemperature: Number(session.airTemperature),
         });
       }
 
