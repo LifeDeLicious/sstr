@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-import { desc, or, eq, and, count } from "drizzle-orm";
+import { desc, or, eq, and, count, sum } from "drizzle-orm";
 import { Sessions } from "../db/schema/Sessions.js";
 import { UserSessions } from "../db/schema/UserSessions.js";
 import { Laps } from "../db/schema/Laps.js";
