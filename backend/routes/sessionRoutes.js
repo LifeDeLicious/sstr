@@ -1,5 +1,6 @@
 import express from "express";
 import sessionController from "../controllers/sessionController.js";
+import { requireAuth } from "../utils/authmiddleware.js";
 const router = express.Router();
 
 // router.post("/login", (req, res) => {
@@ -11,8 +12,12 @@ const router = express.Router();
 //   res.send("get/register");
 // });
 
-router.post("/car", sessionController.postCar);
+//router.post("/car", sessionController.postCar);
 
 router.post("/create", sessionController.createSession);
+
+router.get("/combo", requireAuth, sessionController.getSessionSummaries);
+
+router.get("/list");
 
 export default router;

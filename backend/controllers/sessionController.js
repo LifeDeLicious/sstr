@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-import { desc, or, eq, and } from "drizzle-orm";
+import { desc, or, eq, and, count } from "drizzle-orm";
 import { Sessions } from "../db/schema/Sessions.js";
 import { UserSessions } from "../db/schema/UserSessions.js";
 import { Laps } from "../db/schema/Laps.js";
@@ -69,38 +69,143 @@ const createSession = async (req, res) => {
   }
 };
 
-//test route, disable later
-const postCar = async (req, res) => {
+const getSessionSummaries = async (req, res) => {
   try {
-    const { carAssetName } = req.body;
-    //insert car
+    const UserID = req.user.UserID || req.user.userId;
 
-    //let carID = carGetOrInsert(carAssetName);
-
-    //insert track
-
-    //let trackID = trackGetOrInsert(trackAssetName);
-
-    //insert session
-    //insert usersession
-    //pectam jau var postot aplus
-
-    const carResult = await db
-      .insert(Cars)
-      .values({
-        CarAssetName: carAssetName,
+    const combinationQuery = await db
+      .select({
+        carID: Cars.CarID,
+        carName: Cars.CarModel || Cars.CarAssetName,
+        trackID: Tracks.TrackID,
+        trackName: Tracks.TrackName || Tracks.TrackAssetName,
+        trackLayout: Tracks.TrackLayout,
+        eventCount: count(Sessions.SessionID).as("eventCount"),
+        totalLaps: sum(Sessions.AmountOfLaps).as("totalLaps"),
+        lastDriven: max(Sessions.DateTime).as("lastDriven"),
+        bestLapTime: min(Sessions.FastestLapTime).as("bestLapTime"),
       })
-      .$returningId();
-    const [carIdResult] = await db.select({ insertId: sql`LAST_INSERT_ID()` });
-    const carID = carResult[0].CarID;
-    console.log("inserted carid: ", carID);
-    res.status(200).json({ message: `car ${carID} inserted` });
+      .from(UserSessions)
+      .innerJoin(Sessions, eq(UserSessions.SessionID, Sessions.SessionID))
+      .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
+      .innerJoin(Tracks, eq(Sessions.TrackID, Tracks.TrackID))
+      .where(eq(UserSessions.UserID, UserID))
+      .groupBy(Cars.CarID, Tracks.TrackID)
+      .orderBy(desc(max(Sessions.DateTime)));
 
-    // const session = await db.insert(Sessions).values({});
+    const result = [];
+
+    for (const combo of combinationQuery) {
+      const sessionIdsResult = await db
+        .select({
+          sessionID: Sessions.SessionID,
+        })
+        .from(UserSessions)
+        .innerJoin(Sessions, eq(UserSessions.SessionID, Sessions.SessionID))
+        .where(
+          and(
+            eq(UserSessions.UserID, UserID),
+            eq(Sessions.CarID, combo.carID),
+            eq(Sessions.TrackID, combo.trackID)
+          )
+        );
+
+      const sessionIds = sessionIdsResult.map((row) => row.sessionID);
+
+      const sessionsWithDetails = [];
+
+      for (const { sessionID } of sessionIdsResult) {
+        const sessionResult = await db
+          .select({
+            sessionID: Sessions.SessionID,
+            date: Sessions.DateTime,
+            laps: Sessions.AmountOfLaps,
+            fastestLap: Sessions.FastestLapTime,
+            trackTemperature: Sessions.TrackTemperature,
+            airTemperature: Sessions.AirTemperature,
+          })
+          .from(Sessions)
+          .where(eq(Sessions.SessionID, sessionID))
+          .limit(1);
+
+        if (sessionResult.length === 0) continue;
+        const session = sessionResult[0];
+
+        const timeResult = await db
+          .select({
+            totalTime: sum(Laps.LapTime),
+          })
+          .from(Laps)
+          .where(eq(Laps.SessionID, sessionID));
+
+        const timeOnTrack = timeResult[0]?.totalTime || 0;
+
+        sessionsWithDetails.push({
+          sessionID: session.sessionID,
+          date: session.date,
+          laps: Number(session.laps),
+          fastestLap: Number(session.fastestLap),
+          timeOnTrack: Number(timeOnTrack),
+          trackTemperature: Number(trackTemperature),
+          airTemperature: Number(airTemperature),
+        });
+      }
+
+      sessionsWithDetails.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      result.push({
+        summary: {
+          car: combo.carName,
+          track: combo.trackName,
+          trackLayout: combo.trackLayout,
+          eventCount: Number(combo.eventCount),
+          totalLaps: Number(combo.totalLaps),
+          lastDriven: combo.lastDriven,
+          bestLapTime: Number(combo.bestLapTime),
+        },
+        sessions: sessionsWithDetails,
+      });
+    }
+
+    res.status(200).json(result);
+    console.log("getsessionsummaries");
   } catch (error) {
-    console.log("error :", error);
+    console.log("getsessionsummaries error: ", error);
   }
 };
+
+//test route, disable later
+// const postCar = async (req, res) => {
+//   try {
+//     const { carAssetName } = req.body;
+//     //insert car
+
+//     //let carID = carGetOrInsert(carAssetName);
+
+//     //insert track
+
+//     //let trackID = trackGetOrInsert(trackAssetName);
+
+//     //insert session
+//     //insert usersession
+//     //pectam jau var postot aplus
+
+//     const carResult = await db
+//       .insert(Cars)
+//       .values({
+//         CarAssetName: carAssetName,
+//       })
+//       .$returningId();
+//     const [carIdResult] = await db.select({ insertId: sql`LAST_INSERT_ID()` });
+//     const carID = carResult[0].CarID;
+//     console.log("inserted carid: ", carID);
+//     res.status(200).json({ message: `car ${carID} inserted` });
+
+//     // const session = await db.insert(Sessions).values({});
+//   } catch (error) {
+//     console.log("error :", error);
+//   }
+// };
 
 async function carGetOrInsert(carName) {
   const existing = await db
@@ -172,7 +277,8 @@ async function trackGetOrInsert(trackName, trackLayoutName) {
 
 const sessionController = {
   createSession,
-  postCar,
+  getSessionSummaries,
+  //postCar,
 };
 
 export default sessionController;
