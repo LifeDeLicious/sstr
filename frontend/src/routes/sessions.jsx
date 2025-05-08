@@ -26,7 +26,7 @@ function Sessions() {
     queryKey: ["sessionSummaries", user?.UserID],
     queryFn: async () => {
       const response = await fetch(
-        "https://api.sstr.reinis.space/api/session/summaries",
+        "https://api.sstr.reinis.space/session/summaries",
         {
           credentials: "include",
         }
