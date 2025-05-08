@@ -169,8 +169,8 @@ export const checkAuthStatus = (req, res) => {
   console.log("auth check user data: ", req.user);
 
   res.status(200).json({
-    UserID: req.user.UserID,
-    Username: req.user.Username,
+    UserID: req.user.UserID || req.user.userId,
+    Username: req.user.Username || req.user.username,
   });
 };
 
