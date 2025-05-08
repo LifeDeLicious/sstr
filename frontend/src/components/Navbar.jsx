@@ -144,7 +144,7 @@ export default function Navbar() {
           popoverTarget="popover-1"
           style={{ anchorName: "--anchor-1" } /* as React.CSSProperties */}
         >
-          {user.userUsername}
+          {user.username}
         </button>
         <ul
           className="dropdown dropdown-end menu w-52 bg-base-200 rounded-box shadow-sm"
