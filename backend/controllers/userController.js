@@ -168,7 +168,7 @@ export const logoutUser = (req, res) => {
 export const checkAuthStatus = (req, res) => {
   res.status(200).json({
     userId: req.user.UserID,
-    userUsername: req.user.username,
+    username: req.user.username,
   });
 };
 
