@@ -139,35 +139,45 @@ export default function Navbar() {
       {/* </ul>
       </div> */}{" "}
       <div className="navbar-end">
-        <button
-          className="btn"
-          popoverTarget="popover-1"
-          style={{ anchorName: "--anchor-1" } /* as React.CSSProperties */}
-        >
-          {user.userUsername}
-        </button>
-        <ul
-          className="dropdown dropdown-end menu w-52 bg-base-200 rounded-box shadow-sm"
-          popover="auto"
-          id="popover-1"
-          style={{ positionAnchor: "--anchor-1" } /* as React.CSSProperties */}
-        >
-          <li>
-            <Link to={"/usersettings"}>User settings</Link>
-          </li>
-          <div className="divider mt-0 mb-0"></div>
-          {/* {user.isAdmin && (
+        {user ? (
+          <>
+            <button
+              className="btn"
+              popoverTarget="popover-1"
+              style={{ anchorName: "--anchor-1" } /* as React.CSSProperties */}
+            >
+              {user.userUsername}
+            </button>
+            <ul
+              className="dropdown dropdown-end menu w-52 bg-base-200 rounded-box shadow-sm"
+              popover="auto"
+              id="popover-1"
+              style={
+                { positionAnchor: "--anchor-1" } /* as React.CSSProperties */
+              }
+            >
+              <li>
+                <Link to={"/usersettings"}>User settings</Link>
+              </li>
+              <div className="divider mt-0 mb-0"></div>
+              {/* {user.isAdmin && (
             <> */}
-          <li>
-            <Link to={"/admin"}>Admin panel</Link>
-          </li>
-          <div className="divider mt-0 mb-0"></div>
-          {/* </>
+              <li>
+                <Link to={"/admin"}>Admin panel</Link>
+              </li>
+              <div className="divider mt-0 mb-0"></div>
+              {/* </>
           )} */}
-          <li onClick={handleLogout}>
-            <a>Log out</a>
-          </li>
-        </ul>
+              <li onClick={handleLogout}>
+                <a>Log out</a>
+              </li>
+            </ul>
+          </>
+        ) : (
+          <Link to="/" className="btn btn-ghost">
+            Login
+          </Link>
+        )}
       </div>
       {/* <div className="navbar-end">
         <a className="btn">Button</a>
