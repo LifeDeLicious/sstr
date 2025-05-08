@@ -31,7 +31,12 @@ export function AuthProvider({ children }) {
         throw new Error("Failed to fetch auth status");
       }
 
-      return response.json();
+      const data = await response.json();
+      //return response.json();
+      return {
+        userID: data.UserID || data.userId,
+        userUsername: data.userUsername || data.username,
+      };
     },
     retry: false,
     // onSuccess: (data) => {
