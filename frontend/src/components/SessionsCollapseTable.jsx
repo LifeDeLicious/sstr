@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 
 const sessionsDropdown = [
@@ -8,6 +8,12 @@ const sessionsDropdown = [
 ];
 
 export default function SessionsCollapseTable({ sessions }) {
+  const navigate = useNavigate;
+
+  const handleRowClick = (sessionID) => {
+    navigate({ to: `/session/${sessionID}` });
+  };
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -23,7 +29,11 @@ export default function SessionsCollapseTable({ sessions }) {
           </thead>
           <tbody>
             {sessions.map((session) => (
-              <tr key={session.sessionID} className="hover:bg-base-300">
+              <tr
+                key={session.sessionID}
+                className="hover:bg-base-300"
+                onClick={() => handleRowClick(session.sessionID)}
+              >
                 <td>
                   <Link to={`/session/${session.sessionID}`}>
                     {format(new Date(session.date), "MMM d, yyyy HH:mm")}
