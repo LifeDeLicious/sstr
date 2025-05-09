@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import SessionLapsTable from "../components/SessionLapsTable";
+import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery } from "@tanstack/react-query";
 
