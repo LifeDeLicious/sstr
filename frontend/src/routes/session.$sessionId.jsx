@@ -60,6 +60,9 @@ function RouteComponent() {
           <div className="grid grid-cols-5">
             <h1 className="text-3xl mb-8 col-span-4">
               {"Session 'name' - 03.02.2025 16:49"}
+              {sessionData?.session
+                ? `Session - ${new Date(sessionData.session.dateTime).toLocaleString()}`
+                : "Loading session..."}
             </h1>
             <div className="join">
               <button className="btn h-8 join-item bg-slate-400">
