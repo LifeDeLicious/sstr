@@ -174,6 +174,67 @@ const getSessionSummaries = async (req, res) => {
   }
 };
 
+const getSessionData = async (req, res) => {
+  try {
+    const { sessionID } = req.params;
+
+    if (!sessionID || isNaN(parseInt(sessionID))) {
+      return res.status(400).json({ message: "Invalid session ID" });
+    }
+
+    const sessionInfo = await db
+      .select({
+        sessionID: Sessions.SessionID,
+        dateTime: Sessions.DateTime,
+        amountOfLaps: Sessions.AmountOfLaps,
+        fastestLapTime: Sessions.FastestLapTime,
+        trackTemperature: Sessions.TrackTemperature,
+        airTemperature: Sessions.AirTemperature,
+        carAssetName: Cars.CarAssetName,
+        trackAssetName: Tracks.TrackAssetName,
+        trackLayout: Tracks.TrackLayout,
+      })
+      .from(Sessions)
+      .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
+      .innerJoin(Tracks, eq(Sessions.TrackID, Tracks.TrackID))
+      .where(eq(Sessions.SessionID, parseInt(sessionID)))
+      .limit(1);
+
+    if (sessionInfo.length === 0) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    const laps = await db
+      .select({
+        lapID: Laps.LapID,
+        lapTime: Laps.LapTime,
+        isFastestLap: Laps.IsFastestLapOfSession,
+      })
+      .from(Laps)
+      .where(eq(Laps.SessionID, parseInt(sessionID)))
+      .orderBy(Laps.LapID);
+
+    const response = {
+      session: {
+        ...sessionInfo[0],
+        amountOfLaps: Number(sessionInfo[0].amountOfLaps),
+        fastestLapTime: Number(sessionInfo[0].fastestLapTime),
+        trackTemperature: Number(sessionInfo[0].trackTemperature),
+        airTemperature: Number(sessionInfo[0].airTemperature),
+      },
+      laps: laps.map((lap) => ({
+        ...lap,
+        lapTime: Number(lap.lapTime),
+      })),
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.log("error gettingsessionlaps: ", error);
+    res.status(500).json({ message: "Error retrieving session details" });
+  }
+};
+
 //test route, disable later
 // const postCar = async (req, res) => {
 //   try {
@@ -278,6 +339,7 @@ async function trackGetOrInsert(trackName, trackLayoutName) {
 const sessionController = {
   createSession,
   getSessionSummaries,
+  getSessionData,
   //postCar,
 };
 

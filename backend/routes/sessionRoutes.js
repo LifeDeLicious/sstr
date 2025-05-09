@@ -18,6 +18,8 @@ router.post("/create", sessionController.createSession);
 
 router.get("/summaries", requireAuth, sessionController.getSessionSummaries);
 
+router.get("/data/:sessionID", requireAuth, sessionController.getSessionData);
+
 router.get("/list");
 
 export default router;
