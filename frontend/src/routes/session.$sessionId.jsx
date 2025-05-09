@@ -14,6 +14,7 @@ export const Route = createFileRoute("/session/$sessionID")({
 function RouteComponent() {
   const { user, loading } = useAuth();
   const { sessionID } = Route.useParams();
+  console.log("router params: ", Route.useParams());
   console.log(sessionID);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
