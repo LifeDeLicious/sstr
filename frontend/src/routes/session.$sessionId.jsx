@@ -88,7 +88,7 @@ function RouteComponent() {
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
-              <strong>Car:</strong> {sessionData.carAssetName}
+              <strong>Car:</strong> {sessionData.session.carAssetName}
             </p>
             <p className="">
               <strong>Laps:</strong> {5}
