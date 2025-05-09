@@ -6,6 +6,7 @@ export const Route = createFileRoute("/session/$sessionId")({
   // loader: async ({ params }) => {
   //   return fetchPost(params.sessionId);
   // },
+  preload: "intent",
   component: RouteComponent,
 });
 
