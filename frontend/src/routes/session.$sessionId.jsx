@@ -1,8 +1,9 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/session/$sessionId")({
+export const Route = createFileRoute("/session/$sessionID")({
   // loader: async ({ params }) => {
   //   return fetchPost(params.sessionId);
   // },
@@ -12,12 +13,32 @@ export const Route = createFileRoute("/session/$sessionId")({
 
 function RouteComponent() {
   const { user, loading } = useAuth();
+  const { sessionID } = Route.useParams();
+
+  const { data: sessionData, isLoading: sessionLoading } = useQuery({
+    queryKey: ["sessionData", user?.userID],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/session/data/${sessionID}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch session data");
+      }
+
+      return response.json();
+    },
+    enabled: !!user,
+  });
 
   // Show loading state
-  if (loading) {
+  if (loading || sessionLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
+        Loading...
       </div>
     );
   }
@@ -30,7 +51,6 @@ function RouteComponent() {
   //console.log(params);
 
   //const { sessionId } = params || {};
-  const { sessionId } = Route.useParams();
 
   return (
     <>
@@ -67,7 +87,7 @@ function RouteComponent() {
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
-              <strong>Car:</strong> {"Porsche 911 GT3 R (992)"}
+              <strong>Car:</strong> {sessionData.carAssetName}
             </p>
             <p className="">
               <strong>Laps:</strong> {5}
