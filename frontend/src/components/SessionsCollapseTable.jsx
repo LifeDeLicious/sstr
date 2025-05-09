@@ -8,7 +8,7 @@ const sessionsDropdown = [
 ];
 
 export default function SessionsCollapseTable({ sessions }) {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const handleRowClick = (sessionID) => {
     navigate({ to: `/session/${sessionID}` });
@@ -75,13 +75,16 @@ export default function SessionsCollapseTable({ sessions }) {
   );
 }
 
-function formatTime(milliseconds) {
-  if (!milliseconds) return "N/A";
+function formatTime(seconds) {
+  if (!seconds) return "N/A";
 
-  const totalSeconds = milliseconds / 1000;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = Math.floor(totalSeconds % 60);
-  const ms = Math.floor((milliseconds % 1000) / 10);
+  //const totalSeconds = milliseconds / 1000;
+  const minutes = Math.floor(seconds / 60);
+  //const seconds = Math.floor(totalSeconds % 60);
+  const remainingSeconds = seconds % 60;
+  const secondsInt = Math.floor(remainingSeconds);
+  const milliseconds = Math.floor((remainingSeconds - secondsInt) * 1000);
+  //const ms = Math.floor((milliseconds % 1000) / 10);
 
-  return `${minutes}:${seconds.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
+  return `${minutes}:${secondsInt.toString().padStart(2, "0")}.${milliseconds.toString().padStart(3, "0")}`;
 }
