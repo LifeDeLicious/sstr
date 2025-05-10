@@ -11,7 +11,7 @@ export default function SessionLapsTable({ laps }) {
   return (
     <>
       <div className="overflow-x-auto">
-        <table className="table bg-base-200">
+        <table className="table bg-base-200 pb-3.5">
           {/* head */}
           <thead>
             <tr>
