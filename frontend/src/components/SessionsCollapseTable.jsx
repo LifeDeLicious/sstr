@@ -32,7 +32,7 @@ export default function SessionsCollapseTable({ sessions }) {
               <tr
                 key={session.sessionID}
                 className="hover:bg-base-300"
-                onClick={() => handleRowClick(session.sessionID)}
+                onClick={() => handleRowClick(session.sessionID)} //handleRowClick(session.sessionID)
               >
                 <td>
                   <Link to={`/session/${session.sessionID}`}>

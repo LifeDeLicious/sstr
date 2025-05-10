@@ -2,13 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 
 import { LineChart, Line } from "recharts";
-import AnalysisGraphsCharts from "../components/AnalysisGraphsCharts";
+import AnalysisGraphsCharts from "../components/AnalysisGraphsCharts.jsx";
 const data = [
   { name: "page a", uv: 400, pv: 2400, amt: 2400 },
   { name: "page b", uv: 350, pv: 2800, amt: 2800 },
 ];
 
-export const Route = createFileRoute("/analytics_/$analyticsId_/graphs")({
+export const Route = createFileRoute("/analytics_/$analyticsID_/graphs")({
   component: RouteComponent,
 });
 
