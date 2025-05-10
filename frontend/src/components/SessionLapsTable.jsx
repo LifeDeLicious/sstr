@@ -30,7 +30,7 @@ export default function SessionLapsTable({ laps }) {
                     : "hover:bg-base-300"
                 }
               >
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>{formatLapTime(lap.lapTime)}</td>
                 <td className="w-15">
                   <div className="join">
@@ -40,18 +40,20 @@ export default function SessionLapsTable({ laps }) {
                     <details className="dropdown join-item dropdown-end">
                       <summary
                         className="btn bg-slate-400 h-8"
-                        popoverTarget={`popover-${index}`}
-                        style={{ anchorName: `--anchor-${index}` }}
+                        popoverTarget={`popover-${index + 1}`}
+                        style={{ anchorName: `--anchor-${index + 1}` }}
                       >
                         v
                       </summary>
                       <ul
                         className="menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm"
-                        id={`popover-${index}`}
-                        style={{ anchorName: `--anchor-${index}` }}
+                        id={`popover-${index + 1}`}
+                        style={{ anchorName: `--anchor-${index + 1}` }}
                       >
                         <li>
-                          <a>Copy lap ID</a>
+                          <a onClick={() => copyLapID(lap.lapID)}>
+                            Copy lap ID
+                          </a>
                         </li>
                       </ul>
                     </details>
@@ -104,4 +106,9 @@ export default function SessionLapsTable({ laps }) {
       </div>
     </>
   );
+}
+
+function copyLapID(lapID) {
+  navigator.clipboard.writeText(lapID);
+  alert("Copied lap ID");
 }
