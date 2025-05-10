@@ -57,7 +57,7 @@ export default function SessionLapsTable({ laps }) {
                     </details>
                   </div>
                 </td>
-              </tr>;
+              </tr>
             ))}
             {/* row 1 */}
             {/* <tr className="hover:bg-base-300">
