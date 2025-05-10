@@ -3,7 +3,7 @@ import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/session/$sessionID")({
+export const Route = createFileRoute("/session/$sessionId")({
   // loader: async ({ params }) => {
   //   return fetchPost(params.sessionId);
   // },
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/session/$sessionID")({
 
 function RouteComponent() {
   const { user, loading } = useAuth();
-  const { sessionID } = Route.useParams();
+  const { sessionId } = Route.useParams();
   console.log("router params: ", Route.useParams());
   console.log(sessionID);
 
@@ -21,7 +21,7 @@ function RouteComponent() {
     queryKey: ["sessionData", sessionID],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.sstr.reinis.space/session/data/${sessionID}`,
+        `https://api.sstr.reinis.space/session/data/${sessionId}`,
         {
           credentials: "include",
         }

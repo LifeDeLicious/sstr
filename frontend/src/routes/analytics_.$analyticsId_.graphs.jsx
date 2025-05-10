@@ -8,7 +8,7 @@ const data = [
   { name: "page b", uv: 350, pv: 2800, amt: 2800 },
 ];
 
-export const Route = createFileRoute("/analytics_/$analyticsID_/graphs")({
+export const Route = createFileRoute("/analytics_/$analyticsId_/graphs")({
   component: RouteComponent,
 });
 
