@@ -2,6 +2,7 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery } from "@tanstack/react-query";
+import { formatLapTime } from "../utils/timeFromatter.js";
 
 export const Route = createFileRoute("/session/$sessionId")({
   // loader: async ({ params }) => {
@@ -15,7 +16,7 @@ function RouteComponent() {
   const { user, loading } = useAuth();
   const { sessionId } = Route.useParams();
   console.log("router params: ", Route.useParams());
-  console.log(sessionId);
+  //console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
     queryKey: ["sessionData", sessionId],
@@ -92,19 +93,20 @@ function RouteComponent() {
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
-              <strong>Car:</strong> {"sessionData.session.carAssetName"}
+              <strong>Car:</strong> {sessionData.session.carAssetName}
             </p>
             <p className="">
-              <strong>Laps:</strong> {5}
+              <strong>Laps:</strong> {sessionData.session.amountOfLaps}
             </p>
             <p className="">
-              <strong>Fastest lap:</strong> {"2 months"}
+              <strong>Fastest lap:</strong>{" "}
+              {formatLapTime(sessionData.session.fastestLapTime)}
             </p>
             <p className="">
               <strong>Average lap time:</strong> {40}
             </p>
             <p className="">
-              <strong>Date:</strong> {53}
+              <strong>Date:</strong> {sessionData.session.dateTime}
             </p>
           </div>
           <div className="">

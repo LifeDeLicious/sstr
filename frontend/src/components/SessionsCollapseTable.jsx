@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { formatLapTime } from "../utils/timeFromatter.js";
 
 const sessionsDropdown = [
   {
@@ -40,8 +41,8 @@ export default function SessionsCollapseTable({ sessions }) {
                   </Link>
                 </td>
                 <td>{session.laps}</td>
-                <td>{formatTime(session.fastestLap)}</td>
-                <td>{formatTime(session.timeOnTrack)}</td>
+                <td>{formatLapTime(session.fastestLap)}</td>
+                <td>{formatLapTime(session.timeOnTrack)}</td>
                 <td></td>
               </tr>
             ))}
