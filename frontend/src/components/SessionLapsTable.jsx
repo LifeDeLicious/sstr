@@ -37,7 +37,7 @@ export default function SessionLapsTable({ laps }) {
                     <button className="btn h-8 join-item bg-slate-400">
                       Analyze
                     </button>
-                    <details className="join-item dropdown-end">
+                    <details className="dropdown join-item dropdown-end dropdown-hover">
                       <summary
                         className="btn bg-slate-400 h-8"
                         popoverTarget={`popover-${index + 1}`}
@@ -46,7 +46,7 @@ export default function SessionLapsTable({ laps }) {
                         v
                       </summary>
                       <ul
-                        className="dropdown menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm"
+                        className="menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm"
                         id={`popover-${index + 1}`}
                         style={{ anchorName: `--anchor-${index + 1}` }}
                       >
