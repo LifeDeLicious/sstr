@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { formatLapTime } from "../utils/timeFromatter.js";
+import formatLapTime from "../utils/timeFromatter.js";
 
 const sessionsDropdown = [
   {
