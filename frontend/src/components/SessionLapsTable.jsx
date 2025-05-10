@@ -21,7 +21,7 @@ export default function SessionLapsTable({ laps }) {
             </tr>
           </thead>
           <tbody>
-            {laps.map((lap, index) => {
+            {laps.map((lap, index) => (
               <tr
                 key={lap.lapID}
                 className={
@@ -58,7 +58,7 @@ export default function SessionLapsTable({ laps }) {
                   </div>
                 </td>
               </tr>;
-            })}
+            ))}
             {/* row 1 */}
             {/* <tr className="hover:bg-base-300">
               <th>1</th>
