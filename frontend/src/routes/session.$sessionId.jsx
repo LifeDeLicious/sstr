@@ -15,7 +15,7 @@ function RouteComponent() {
   const { user, loading } = useAuth();
   const { sessionId } = Route.useParams();
   console.log("router params: ", Route.useParams());
-  console.log(sessionID);
+  console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
     queryKey: ["sessionData", sessionId],
