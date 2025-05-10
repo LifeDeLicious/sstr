@@ -31,7 +31,7 @@ export default function SessionLapsTable({ laps }) {
                 }
               >
                 <td>{index}</td>
-                <td>{formatLapTime(lapTime)}</td>
+                <td>{formatLapTime(lap.lapTime)}</td>
                 <td className="w-15">
                   <div className="join">
                     <button className="btn h-8 join-item bg-slate-400">
