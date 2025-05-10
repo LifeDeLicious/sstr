@@ -18,7 +18,7 @@ function RouteComponent() {
   console.log(sessionID);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
-    queryKey: ["sessionData", sessionID],
+    queryKey: ["sessionData", sessionId],
     queryFn: async () => {
       const response = await fetch(
         `https://api.sstr.reinis.space/session/data/${sessionId}`,
@@ -33,7 +33,7 @@ function RouteComponent() {
 
       return response.json();
     },
-    enabled: !!user && !!sessionID,
+    enabled: !!user && !!sessionId,
   });
 
   // Show loading state
