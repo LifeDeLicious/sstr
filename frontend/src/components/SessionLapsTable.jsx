@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import formatLapTime from "../utils/timeFromatter.js";
 
 const sessionsDropdown = [
   {
@@ -6,7 +7,7 @@ const sessionsDropdown = [
   },
 ];
 
-export default function SessionLapsTable() {
+export default function SessionLapsTable({ laps }) {
   return (
     <>
       <div className="overflow-x-auto">
@@ -20,6 +21,44 @@ export default function SessionLapsTable() {
             </tr>
           </thead>
           <tbody>
+            {laps.map((lap, index) => {
+              <tr
+                key={lap.lapID}
+                className={
+                  lap.isFastestLap
+                    ? "bg-violet-500 hover:bg-violet-700"
+                    : "hover:bg-base-300"
+                }
+              >
+                <td>{index}</td>
+                <td>{formatLapTime(lapTime)}</td>
+                <td className="w-15">
+                  <div className="join">
+                    <button className="btn h-8 join-item bg-slate-400">
+                      Analyze
+                    </button>
+                    <details className="dropdown join-item dropdown-end">
+                      <summary
+                        className="btn bg-slate-400 h-8"
+                        popoverTarget={`popover-${index}`}
+                        style={{ anchorName: `--anchor-${index}` }}
+                      >
+                        v
+                      </summary>
+                      <ul
+                        className="menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm"
+                        id={`popover-${index}`}
+                        style={{ anchorName: `--anchor-${index}` }}
+                      >
+                        <li>
+                          <a>Copy lap ID</a>
+                        </li>
+                      </ul>
+                    </details>
+                  </div>
+                </td>
+              </tr>;
+            })}
             {/* row 1 */}
             <tr className="hover:bg-base-300">
               <th>1</th>

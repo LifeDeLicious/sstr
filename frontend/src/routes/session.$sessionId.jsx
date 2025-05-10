@@ -61,7 +61,6 @@ function RouteComponent() {
         <div className="w-350">
           <div className="grid grid-cols-5">
             <h1 className="text-3xl mb-8 col-span-4">
-              {"Session 'name' - 03.02.2025 16:49"}
               {sessionData?.session
                 ? `Session - ${new Date(sessionData.session.dateTime).toLocaleString()}`
                 : "Loading session..."}
@@ -88,8 +87,8 @@ function RouteComponent() {
           {/* <p>Hello "/sessions"!</p> */}
           <div className="grid grid-cols-2">
             <p className="text-lg">
-              <strong>Track:</strong>{" "}
-              {"Algarve International Circuit (Grand Prix)"}
+              <strong>Track:</strong> {sessionData.session.trackAssetName} (
+              {sessionData.session.trackLayout})
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
@@ -114,7 +113,18 @@ function RouteComponent() {
           </div>
           {/* <p>lap table</p> */}
           <br></br>
-          <SessionLapsTable />
+          {sessionData && sessionData.length > 0 ? (
+            <SessionLapsTable
+              key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
+              laps={sessionData.laps}
+            />
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-lg">No session laps found.</p>
+              <p>Start driving to record telemetry data!</p>
+            </div>
+          )}
+          {/* <SessionLapsTable /> */}
         </div>
       </div>
     </>
