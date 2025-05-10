@@ -113,6 +113,10 @@ function RouteComponent() {
           </div>
           {/* <p>lap table</p> */}
           <br></br>
+          <SessionLapsTable
+            key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
+            laps={sessionData.laps}
+          />
           {sessionData && sessionData.length > 0 ? (
             <SessionLapsTable
               key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}

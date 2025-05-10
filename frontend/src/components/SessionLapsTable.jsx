@@ -60,7 +60,7 @@ export default function SessionLapsTable({ laps }) {
               </tr>;
             })}
             {/* row 1 */}
-            <tr className="hover:bg-base-300">
+            {/* <tr className="hover:bg-base-300">
               <th>1</th>
               <td>{"1:46.35"}</td>
               <td className="w-15">
@@ -75,7 +75,7 @@ export default function SessionLapsTable({ laps }) {
               </td>
             </tr>
             {/* row 2 */}
-            <tr className="hover:bg-base-300">
+            {/* <tr className="hover:bg-base-300">
               <th>2</th>
               <td>abc</td>
               <td className="w-15">
@@ -95,10 +95,10 @@ export default function SessionLapsTable({ laps }) {
               </td>
             </tr>
             {/* row 3 */}
-            <tr className="hover:bg-base-300">
+            {/* <tr className="hover:bg-base-300">
               <th>3</th>
               <td>xyz</td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>
