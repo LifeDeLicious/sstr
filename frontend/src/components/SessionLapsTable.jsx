@@ -37,7 +37,7 @@ export default function SessionLapsTable({ laps }) {
                     <button className="btn h-8 join-item bg-slate-400">
                       Analyze
                     </button>
-                    <details className="dropdown join-item dropdown-end dropdown-hover">
+                    <details className="dropdown join-item dropdown-end">
                       <summary
                         className="btn bg-slate-400 h-8"
                         popoverTarget={`popover-${index + 1}`}
@@ -51,7 +51,10 @@ export default function SessionLapsTable({ laps }) {
                         style={{ anchorName: `--anchor-${index + 1}` }}
                       >
                         <li>
-                          <a onClick={() => copyLapID(lap.lapID)}>
+                          <a
+                            className="p-0"
+                            onClick={() => copyLapID(lap.lapID)}
+                          >
                             Copy lap ID
                           </a>
                         </li>
