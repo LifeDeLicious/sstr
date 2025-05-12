@@ -19,7 +19,7 @@ function RouteComponent() {
 
   // Redirect if not authenticated
   if (!user) {
-    return <Navigate to="/" />;
+    navigate({ to: "/" });
   }
   return (
     <>

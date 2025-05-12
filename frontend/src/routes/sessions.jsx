@@ -50,7 +50,8 @@ function Sessions() {
   }
 
   if (!user) {
-    window.location.href = "/";
+    //indow.location.href = "/";
+    navigate({ to: "/" });
     return null;
   }
 
