@@ -22,6 +22,7 @@ function RouteComponent() {
   console.log("router params: ", Route.useParams());
   const navigate = useNavigate();
   //console.log(sessionId);
+  console.log("userid", user.userID);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
     queryKey: ["sessionData", sessionId],
