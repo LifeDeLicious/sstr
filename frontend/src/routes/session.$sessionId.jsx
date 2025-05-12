@@ -22,7 +22,7 @@ function RouteComponent() {
   console.log("router params: ", Route.useParams());
   const navigate = useNavigate();
   //console.log(sessionId);
-  console.log("userid", user.userID);
+  console.log("userid", user.userId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
     queryKey: ["sessionData", sessionId],
@@ -122,7 +122,7 @@ function RouteComponent() {
           <SessionLapsTable
             key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
             laps={sessionData.laps}
-            userID={user.userID}
+            userID={user.userId}
             carID={sessionData.session.carID}
             trackID={sessionData.session.trackID}
             onAnalysisCreated={(analysisID) =>
