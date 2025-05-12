@@ -18,7 +18,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   console.log("analyticsid", analyticsId);
 
-  const userName = user.Username;
+  //const userName = user.Username;
 
   const { data: analyticsData, isLoading: analyticsLoading } = useQuery({
     queryKey: ["analyticsData", analyticsId],
