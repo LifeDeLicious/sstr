@@ -7,6 +7,7 @@ export const Route = createFileRoute("/usersettings")({
 
 function RouteComponent() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   // Show loading state
   if (loading) {

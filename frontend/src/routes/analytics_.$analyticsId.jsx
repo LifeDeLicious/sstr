@@ -1,4 +1,9 @@
-import { createFileRoute, useParams, Outlet } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useParams,
+  Outlet,
+  useNavigate,
+} from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -8,6 +13,7 @@ export const Route = createFileRoute("/analytics_/$analyticsId")({
 
 function RouteComponent() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   // Show loading state
   if (loading) {

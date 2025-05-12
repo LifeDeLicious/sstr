@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import Accordion from "../components/Accordion";
 import AnalysisEvent from "../components/AnalysisEvent";
 import { useAuth } from "./../context/AuthContext.jsx";
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/analytics")({
 
 function RouteComponent() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   // Show loading state
   if (loading) {

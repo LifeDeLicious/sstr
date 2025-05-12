@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 
 import { LineChart, Line } from "recharts";
@@ -20,6 +20,7 @@ const renderChart = (
 
 function RouteComponent() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   // Show loading state
   if (loading) {

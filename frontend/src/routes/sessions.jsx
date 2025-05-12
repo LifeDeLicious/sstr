@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 //import Accordion from "../components/Accordion";
 import SessionsCollapse from "../components/SessionsCollapse";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -21,6 +21,7 @@ const sessionsOverview = [
 
 function Sessions() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   const { data: sessionData, isLoading: sessionsLoading } = useQuery({
     queryKey: ["sessionSummaries", user?.UserID],
