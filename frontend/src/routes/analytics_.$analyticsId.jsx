@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/analytics_/$analyticsId")({
   component: RouteComponent,
