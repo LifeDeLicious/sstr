@@ -191,7 +191,9 @@ const getSessionData = async (req, res) => {
         trackTemperature: Sessions.TrackTemperature,
         airTemperature: Sessions.AirTemperature,
         carAssetName: Cars.CarAssetName,
+        carID: Cars.CarID,
         trackAssetName: Tracks.TrackAssetName,
+        trackID: Tracks.TrackID,
         trackLayout: Tracks.TrackLayout,
       })
       .from(Sessions)

@@ -1,13 +1,7 @@
 import express from "express";
+import analysisController from "../controllers/analysisController.js";
 const router = express.Router();
 
-router.post("/login", (req, res) => {
-  console.log("/login");
-});
-
-router.post("/register", (req, res) => {
-  console.log("/register");
-  res.send("get/register");
-});
+router.post("/", analysisController.createAnalysis);
 
 export default router;

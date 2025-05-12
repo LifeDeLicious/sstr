@@ -6,9 +6,10 @@ import { Sessions } from "../db/schema/Sessions.js";
 import uploadTelemetryFile from "./fileUpload.js";
 
 const postLap = async (req, res) => {
-  const { sessionID, userID, isFastestLap, telemetryData, lapTime } = req.body;
-
   try {
+    const { sessionID, userID, isFastestLap, telemetryData, lapTime } =
+      req.body;
+
     const lap = await db
       .insert(Laps)
       .values({
