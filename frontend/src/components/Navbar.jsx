@@ -1,6 +1,7 @@
 //import { navbarItems } from "../assets/navbarItems";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "@tanstack/react-router";
 
 const userOptions = [
   {
@@ -19,11 +20,13 @@ const userOptions = [
 
 export default function Navbar() {
   const { user, loading, logout } = useAuth();
+  const navigate = useNavigate();
 
   console.log("navbar user: ", user);
 
   const handleLogout = async () => {
     await logout();
+    navigate({ to: "/" });
   };
 
   //

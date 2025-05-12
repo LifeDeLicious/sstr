@@ -1,7 +1,11 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+} from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import formatLapTime from "../utils/timeFromatter.js";
 
 export const Route = createFileRoute("/session/$sessionId")({
@@ -16,6 +20,7 @@ function RouteComponent() {
   const { user, loading } = useAuth();
   const { sessionId } = Route.useParams();
   console.log("router params: ", Route.useParams());
+  const navigate = useNavigate();
   //console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
@@ -48,7 +53,7 @@ function RouteComponent() {
 
   // Redirect if not authenticated
   if (!user) {
-    return <Navigate to="/" />;
+    navigate({ to: "/" });
   }
   //const params = useParams();
   //console.log(params);
@@ -116,8 +121,12 @@ function RouteComponent() {
           <SessionLapsTable
             key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
             laps={sessionData.laps}
+            userID={user.userID}
+            carID={sessionData.session.carID}
+            trackID={sessionData.session.trackID}
+            onAnalysisCreated
           />
-          {sessionData && sessionData.length > 0 ? (
+          {/* {sessionData && sessionData.length > 0 ? (
             <SessionLapsTable
               key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
               laps={sessionData.laps}
@@ -127,7 +136,7 @@ function RouteComponent() {
               <p className="text-lg">No session laps found.</p>
               <p>Start driving to record telemetry data!</p>
             </div>
-          )}
+          )} */}
           {/* <SessionLapsTable /> */}
         </div>
       </div>

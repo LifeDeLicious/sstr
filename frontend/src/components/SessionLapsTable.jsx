@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import formatLapTime from "../utils/timeFromatter.js";
+import { useMutation } from "@tanstack/react-query";
 
 const sessionsDropdown = [
   {
@@ -7,7 +8,45 @@ const sessionsDropdown = [
   },
 ];
 
-export default function SessionLapsTable({ laps }) {
+export default function SessionLapsTable({
+  laps,
+  userID,
+  carID,
+  trackID,
+  onAnalysisCreated,
+}) {
+  const analyzeMutation = useMutation({
+    mutationFn: async (lapID) => {
+      const res = await fetch("https://api.sstr.reinis.space/analysis", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID,
+          carID,
+          trackID,
+          lapID,
+        }),
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create analysis");
+      }
+
+      return res.json();
+    },
+
+    onSuccess: (data) => {
+      onAnalysisCreated(data.analysisID);
+    },
+  });
+
+  const handleAnalyze = (lapID) => {
+    analyzeMutation.mutate(lapID);
+  };
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -35,7 +74,11 @@ export default function SessionLapsTable({ laps }) {
                 <td>{formatLapTime(lap.lapTime)}</td>
                 <td className="w-15">
                   <div className="join">
-                    <button className="btn h-8 join-item bg-slate-400">
+                    <button
+                      className="btn h-8 join-item bg-slate-400"
+                      onClick={() => handleAnalyze(lap.lapID)}
+                      disabled={analyzeMutation.isPending}
+                    >
                       Analyze
                     </button>
                     <details className="dropdown join-item dropdown-end">

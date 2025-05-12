@@ -34,6 +34,12 @@ const createAnalysis = async (req, res) => {
     });
 
     console.log("post create analysis create analysis");
+    res
+      .status(200)
+      .json({
+        message: "analysis created successfully",
+        analysisID: analysisID,
+      });
   } catch (error) {
     console.log("error creating analysis: ", error);
   }
