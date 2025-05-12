@@ -124,7 +124,9 @@ function RouteComponent() {
             userID={user.userID}
             carID={sessionData.session.carID}
             trackID={sessionData.session.trackID}
-            onAnalysisCreated
+            onAnalysisCreated={(analysisID) =>
+              navigate({ to: `/analytics/${analysisID}` })
+            }
           />
           {/* {sessionData && sessionData.length > 0 ? (
             <SessionLapsTable

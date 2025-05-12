@@ -15,6 +15,12 @@ export default function SessionLapsTable({
   trackID,
   onAnalysisCreated,
 }) {
+  console.log("session laps table received props:", {
+    laps,
+    userID,
+    carID,
+    trackID,
+  });
   console.log("session laps table, userID:", userID);
   const analyzeMutation = useMutation({
     mutationFn: async (lapID) => {
