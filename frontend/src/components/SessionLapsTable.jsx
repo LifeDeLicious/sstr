@@ -15,6 +15,7 @@ export default function SessionLapsTable({
   trackID,
   onAnalysisCreated,
 }) {
+  console.log("session laps table, userID:", userID);
   const analyzeMutation = useMutation({
     mutationFn: async (lapID) => {
       const res = await fetch("https://api.sstr.reinis.space/analysis", {
