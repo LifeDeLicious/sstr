@@ -12,8 +12,31 @@ export const Route = createFileRoute("/analytics_/$analyticsId")({
 });
 
 function RouteComponent() {
+  const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  console.log("analyticsid", analyticsId);
+
+  const userName = user.Username;
+
+  const { data: analyticsData, isLoading: analyticsLoading } = useQuery({
+    queryKey: ["analyticsData", analyticsId],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/session/data/${sessionId}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch session data");
+      }
+
+      return response.json();
+    },
+    enabled: !!user && !!sessionId,
+  });
 
   // Show loading state
   if (loading) {
@@ -28,7 +51,7 @@ function RouteComponent() {
   if (!user) {
     navigate({ to: "/" });
   }
-  const { analyticsId } = Route.useParams();
+
   return (
     <>
       <div className="flex flex-col items-center ">

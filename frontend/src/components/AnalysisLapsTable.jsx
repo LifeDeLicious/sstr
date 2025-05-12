@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import formatLapTime from "../utils/timeFromatter.js";
 
 const sessionsDropdown = [
   {
@@ -16,8 +17,10 @@ export default function AnalysisLapsTable() {
             <tr>
               <th className=" w-140">Lap</th>
               <th className="w-20">Color pickeri</th>
+              <th className="w20">Driver</th>
               <th className="ml-90 self-center">Lap time</th>
-              <th className="hover:bg-yellow-100"></th>
+              <th className="w-20">Track conditions</th>
+              <th className="hover:bg-yellow-100">button</th>
             </tr>
           </thead>
           <tbody>
@@ -25,7 +28,9 @@ export default function AnalysisLapsTable() {
             <tr className="hover:bg-base-300">
               <th>1</th>
               <th>a</th>
+              <th>driver</th>
               <td>{"1:46.35"}</td>
+              <td>15c 18c</td>
               <td className="w-15">
                 <div className="join">
                   <button className="btn h-8 join-item bg-slate-400">
@@ -41,7 +46,9 @@ export default function AnalysisLapsTable() {
             <tr className="hover:bg-base-300">
               <th>2</th>
               <th>a</th>
+              <th>driver</th>
               <td>xyz</td>
+              <td>15c 18c</td>
               <td className="w-15">
                 <div className="join">
                   <button className="btn h-8 join-item bg-slate-400">
@@ -62,7 +69,9 @@ export default function AnalysisLapsTable() {
             <tr className="hover:bg-base-300">
               <th>3</th>
               <th> a</th>
+              <th>driver</th>
               <td>abc</td>
+              <td>15c 18c</td>
             </tr>
           </tbody>
         </table>
