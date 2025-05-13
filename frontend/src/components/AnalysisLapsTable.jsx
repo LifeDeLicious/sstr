@@ -18,7 +18,7 @@ export default function AnalysisLapsTable({ analyticsLaps }) {
               <th className=" w-15">Lap</th>
               <th className="w-15">Color pickeri</th>
               <th className="w-40">Driver</th>
-              <th className="">Lap time</th>
+              <th className="w-15">Lap time</th>
               <th className="w-20">Track conditions</th>
               <th className="hover:bg-yellow-100 w-40">button</th>
             </tr>
@@ -26,7 +26,7 @@ export default function AnalysisLapsTable({ analyticsLaps }) {
           <tbody>
             {analyticsLaps.map((lap, index) => (
               <tr key={lap.lapID} className="hover:bg-base-300">
-                <th>{index}</th>
+                <th>{index + 1}</th>
                 <th></th>
                 <th>{lap.userUsername}</th>
                 <td>{formatLapTime(lap.lapTime)}</td>
