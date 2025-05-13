@@ -68,7 +68,7 @@ const getAnalysisData = async (req, res) => {
 
 const getAnalysisList = async (req, res) => {
   try {
-    const { UserID } = req.body;
+    const { userId } = req.body;
 
     const analysisList = await db
       .select({
@@ -85,7 +85,7 @@ const getAnalysisList = async (req, res) => {
       .innerJoin(Analysis, eq(UserAnalysis.AnalysisID, Analysis.AnalysisID))
       .innerJoin(Cars, eq(Analysis.CarID, Cars.CarID))
       .innerJoin(Tracks, eq(Analysis.TrackID, Tracks.TrackID))
-      .where(eq(UserAnalysis.UserID, UserID))
+      .where(eq(UserAnalysis.UserID, userId))
       .orderBy(desc(Analysis.AnalysisDate));
 
     console.log("getanalysislist called, userid: ", UserID);
