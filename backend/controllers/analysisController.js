@@ -88,7 +88,7 @@ const getAnalysisList = async (req, res) => {
       .where(eq(UserAnalysis.UserID, UserID))
       .orderBy(desc(Analysis.AnalysisDate));
 
-    console.log("getanalysislist called, userid: ", userID);
+    console.log("getanalysislist called, userid: ", UserID);
     res.status(200).json(analysisList);
   } catch (error) {
     console.log("error getanalysislist, error: ", error);
