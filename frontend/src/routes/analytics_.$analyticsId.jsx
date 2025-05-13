@@ -93,15 +93,16 @@ function RouteComponent() {
           </div>
           <div className="">
             <p className="text-lg">
-              <strong>Track:</strong>{" "}
-              {analyticsData.track
-                ? `${analyticsData.track.trackName} (${analyticsData.track.trackLayout})`
+              <strong>Track:</strong>
+              {/* {analyticsData.trackName} ({analyticsData.trackLayout}) */}
+              {analyticsData.trackName && analyticsData.trackLayout
+                ? `${analyticsData.trackName} (${analyticsData.trackLayout})`
                 : "Loading..."}
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
               <strong>Car:</strong>{" "}
-              {analyticsData.car ? analyticsData.car.carName : "Loading..."}
+              {analyticsData.carName ? analyticsData.carName : "Loading..."}
             </p>
           </div>
           <h2 className="text-2xl mt-3 mb-2.5">Laps</h2>
