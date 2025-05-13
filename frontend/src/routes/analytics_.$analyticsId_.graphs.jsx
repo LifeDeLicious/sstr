@@ -29,8 +29,8 @@ function RouteComponent() {
   const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const [telemetryData, setTelemetryData] = useState(null);
-  const [isLoadingTelemetry, setIsLoadingTelemetry] = useState(false);
+  // const [telemetryData, setTelemetryData] = useState(null);
+  // const [isLoadingTelemetry, setIsLoadingTelemetry] = useState(false);
 
   const { data: analyticsGraphData, isLoading: analyticsGraphLoading } =
     useQuery({
@@ -51,45 +51,45 @@ function RouteComponent() {
       },
     });
 
-  useEffect(() => {
-    async function loadTelemetryData() {
-      if (!analyticsGraphData?.laps?.length) return;
+  // useEffect(() => {
+  //   async function loadTelemetryData() {
+  //     if (!analyticsGraphData?.laps?.length) return;
 
-      try {
-        setIsLoadingTelemetry(true);
+  //     try {
+  //       setIsLoadingTelemetry(true);
 
-        const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
+  //       const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
 
-        const response = await fetch(
-          "https://api.sstr.reinis.space/laps/batch",
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ fileKeys }),
-          }
-        );
+  //       const response = await fetch(
+  //         "https://api.sstr.reinis.space/laps/batch",
+  //         {
+  //           method: "GET",
+  //           credentials: "include",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({ fileKeys }),
+  //         }
+  //       );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch telemetry data");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch telemetry data");
+  //       }
 
-        const result = await response.json();
-        setTelemetryData(result.telemetry);
-      } catch (error) {
-        console.error("Error fetching telemetry data:", error);
-      } finally {
-        setIsLoadingTelemetry(false);
-      }
-    }
+  //       const result = await response.json();
+  //       setTelemetryData(result.telemetry);
+  //     } catch (error) {
+  //       console.error("Error fetching telemetry data:", error);
+  //     } finally {
+  //       setIsLoadingTelemetry(false);
+  //     }
+  //   }
 
-    loadTelemetryData();
-  }, [analyticsGraphData]);
+  //   loadTelemetryData();
+  // }, [analyticsGraphData]);
 
   // Show loading state
-  if (loading || analyticsGraphLoading || isLoadingTelemetry) {
+  if (loading || analyticsGraphLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
@@ -124,7 +124,6 @@ function RouteComponent() {
         <div className="col-span-2">
           <AnalysisGraphsCharts
             analyticsGraphData={analyticsGraphData}
-            telemetryData={telemetryData}
             className=""
           />
         </div>

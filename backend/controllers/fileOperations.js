@@ -27,6 +27,9 @@ const fetchObject = async (params) => {
   try {
     const data = await s3Client.send(new GetObjectCommand(params));
 
+    const command = new GetObjectCommand(params);
+    const data = await s3Client.send(command, { requestTimeout: 5000 });
+
     const streamToString = async (stream) => {
       const chunks = [];
       for await (const chunk of stream) {
@@ -42,6 +45,7 @@ const fetchObject = async (params) => {
     return jsonData;
   } catch (error) {
     console.log("fileoperations getobject error: ", error);
+    throw error;
   }
 };
 

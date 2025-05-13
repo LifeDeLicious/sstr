@@ -62,13 +62,25 @@ const getTelemetryFiles = async (req, res) => {
       return res.status(400).json({ message: "invalid file keys" });
     }
 
+    //const telemetryResults = [];
+
     const telemetryPromises = fileKeys.map(async (fileKey) => {
       //const telemetryData = await fetch
-      const telemetryData = await getTelemetryFile(fileKey);
-      return {
-        fileKey,
-        data: telemetryData,
-      };
+
+      try {
+        const telemetryData = await getTelemetryFile(fileKey);
+        return {
+          fileKey,
+          data: telemetryData,
+        };
+      } catch (error) {
+        console.error(`error fetching file for key ${fileKey}`, error);
+        return {
+          fileKey,
+          data: [],
+          error: "Failed to retrieve telemetry data",
+        };
+      }
     });
 
     const telemetryResults = await Promise.all(telemetryPromises);

@@ -1,7 +1,7 @@
 import { React, useEffect, useMemo, useState } from "react";
-import telemetryData from "./telemetry3.json";
-import telemetryData2 from "./lap-2.json";
-import faster from "./lap-3.json";
+//import telemetryData from "./telemetry3.json";
+//import telemetryData2 from "./lap-2.json";
+//import faster from "./lap-3.json";
 
 import {
   LineChart,
@@ -55,7 +55,7 @@ function mergeTelemetryData(...dataSources) {
   });
 }
 
-const combined = mergeTelemetryData(data, data2, faster);
+//const combined = mergeTelemetryData(data, data2, faster);
 
 // const trackPositions = Array.from(
 //   new Set([...data, ...data2].map((d) => d.TrackPosition))
@@ -101,7 +101,7 @@ export default function AnalysisGraphsCharts({
         const response = await fetch(
           "https://api.sstr.reinis.space/laps/batch",
           {
-            method: "GET",
+            method: "POST",
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export default function AnalysisGraphsCharts({
         }
 
         const result = await response.json();
-        setTelemetryData(result.telemetry || []);
+        setTelemetryDataArray(result.telemetry || []);
       } catch (error) {
         console.error("Error fetching telemetry data:", error);
         setError(error.message);
