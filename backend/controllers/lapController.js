@@ -3,7 +3,7 @@ import { desc, or, eq } from "drizzle-orm";
 import { Laps } from "../db/schema/Laps.js";
 import { Users } from "../db/schema/Users.js";
 import { Sessions } from "../db/schema/Sessions.js";
-import uploadTelemetryFile from "./fileUpload.js";
+import { uploadTelemetryFile, getTelemetryFile } from "./fileOperations.js";
 
 const postLap = async (req, res) => {
   try {
@@ -54,8 +54,37 @@ const postLap = async (req, res) => {
   }
 };
 
+const getTelemetryFiles = async (req, res) => {
+  try {
+    const { fileKeys } = req.body;
+
+    if (!Array.isArray(fileKeys) || fileKeys.length === 0) {
+      return res.status(400).json({ message: "invalid file keys" });
+    }
+
+    const telemetryPromises = fileKeys.map(async (fileKey) => {
+      //const telemetryData = await fetch
+      const telemetryData = await getTelemetryFile(fileKey);
+      return {
+        fileKey,
+        data: telemetryData,
+      };
+    });
+
+    const telemetryResults = await Promise.all(telemetryPromises);
+
+    res.status(200).json({ telemetry: telemetryResults });
+  } catch (error) {
+    console.log("error lapcontroller gettelemetryfiles: ", error);
+    res
+      .status(500)
+      .json({ message: "failed to lapcontroller/gettelemetryfiles" });
+  }
+};
+
 const lapController = {
   postLap,
+  getTelemetryFiles,
 };
 
 export default lapController;
