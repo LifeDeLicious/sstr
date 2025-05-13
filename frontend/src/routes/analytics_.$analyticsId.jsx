@@ -27,6 +27,7 @@ function RouteComponent() {
         `https://api.sstr.reinis.space/analysis/${analyticsId}`,
         {
           credentials: "include",
+          method: "GET",
         }
       );
 
@@ -40,7 +41,7 @@ function RouteComponent() {
   });
 
   // Show loading state
-  if (loading) {
+  if (loading || analyticsLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
@@ -51,6 +52,16 @@ function RouteComponent() {
   // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
+  }
+
+  if (!analyticsData) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="alert alert-error">
+          <span>Failed to load analysis data</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -83,17 +94,22 @@ function RouteComponent() {
           <div className="">
             <p className="text-lg">
               <strong>Track:</strong>{" "}
-              {"Algarve International Circuit (Grand Prix)"}
+              {analyticsData.track
+                ? `${analyticsData.track.trackName} (${analyticsData.track.trackLayout})`
+                : "Loading..."}
             </p>
             <p className="text-lg">
               {/*inline relative left-105 top-[-27px]  */}
-              <strong>Car:</strong> {"Porsche 911 GT3 R (992)"}
+              <strong>Car:</strong>{" "}
+              {analyticsData.car ? analyticsData.car.carName : "Loading..."}
             </p>
           </div>
           <h2 className="text-2xl mt-3 mb-2.5">Laps</h2>
           {/* <AnalysisEvent /> */}
-
-          <AnalysisLapsTable analyticsLaps={analyticsData.laps} />
+          {analyticsData.laps && (
+            <AnalysisLapsTable analyticsLaps={analyticsData.laps} />
+          )}
+          {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
           {/* <Accordion /> */}
           {/* <Outlet /> */}
           <br></br>
