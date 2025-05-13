@@ -57,10 +57,18 @@ const getAnalysisData = async (req, res) => {
         trackLayout: Tracks.TrackLayout,
         lapID: Laps.LapID,
         lapTime: Laps.LapTime,
+        airTemperature: Sessions.AirTemperature,
+        trackTemperature: Sessions.TrackTemperature,
       })
-      .from();
+      .from(AnalysisLaps)
+      .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
+      .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
+      .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
+      .innerJoin(Tracks, eq(Sessions.TrackID, Tracks.TrackID))
+      .where(eq(AnalysisLaps.AnalysisID, analysisID));
 
     console.log("getanalysisdata");
+    res.status(200).json(analysisConfig);
   } catch (error) {
     console.log("getanalysisdata error: ", error);
   }
