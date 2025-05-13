@@ -198,7 +198,6 @@ export default function AnalysisGraphsCharts({
         <h4>Speed</h4>
         <ResponsiveContainer width="100%" height={heightValue}>
           <LineChart
-            isAnimationActive={false}
             width={500}
             height={heightValue}
             data={combined}
@@ -220,6 +219,7 @@ export default function AnalysisGraphsCharts({
             />
             {telemetryDataArray.map((_, index) => (
               <Line
+                isAnimationActive={false}
                 key={`speed-line-${index}`}
                 //data={data}
                 type="monotone"
@@ -289,7 +289,7 @@ export default function AnalysisGraphsCharts({
         </ResponsiveContainer>
         <h4>Brake</h4>
 
-        {/* <ResponsiveContainer width="100%" height={heightValue}>
+        <ResponsiveContainer width="100%" height={heightValue}>
           <LineChart
             width={500}
             height={heightValue}
@@ -310,30 +310,18 @@ export default function AnalysisGraphsCharts({
                 backgroundColor: "#222c42",
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="Brake1"
-              stroke={dataColors[0]}
-              //fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="Brake2"
-              stroke={dataColors[1]}
-              //fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="Brake3"
-              stroke={dataColors[2]}
-              //fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
+            {telemetryDataArray.map((_, index) => (
+              <Line
+                isAnimationActive={false}
+                key={`brake-line-${index}`}
+                type="monotone"
+                dataKey={`Brake${index + 1}`}
+                stroke={dataColors[index % dataColors.length]}
+                fill={dataColors[index % dataColors.length]}
+                dot={false}
+                connectNulls={true}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
         <h4>Gear</h4>
@@ -359,22 +347,18 @@ export default function AnalysisGraphsCharts({
                 backgroundColor: "#222c42",
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="Gear1"
-              stroke={dataColors[0]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="Gear2"
-              stroke={dataColors[1]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
+            {telemetryDataArray.map((_, index) => (
+              <Line
+                isAnimationActive={false}
+                key={`gear-line-${index}`}
+                type="monotone"
+                dataKey={`Gear${index + 1}`}
+                stroke={dataColors[index % dataColors.length]}
+                fill={dataColors[index % dataColors.length]}
+                dot={false}
+                connectNulls={true}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
         <h4>Steering angle</h4>
@@ -400,28 +384,24 @@ export default function AnalysisGraphsCharts({
                 backgroundColor: "#222c42",
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="SteeringAngle1"
-              stroke={dataColors[0]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="SteeringAngle2"
-              stroke={dataColors[1]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
+            {telemetryDataArray.map((_, index) => (
+              <Line
+                isAnimationActive={false}
+                key={`steering-line-${index}`}
+                type="monotone"
+                dataKey={`SteeringAngle${index + 1}`}
+                stroke={dataColors[index % dataColors.length]}
+                fill={dataColors[index % dataColors.length]}
+                dot={false}
+                connectNulls={true}
+              />
+            ))}
             <Brush />
             {/* endindexam jabut json entryu daudzumam? */}
-        {/* </LineChart>
-        </ResponsiveContainer> */}
+          </LineChart>
+        </ResponsiveContainer>
 
-        {/* <ResponsiveContainer width="100%" height={heightValue}>
+        <ResponsiveContainer width="100%" height={heightValue}>
           <AreaChart
             width={500}
             height={heightValue}
@@ -445,7 +425,7 @@ export default function AnalysisGraphsCharts({
               fill="#82ca9d"
             />
           </AreaChart>
-        </ResponsiveContainer> */}
+        </ResponsiveContainer>
       </div>
     </>
   );
