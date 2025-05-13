@@ -13,7 +13,9 @@ const s3Client = new S3({
 export async function getTelemetryFile(fileKey) {
   console.log("getteleemtryfile: ", fileKey);
 
-  const key = `${fileKey}.json`;
+  const strippedKey = fileKey.substring(1);
+
+  const key = `${strippedKey}.json`;
 
   const params = {
     Bucket: "sstr-laps",
