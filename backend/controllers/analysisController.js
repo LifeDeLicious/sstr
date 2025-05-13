@@ -89,6 +89,8 @@ const getAnalysisData = async (req, res) => {
       lapTime: Number(lap.lapTime),
       airTemperature: Number(lap.airTemperature),
       trackTemperature: Number(lap.trackTemperature),
+      userUsername: lap.userUsername,
+      userID: lap.userID,
     }));
 
     const response = {
