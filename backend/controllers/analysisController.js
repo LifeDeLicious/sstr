@@ -45,7 +45,7 @@ const createAnalysis = async (req, res) => {
 
 const getAnalysisData = async (req, res) => {
   try {
-    const analysisID = req.params;
+    const analysisID = req.params.analysisID;
     const { userID } = req.body;
 
     const analysisConfig = await db
