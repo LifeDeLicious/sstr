@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useMemo } from "react";
 import telemetryData from "./telemetry3.json";
 import telemetryData2 from "./lap-2.json";
 import faster from "./lap-3.json";
@@ -75,30 +75,49 @@ const heightValue = 127;
 
 console.log(combined.length);
 
-export default function AnalysisGraphsCharts({ analyticsGraphData }) {
-  const fetchTelemetryData = async (lapFileKeys) => {
-    try {
-      const res = await fetch(`https://api.sstr.reinis.space/laps/batch`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ fileKeys: lapFileKeys }),
-      });
+export default function AnalysisGraphsCharts({
+  analyticsGraphData,
+  telemetryData,
+}) {
+  const combinedData = useMemo(() => {
+    if (!telemetryData) return [];
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch teleemetry data");
-      }
+    const telemetrySources = telemetryData.map((item) => item.data);
 
-      const result = await res.json();
-      console.log(result);
-      return result.telemetry;
-    } catch (error) {
-      console.error("Error fetching telemetry data: ", error);
-      throw error;
-    }
-  };
+    if (telemetrySources.length === 0) return [];
+
+    return mergeTelemetryData(...telemetrySources);
+  }, [telemetryData]);
+
+  if (!telemetryData) {
+    return <div>Waiting for telemetry data...</div>;
+  }
+
+  // const fetchTelemetryData = async (lapFileKeys) => {
+  //   try {
+  //     const res = await fetch(`https://api.sstr.reinis.space/laps/batch`, {
+  //       method: "GET",
+  //       credentials: "include",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ fileKeys: lapFileKeys }),
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to fetch teleemetry data");
+  //     }
+
+  //     const result = await res.json();
+  //     console.log(result);
+  //     return result.telemetry;
+  //   } catch (error) {
+  //     console.error("Error fetching telemetry data: ", error);
+  //     throw error;
+  //   }
+  // };
+
+  // fetchTelemetryData(analyticsGraphData);
 
   return (
     <>
@@ -126,16 +145,21 @@ export default function AnalysisGraphsCharts({ analyticsGraphData }) {
                 backgroundColor: "#222c42",
               }}
             />
-            <Line
-              //data={data}
-              type="monotone"
-              dataKey="Speed1"
-              stroke={dataColors[0]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
+            {telemetryData &&
+              telemetryData.map((_, index) => (
+                <Line
+                  key={`speed-line-${index}`}
+                  //data={data}
+                  type="monotone"
+                  dataKey={`Speed${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+
+            {/* <Line
               //data={data2}
               type="monotone"
               dataKey="Speed2"
@@ -152,7 +176,7 @@ export default function AnalysisGraphsCharts({ analyticsGraphData }) {
               fill={dataColors[1]}
               dot={false}
               connectNulls={true}
-            />
+            /> */}
           </LineChart>
         </ResponsiveContainer>
         <h4>Throttle</h4>

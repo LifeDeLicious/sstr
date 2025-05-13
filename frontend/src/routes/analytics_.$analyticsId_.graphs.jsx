@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { LineChart, Line } from "recharts";
 import AnalysisGraphsCharts from "../components/AnalysisGraphsCharts.jsx";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 const data = [
   { name: "page a", uv: 400, pv: 2400, amt: 2400 },
   { name: "page b", uv: 350, pv: 2800, amt: 2800 },
@@ -27,6 +28,8 @@ function RouteComponent() {
   const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const [telemetryData, setTelemetryData] = useState(null);
+  const [isLoadingTelemetry, setIsLoadingTelemetry] = useState(false);
 
   const { data: analyticsGraphData, isLoading: analyticsGraphLoading } =
     useQuery({
@@ -47,8 +50,45 @@ function RouteComponent() {
       },
     });
 
+  useEffect(() => {
+    async function loadTelemetryData() {
+      if (!analyticsGraphData?.laps?.length) return;
+
+      try {
+        setIsLoadingTelemetry(true);
+
+        const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
+
+        const response = await fetch(
+          "https://api.sstr.reinis.space/laps/batch",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fileKeys }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch telemetry data");
+        }
+
+        const result = await response.json();
+        setTelemetryData(result.telemetry);
+      } catch (error) {
+        console.error("Error fetching telemetry data:", error);
+      } finally {
+        setIsLoadingTelemetry(false);
+      }
+    }
+
+    loadTelemetryData();
+  }, [analyticsGraphData]);
+
   // Show loading state
-  if (loading || analyticsGraphLoading) {
+  if (loading || analyticsGraphLoading || isLoadingTelemetry) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
@@ -83,6 +123,7 @@ function RouteComponent() {
         <div className="col-span-2">
           <AnalysisGraphsCharts
             analyticsGraphData={analyticsGraphData}
+            telemetryData={telemetryData}
             className=""
           />
         </div>
