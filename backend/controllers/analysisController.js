@@ -48,13 +48,28 @@ const getAnalysisData = async (req, res) => {
     const analysisID = req.params.analysisID;
     const { userID } = req.body;
 
-    const analysisConfig = await db
+    const analysisConfigQuery = await db
       .select({
         carID: Cars.CarID,
         carName: Cars.CarAssetName,
         trackID: Tracks.TrackID,
         trackName: Tracks.TrackAssetName,
         trackLayout: Tracks.TrackLayout,
+      })
+      .from(Analysis)
+      .innerJoin(Cars, eq(Analysis.CarID, Cars.CarID))
+      .innerJoin(Tracks, eq(Analysis.TrackID, Tracks.TrackID))
+      .where(eq(Analysis.AnalysisID, analysisID))
+      .limit(1);
+
+    if (analysisConfigQuery.length === 0) {
+      return res.status(404).json({ message: "Analysis not found" });
+    }
+
+    const analysisConfig = analysisConfigQuery[0];
+
+    const lapsQuery = await db
+      .select({
         lapID: Laps.LapID,
         lapTime: Laps.LapTime,
         airTemperature: Sessions.AirTemperature,
@@ -63,12 +78,27 @@ const getAnalysisData = async (req, res) => {
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
       .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
-      .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
-      .innerJoin(Tracks, eq(Sessions.TrackID, Tracks.TrackID))
       .where(eq(AnalysisLaps.AnalysisID, analysisID));
 
+    const laps = lapsQuery.map((lap) => ({
+      lapID: lap.lapID,
+      lapTime: Number(lap.lapTime),
+      airTemperature: Number(lap.airTemperature),
+      trackTemperature: Number(lap.trackTemperature),
+    }));
+
+    const response = {
+      analysisID: Number(analysisID),
+      carID: analysisConfig.carID,
+      carName: analysisConfig.carName,
+      trackID: analysisConfig.trackID,
+      trackName: analysisConfig.trackName,
+      trackLayout: analysisConfig.trackLayout,
+      laps: laps,
+    };
+
     console.log("getanalysisdata");
-    res.status(200).json(analysisConfig);
+    res.status(200).json(response);
   } catch (error) {
     console.log("getanalysisdata error: ", error);
   }
