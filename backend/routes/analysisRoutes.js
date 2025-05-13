@@ -5,4 +5,8 @@ const router = express.Router();
 
 router.post("/", requireAuth, analysisController.createAnalysis);
 
+router.get("/:analysisID", requireAuth, analysisController.getAnalysisData);
+
+router.get("/", requireAuth, analysisController.getAnalysisList);
+
 export default router;

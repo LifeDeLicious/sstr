@@ -34,19 +34,71 @@ const createAnalysis = async (req, res) => {
     });
 
     console.log("post create analysis create analysis");
-    res
-      .status(200)
-      .json({
-        message: "analysis created successfully",
-        analysisID: analysisID,
-      });
+    res.status(200).json({
+      message: "analysis created successfully",
+      analysisID: analysisID,
+    });
   } catch (error) {
     console.log("error creating analysis: ", error);
   }
 };
 
+const getAnalysisData = async (req, res) => {
+  try {
+    const analysisID = req.params;
+    const { userID } = req.body;
+
+    const analysisConfig = await db
+      .select({
+        carID: Cars.CarID,
+        carName: Cars.CarAssetName,
+        trackID: Tracks.TrackID,
+        trackName: Tracks.TrackAssetName,
+        trackLayout: Tracks.TrackLayout,
+        lapID: Laps.LapID,
+        lapTime: Laps.LapTime,
+      })
+      .from();
+
+    console.log("getanalysisdata");
+  } catch (error) {
+    console.log("getanalysisdata error: ", error);
+  }
+};
+
+const getAnalysisList = async (req, res) => {
+  try {
+    const { userID } = req.body;
+
+    const analysisList = await db
+      .select({
+        analysisID: Analysis.AnalysisID,
+        analysisName: Analysis.AnalysisName,
+        carID: Analysis.CarID,
+        carAssetName: Cars.CarAssetName,
+        trackID: Analysis.TrackID,
+        trackAssetName: Tracks.TrackAssetName,
+        trackLayout: Tracks.TrackLayout,
+        creationDate: Analysis.AnalysisDate,
+      })
+      .from(UserAnalysis)
+      .innerJoin(Analysis, eq(UserAnalysis.AnalysisID, Analysis.AnalysisID))
+      .innerJoin(Cars, eq(Analysis.CarID, Cars.CarID))
+      .innerJoin(Tracks, eq(Analysis.TrackID, Tracks.TrackID))
+      .where(eq(UserAnalysis.UserID, userID))
+      .orderBy(desc(Analysis.AnalysisDate));
+
+    console.log("getanalysislist called, userid: ", userID);
+    res.status(200).json(analysisList);
+  } catch (error) {
+    console.log("error getanalysislist, error: ", error);
+    res.status(500).json({ message: "error getanalysislist", error: error });
+  }
+};
+
 const analysisController = {
   createAnalysis,
+  getAnalysisData,
 };
 
 export default analysisController;

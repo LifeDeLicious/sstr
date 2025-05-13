@@ -76,7 +76,7 @@ const getSessionSummaries = async (req, res) => {
     const combinationQuery = await db
       .select({
         carID: Cars.CarID,
-        carName: Cars.CarAssetName,
+        carName: Cars.CarAssetName, //!
         trackID: Tracks.TrackID,
         trackName: Tracks.TrackAssetName,
         trackLayout: Tracks.TrackLayout,
