@@ -8,6 +8,7 @@ import { Tracks } from "../db/schema/Tracks.js";
 import { Analysis } from "../db/schema/Analysis.js";
 import { UserAnalysis } from "../db/schema/UserAnalysis.js";
 import { AnalysisLaps } from "../db/schema/AnalysisLaps.js";
+import { Users } from "../db/schema/Users.js";
 
 const createAnalysis = async (req, res) => {
   try {
@@ -74,10 +75,13 @@ const getAnalysisData = async (req, res) => {
         lapTime: Laps.LapTime,
         airTemperature: Sessions.AirTemperature,
         trackTemperature: Sessions.TrackTemperature,
+        userUsername: Users.Username,
+        userID: Laps.UserID,
       })
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
       .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
+      .innerJoin(Users, eq(Laps.UserID, Users.UserID))
       .where(eq(AnalysisLaps.AnalysisID, analysisID));
 
     const laps = lapsQuery.map((lap) => ({
