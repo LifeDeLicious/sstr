@@ -276,6 +276,7 @@ export default function AnalysisGraphsCharts({
             />
             {telemetryDataArray.map((_, index) => (
               <Line
+                isAnimationActive={false}
                 key={`throttle-line-${index}`}
                 type="monotone"
                 dataKey={`Throttle${index + 1}`}
@@ -401,7 +402,7 @@ export default function AnalysisGraphsCharts({
           </LineChart>
         </ResponsiveContainer>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
+        {/* <ResponsiveContainer width="100%" height={heightValue}>
           <AreaChart
             width={500}
             height={heightValue}
@@ -425,7 +426,7 @@ export default function AnalysisGraphsCharts({
               fill="#82ca9d"
             />
           </AreaChart>
-        </ResponsiveContainer>
+        </ResponsiveContainer> */}
       </div>
     </>
   );
