@@ -1,8 +1,13 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+} from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 
 import { LineChart, Line } from "recharts";
 import AnalysisGraphsCharts from "../components/AnalysisGraphsCharts.jsx";
+import { useQuery } from "@tanstack/react-query";
 const data = [
   { name: "page a", uv: 400, pv: 2400, amt: 2400 },
   { name: "page b", uv: 350, pv: 2800, amt: 2800 },
@@ -19,11 +24,31 @@ const renderChart = (
 );
 
 function RouteComponent() {
+  const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  const { data: analyticsGraphData, isLoading: analyticsGraphLoading } =
+    useQuery({
+      queryKey: ["analyticsGraphData", analyticsId],
+      queryFn: async () => {
+        const res = await fetch(
+          `https://api.sstr.reinis.space/analysis/graphs/${analyticsId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Failed to get analytics graph laps data");
+        }
+
+        return res.json();
+      },
+    });
+
   // Show loading state
-  if (loading) {
+  if (loading || analyticsGraphLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
@@ -35,7 +60,7 @@ function RouteComponent() {
   if (!user) {
     navigate({ to: "/" });
   }
-  const { analyticsId } = Route.useParams();
+
   return (
     <>
       <div className="grid grid-cols-6">
@@ -44,7 +69,9 @@ function RouteComponent() {
         <p></p>
         <p>{"Analysis name"}</p>
         <p></p>
-        <button className="btn w-25">Configure</button>
+        <Link to={`/analytics/${analyticsId}`}>
+          <button className="btn w-25">Configure</button>
+        </Link>
       </div>
       <div className="divider mt-0 mb-0"></div>
       <div className="grid grid-cols-3 w-full">
@@ -54,7 +81,10 @@ function RouteComponent() {
           </LineChart>
         </div>
         <div className="col-span-2">
-          <AnalysisGraphsCharts className="" />
+          <AnalysisGraphsCharts
+            analyticsGraphData={analyticsGraphData}
+            className=""
+          />
         </div>
       </div>
     </>

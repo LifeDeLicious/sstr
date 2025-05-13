@@ -93,7 +93,7 @@ function RouteComponent() {
           </div>
           <div className="">
             <p className="text-lg">
-              <strong>Track:</strong>
+              <strong>Track:</strong>{" "}
               {/* {analyticsData.trackName} ({analyticsData.trackLayout}) */}
               {analyticsData.trackName && analyticsData.trackLayout
                 ? `${analyticsData.trackName} (${analyticsData.trackLayout})`
@@ -117,13 +117,19 @@ function RouteComponent() {
           <button className="btn btn-info">Add lap</button>
           <button className="btn btn-accent">Paste lap ID</button>
           <br></br>
-          <button className="btn btn-secondary">Review</button>
+          <Link to={`/analytics/${analyticsId}/graphs`}>
+            <button className="btn btn-secondary">Review</button>
+          </Link>
           <br></br>
           <button className="btn btn-warning">Delete analytics</button>
         </div>
       </div>
     </>
   );
+}
+
+function pasteLapID() {
+  console.log("lap id pasted");
 }
 
 <svg

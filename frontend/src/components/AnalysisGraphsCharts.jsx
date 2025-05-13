@@ -16,6 +16,7 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
+import { response } from "express";
 
 const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
 
@@ -74,7 +75,31 @@ const heightValue = 127;
 
 console.log(combined.length);
 
-export default function AnalysisGraphsCharts() {
+export default function AnalysisGraphsCharts({ analyticsGraphData }) {
+  const fetchTelemetryData = async (lapFileKeys) => {
+    try {
+      const res = await fetch(`https://api.sstr.reinis.space/laps/batch`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fileKeys: lapFileKeys }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch teleemetry data");
+      }
+
+      const result = await res.json();
+      console.log(result);
+      return result.telemetry;
+    } catch (error) {
+      console.error("Error fetching telemetry data: ", error);
+      throw error;
+    }
+  };
+
   return (
     <>
       <div style={{ width: "100%" }}>
