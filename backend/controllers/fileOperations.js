@@ -68,11 +68,7 @@ const fetchObject = async (params) => {
 //   }
 // };
 
-export default async function uploadTelemetryFile(
-  lapID,
-  userID,
-  telemetryData
-) {
+export async function uploadTelemetryFile(lapID, userID, telemetryData) {
   console.log("amongus");
 
   const key = `laps/lap-${lapID}.json`;
