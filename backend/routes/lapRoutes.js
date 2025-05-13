@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/lap", lapController.postLap);
 
-router.post("/batch", requireAuth lapController.getTelemetryFiles);
+router.post("/batch", requireAuth, lapController.getTelemetryFiles);
 
 router.post("/register", (req, res) => {
   console.log("/register");

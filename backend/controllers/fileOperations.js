@@ -25,7 +25,7 @@ export async function getTelemetryFile(fileKey) {
 
 const fetchObject = async (params) => {
   try {
-    const data = await s3Client.send(new GetObjectCommand(params));
+    //const data = await s3Client.send(new GetObjectCommand(params));
 
     const command = new GetObjectCommand(params);
     const data = await s3Client.send(command, { requestTimeout: 5000 });
