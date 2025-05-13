@@ -2,6 +2,7 @@ import {
   createFileRoute,
   useNavigate,
   useParams,
+  Link,
 } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 

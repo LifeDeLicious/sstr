@@ -2,6 +2,7 @@ import {
   createFileRoute,
   useNavigate,
   useParams,
+  Link,
 } from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";

@@ -3,6 +3,7 @@ import {
   useParams,
   Outlet,
   useNavigate,
+  Link,
 } from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
