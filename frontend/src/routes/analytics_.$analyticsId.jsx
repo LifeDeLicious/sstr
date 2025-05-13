@@ -24,7 +24,7 @@ function RouteComponent() {
     queryKey: ["analyticsData", analyticsId],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.sstr.reinis.space/session/data/${analyticsId}`,
+        `https://api.sstr.reinis.space/analysis/${analyticsId}`,
         {
           credentials: "include",
         }

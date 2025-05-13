@@ -15,9 +15,9 @@ export default function AnalysisLapsTable() {
           {/* head */}
           <thead>
             <tr>
-              <th className=" w-140">Lap</th>
-              <th className="w-20">Color pickeri</th>
-              <th className="w20">Driver</th>
+              <th className=" w-15">Lap</th>
+              <th className="w-15">Color pickeri</th>
+              <th className="w-40">Driver</th>
               <th className="ml-90 self-center">Lap time</th>
               <th className="w-20">Track conditions</th>
               <th className="hover:bg-yellow-100">button</th>
