@@ -69,6 +69,7 @@ const getAnalysisData = async (req, res) => {
 
     const analysisConfig = analysisConfigQuery[0];
 
+    //!lap visibility!!!! true/false boolean
     const lapsQuery = await db
       .select({
         lapID: Laps.LapID,
@@ -141,10 +142,44 @@ const getAnalysisList = async (req, res) => {
   }
 };
 
+const getGraphData = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const analysisID = req.params.analysisID;
+    console.log("getgraphdata, analysisid: ", analysisID);
+
+    const analysisLapsQuery = await db
+      .select({
+        lapID: Laps.LapID,
+        lapTime: Laps.LapTime,
+        userUsername: Users.Username,
+        lapFileKey: Laps.LapFileKey,
+      })
+      .from(AnalysisLaps)
+      .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
+      .innerJoin(Users, eq(Laps.UserID, Users.UserID))
+      .where(eq(AnalysisLaps.AnalysisID, analysisID))
+      .orderBy(desc(AnalysisLaps.LapID));
+
+    const laps = analysisLapsQuery.map((lap) => ({
+      lapID: lap.lapID,
+      lapTime: Number(lap.lapTime),
+      userUsername: lap.userUsername,
+      lapFileKey: lap.lapFileKey,
+    }));
+
+    res.status(200).json({ laps });
+  } catch (error) {
+    console.log("getgraphdata error: ", error);
+    res.status(500).json({ message: "Failed to getgraphdata" });
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
   getAnalysisList,
+  getGraphData,
 };
 
 export default analysisController;

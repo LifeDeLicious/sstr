@@ -9,4 +9,6 @@ router.get("/:analysisID", requireAuth, analysisController.getAnalysisData);
 
 router.get("/", requireAuth, analysisController.getAnalysisList);
 
+router.get("/graphs/:analysisID", requireAuth, analysisController.getGraphData);
+
 export default router;
