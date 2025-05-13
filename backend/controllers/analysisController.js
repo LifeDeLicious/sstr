@@ -99,6 +99,7 @@ const getAnalysisList = async (req, res) => {
 const analysisController = {
   createAnalysis,
   getAnalysisData,
+  getAnalysisList,
 };
 
 export default analysisController;
