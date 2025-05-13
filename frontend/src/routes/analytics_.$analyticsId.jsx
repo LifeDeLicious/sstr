@@ -93,7 +93,7 @@ function RouteComponent() {
           <h2 className="text-2xl mt-3 mb-2.5">Laps</h2>
           {/* <AnalysisEvent /> */}
 
-          <AnalysisLapsTable />
+          <AnalysisLapsTable analyticsData={analyticsData.laps} />
           {/* <Accordion /> */}
           {/* <Outlet /> */}
           <br></br>

@@ -7,7 +7,7 @@ const sessionsDropdown = [
   },
 ];
 
-export default function AnalysisLapsTable() {
+export default function AnalysisLapsTable({ analyticsLaps }) {
   return (
     <>
       <div className="overflow-x-auto">
@@ -24,26 +24,29 @@ export default function AnalysisLapsTable() {
             </tr>
           </thead>
           <tbody>
+            {analyticsLaps.map((lap, index) => (
+              <tr key={lap.lapID} className="hover:bg-base-300">
+                <th>{index}</th>
+                <th></th>
+                <th>{lap.userUsername}</th>
+                <td>{formatLapTime(lap.lapTime)}</td>
+                <td>
+                  air:{lap.airTemperature}, track:{lap.trackTemperature}
+                </td>
+                <td className="w-15">
+                  <div className="join">
+                    <button className="btn h-8 bg-slate-400">Remove Lap</button>
+                    <button className="btn h-8 bg-slate-400">
+                      Lap visibility
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
             {/* row 1 */}
-            <tr className="hover:bg-base-300">
-              <th>1</th>
-              <th>a</th>
-              <th>driver</th>
-              <td>{"1:46.35"}</td>
-              <td>15c 18c</td>
-              <td className="w-15">
-                <div className="join">
-                  <button className="btn h-8 join-item bg-slate-400">
-                    Analyze
-                  </button>
-                  <select className="select h-8 w-2 join-item">
-                    <option>Copy lap ID</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
+
             {/* row 2 */}
-            <tr className="hover:bg-base-300">
+            {/* <tr className="hover:bg-base-300">
               <th>2</th>
               <th>a</th>
               <th>driver</th>
@@ -66,13 +69,13 @@ export default function AnalysisLapsTable() {
               </td>
             </tr>
             {/* row 3 */}
-            <tr className="hover:bg-base-300">
+            {/* <tr className="hover:bg-base-300">
               <th>3</th>
               <th> a</th>
               <th>driver</th>
               <td>abc</td>
               <td>15c 18c</td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

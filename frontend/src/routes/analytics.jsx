@@ -48,7 +48,6 @@ function RouteComponent() {
         <div className="w-350">
           <h1 className="text-3xl mb-2.5">Analytics</h1>
           <h2 className="text-2xl mb-2.5">Recently viewed</h2>
-          <h1 className="text-red-600">{analyticsList[0].analysisID}</h1>
           <AnalysisEvent analyticsList={analyticsList} />
 
           <br></br>
