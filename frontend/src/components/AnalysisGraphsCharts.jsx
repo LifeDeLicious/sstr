@@ -1,4 +1,4 @@
-import { React, useMemo } from "react";
+import { React, useEffect, useMemo, useState } from "react";
 import telemetryData from "./telemetry3.json";
 import telemetryData2 from "./lap-2.json";
 import faster from "./lap-3.json";
@@ -19,11 +19,12 @@ import {
 //import { response } from "express";
 
 const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
+const heightValue = 127;
 
-const data = telemetryData;
+// const data = telemetryData;
 
-const data2 = telemetryData2;
-const data3 = faster;
+// const data2 = telemetryData2;
+// const data3 = faster;
 
 function mergeTelemetryData(...dataSources) {
   // Step 1: Collect all unique TrackPositions from all datasets
@@ -71,27 +72,99 @@ const combined = mergeTelemetryData(data, data2, faster);
 //   };
 // });
 
-const heightValue = 127;
-
 console.log(combined.length);
 
 export default function AnalysisGraphsCharts({
   analyticsGraphData,
   telemetryData,
 }) {
-  const combinedData = useMemo(() => {
-    if (!telemetryData) return [];
+  const [telemetryDataArray, setTelemetryDataArray] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [combined, setCombined] = useState([]);
 
-    const telemetrySources = telemetryData.map((item) => item.data);
+  useEffect(() => {
+    if (
+      !analyticsGraphData ||
+      !analyticsGraphData.laps ||
+      analyticsGraphData.laps.length === 0
+    ) {
+      return;
+    }
 
-    if (telemetrySources.length === 0) return [];
+    async function fetchTelemetryData() {
+      try {
+        setIsLoading(true);
 
-    return mergeTelemetryData(...telemetrySources);
-  }, [telemetryData]);
+        const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
 
-  if (!telemetryData) {
-    return <div>Waiting for telemetry data...</div>;
+        const response = await fetch(
+          "https://api.sstr.reinis.space/laps/batch",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fileKeys }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch telemetry data");
+        }
+
+        const result = await response.json();
+        setTelemetryData(result.telemetry || []);
+      } catch (error) {
+        console.error("Error fetching telemetry data:", error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchTelemetryData();
+  }, [analyticsGraphData]);
+
+  useEffect(() => {
+    if (telemetryDataArray.length === 0) return;
+
+    try {
+      const dataSources = telemetryDataArray.map((item) => item.data);
+
+      const mergedData = mergeTelemetryData(...dataSources);
+      setCombined(mergedData);
+    } catch (error) {
+      console.error("Error processing telemetry data:", error);
+      setError("Error processing telemetry data");
+    }
+  }, [telemetryDataArray]);
+
+  if (isLoading) {
+    return <div>Loading telemetry data...</div>;
   }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (combined.length === 0) {
+    return <div>No telemetry data available</div>;
+  }
+  // const combinedData = useMemo(() => {
+  //   if (!telemetryData) return [];
+
+  //   const telemetrySources = telemetryData.map((item) => item.data);
+
+  //   if (telemetrySources.length === 0) return [];
+
+  //   return mergeTelemetryData(...telemetrySources);
+  // }, [telemetryData]);
+
+  // if (!telemetryData) {
+  //   return <div>Waiting for telemetry data...</div>;
+  // }
 
   // const fetchTelemetryData = async (lapFileKeys) => {
   //   try {
@@ -123,9 +196,9 @@ export default function AnalysisGraphsCharts({
     <>
       <div style={{ width: "100%" }}>
         <h4>Speed</h4>
-
         <ResponsiveContainer width="100%" height={heightValue}>
           <LineChart
+            isAnimationActive={false}
             width={500}
             height={heightValue}
             data={combined}
@@ -145,19 +218,18 @@ export default function AnalysisGraphsCharts({
                 backgroundColor: "#222c42",
               }}
             />
-            {telemetryData &&
-              telemetryData.map((_, index) => (
-                <Line
-                  key={`speed-line-${index}`}
-                  //data={data}
-                  type="monotone"
-                  dataKey={`Speed${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
-                  dot={false}
-                  connectNulls={true}
-                />
-              ))}
+            {telemetryDataArray.map((_, index) => (
+              <Line
+                key={`speed-line-${index}`}
+                //data={data}
+                type="monotone"
+                dataKey={`Speed${index + 1}`}
+                stroke={dataColors[index % dataColors.length]}
+                fill={dataColors[index % dataColors.length]}
+                dot={false}
+                connectNulls={true}
+              />
+            ))}
 
             {/* <Line
               //data={data2}
@@ -202,35 +274,22 @@ export default function AnalysisGraphsCharts({
                 backgroundColor: "#222c42",
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="Throttle1"
-              stroke={dataColors[0]}
-              fill={dataColors[0]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="Throttle2"
-              stroke={dataColors[1]}
-              fill={dataColors[1]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              type="monotone"
-              dataKey="Throttle3"
-              stroke={dataColors[2]}
-              fill={dataColors[1]}
-              dot={false}
-              connectNulls={true}
-            />
+            {telemetryDataArray.map((_, index) => (
+              <Line
+                key={`throttle-line-${index}`}
+                type="monotone"
+                dataKey={`Throttle${index + 1}`}
+                stroke={dataColors[index % dataColors.length]}
+                fill={dataColors[index % dataColors.length]}
+                dot={false}
+                connectNulls={true}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
         <h4>Brake</h4>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
+        {/* <ResponsiveContainer width="100%" height={heightValue}>
           <LineChart
             width={500}
             height={heightValue}
@@ -359,8 +418,8 @@ export default function AnalysisGraphsCharts({
             />
             <Brush />
             {/* endindexam jabut json entryu daudzumam? */}
-          </LineChart>
-        </ResponsiveContainer>
+        {/* </LineChart>
+        </ResponsiveContainer> */}
 
         {/* <ResponsiveContainer width="100%" height={heightValue}>
           <AreaChart
