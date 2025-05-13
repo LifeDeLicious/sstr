@@ -72,7 +72,7 @@ function mergeTelemetryData(...dataSources) {
 //   };
 // });
 
-console.log(combined.length);
+//console.log(combined.length);
 
 export default function AnalysisGraphsCharts({
   analyticsGraphData,
