@@ -218,7 +218,7 @@ export default function AnalysisGraphsCharts({
           <LineChart
             width={500}
             height={heightValue}
-            //data={combined}
+            data={combined}
             syncId="anyId"
             margin={{
               top: 10,
@@ -239,7 +239,7 @@ export default function AnalysisGraphsCharts({
               <Line
                 isAnimationActive={false}
                 key={`speed-line-${index}`}
-                data={combined}
+                //data={combined}
                 type="monotone"
                 dataKey={`Speed${index + 1}`}
                 stroke={dataColors[index % dataColors.length]}
