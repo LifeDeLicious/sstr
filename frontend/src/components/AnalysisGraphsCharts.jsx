@@ -27,28 +27,46 @@ const heightValue = 127;
 // const data3 = faster;
 
 function mergeTelemetryData(...dataSources) {
-  // Step 1: Collect all unique TrackPositions from all datasets
-  const allTrackPositions = dataSources.flatMap((ds) =>
-    ds.map((d) => d.TrackPosition)
-  );
-  const uniqueTrackPositions = Array.from(new Set(allTrackPositions)).sort(
-    (a, b) => a - b
-  );
+  if (dataSources.length === 0) return [];
 
-  // Step 2: Create a merged entry for each TrackPosition
-  return uniqueTrackPositions.map((trackPos) => {
-    const entry = { TrackPosition: trackPos };
+  const normalizedPositions = [];
+  for (let i = 0; i <= 1000; i++) {
+    normalizedPositions.push(i / 1000);
+  }
 
-    // Step 3: For each data source, find the closest value for this TrackPosition
+  return normalizedPositions.map((normalizedPos) => {
+    const entry = { TrackPosition: normalizedPos };
+
     dataSources.forEach((source, index) => {
-      const closest = source.find(
-        (d) => Math.abs(d.TrackPosition - trackPos) < 0.0001
-      ); // Small tolerance
-      entry[`Speed${index + 1}`] = closest?.Speed ?? null;
-      entry[`Throttle${index + 1}`] = closest?.Throttle ?? null;
-      entry[`Brake${index + 1}`] = closest?.Brake ?? null;
-      entry[`SteeringAngle${index + 1}`] = closest?.SteeringAngle ?? null;
-      entry[`Gear${index + 1}`] = closest?.Gear ?? null;
+      // Find closest point in this data source
+      let closestPoint = null;
+      let minDistance = Infinity;
+
+      for (const point of source) {
+        // Ensure track position is normalized between 0-1
+        const pointPos = point.TrackPosition % 1;
+        const distance = Math.abs(pointPos - normalizedPos);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestPoint = point;
+        }
+      }
+
+      // Only use values if reasonably close
+      if (closestPoint && minDistance < 0.005) {
+        entry[`Speed${index + 1}`] = closestPoint.Speed;
+        entry[`Throttle${index + 1}`] = closestPoint.Throttle;
+        entry[`Brake${index + 1}`] = closestPoint.Brake;
+        entry[`SteeringAngle${index + 1}`] = closestPoint.SteeringAngle;
+        entry[`Gear${index + 1}`] = closestPoint.Gear;
+      } else {
+        entry[`Speed${index + 1}`] = null;
+        entry[`Throttle${index + 1}`] = null;
+        entry[`Brake${index + 1}`] = null;
+        entry[`SteeringAngle${index + 1}`] = null;
+        entry[`Gear${index + 1}`] = null;
+      }
     });
 
     return entry;
@@ -210,7 +228,7 @@ export default function AnalysisGraphsCharts({
             }}
           >
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" domain={[0, 1]} />
+            <XAxis dataKey="TrackPosition" />
             <YAxis />
             <Tooltip
               contentStyle={{
@@ -230,6 +248,7 @@ export default function AnalysisGraphsCharts({
                 connectNulls={true}
               />
             ))}
+            <Brush dataKey="TrackPosition" height={0} />
           </LineChart>
         </ResponsiveContainer>
         <h4>Throttle</h4>
@@ -267,6 +286,7 @@ export default function AnalysisGraphsCharts({
                 connectNulls={true}
               />
             ))}
+            <Brush dataKey="TrackPosition" height={0} />
           </LineChart>
         </ResponsiveContainer>
         <h4>Brake</h4>
@@ -304,6 +324,7 @@ export default function AnalysisGraphsCharts({
                 connectNulls={true}
               />
             ))}
+            <Brush dataKey="TrackPosition" height={0} />
           </LineChart>
         </ResponsiveContainer>
         <h4>Gear</h4>
@@ -341,6 +362,7 @@ export default function AnalysisGraphsCharts({
                 connectNulls={true}
               />
             ))}
+            <Brush dataKey="TrackPosition" height={0} />
           </LineChart>
         </ResponsiveContainer>
         <h4>Steering angle</h4>
