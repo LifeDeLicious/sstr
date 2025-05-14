@@ -59,7 +59,12 @@ export default function AnalysisLapsTable({
                 </td>
                 <td className="w-15">
                   <div className="join">
-                    <button className="btn h-8 bg-slate-400">Remove Lap</button>
+                    <button
+                      className="btn h-8 bg-slate-400"
+                      onClick={() => handleRemoveLap(lap.lapID)}
+                    >
+                      Remove Lap
+                    </button>
                     <button className="btn h-8 bg-slate-400">
                       Lap visibility
                     </button>
