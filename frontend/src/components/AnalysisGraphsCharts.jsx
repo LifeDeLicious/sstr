@@ -210,7 +210,7 @@ export default function AnalysisGraphsCharts({
             }}
           >
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
+            <XAxis dataKey="TrackPosition" domain={[0, 1]} />
             <YAxis />
             <Tooltip
               contentStyle={{
