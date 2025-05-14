@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-import { desc, or, eq, and, count, sum, max, min, sql } from "drizzle-orm";
+import { desc, asc, or, eq, and, count, sum, max, min, sql } from "drizzle-orm";
 import { Sessions } from "../db/schema/Sessions.js";
 import { UserSessions } from "../db/schema/UserSessions.js";
 import { Laps } from "../db/schema/Laps.js";
@@ -254,7 +254,7 @@ const getUsersBestLaps = async (req, res) => {
 
     res.status(200).json({ bestLaps: formattedResults });
   } catch (error) {
-    console.log("getaddlaplist error:", error);
+    console.log("getusersbetslaps error:", error);
   }
 };
 
