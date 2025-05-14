@@ -189,8 +189,8 @@ const getUsersBestLaps = async (req, res) => {
       .from(Analysis)
       .where(eq(Analysis.AnalysisID, analysisID));
 
-    const carID = analysisConfig.carID;
-    const trackID = analysisConfig.trackID;
+    const carID = analysisConfig[0].carID;
+    const trackID = analysisConfig[0].trackID;
 
     const bestLapsQuery = await db
       .select({
