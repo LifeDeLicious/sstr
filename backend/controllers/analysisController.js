@@ -296,8 +296,7 @@ const pasteAnalysisLap = async (req, res) => {
     );
 
     const lapToAdd = await db
-      .select(Laps)
-      .values({
+      .select({
         lapID: Laps.LapID,
         isPublic: Sessions.IsSessionPublic,
       })
