@@ -108,7 +108,7 @@ function RouteComponent() {
       }
 
       onLapAdded && onLapAdded(lapID);
-      handleLapRemoved;
+      handleLapAdded && handleLapAdded(lapID);
       onClose();
     } catch (error) {
       setError(error.message);
