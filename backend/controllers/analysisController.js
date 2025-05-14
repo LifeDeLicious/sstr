@@ -253,6 +253,7 @@ const getUsersBestLaps = async (req, res) => {
       trackTemperature: Number(lap.trackTemperature),
     }));
 
+    console.log(`formatted results: ${formattedResults}`);
     res.status(200).json({ bestLaps: formattedResults });
   } catch (error) {
     console.log("getusersbetslaps error:", error);
