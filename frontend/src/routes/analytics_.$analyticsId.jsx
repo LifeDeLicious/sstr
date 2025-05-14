@@ -81,6 +81,36 @@ function RouteComponent() {
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
 
+  const handlePasteLap = async (analysisID) => {
+    try {
+      const lapID = await navigator.clipboard.readText();
+
+      //input.value = text;
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/lap`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ analysisID, lapID }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add lap to analysis");
+      }
+
+      onLapAdded && onLapAdded(lapID);
+      onClose();
+    } catch (error) {
+      setError(error.message);
+      console.error("Error adding lap:", error);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -134,7 +164,12 @@ function RouteComponent() {
           <button className="btn btn-info" onClick={openModal}>
             Add lap
           </button>
-          <button className="btn btn-accent">Paste lap ID</button>
+          <button
+            className="btn btn-accent"
+            onClick={() => handlePasteLap(analyticsId)}
+          >
+            Paste lap ID
+          </button>
           <br></br>
           <Link to={`/analytics/${analyticsId}/graphs`}>
             <button className="btn btn-secondary">Review</button>

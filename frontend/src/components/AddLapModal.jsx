@@ -104,7 +104,7 @@ export default function AddLapModal({
                 {bestLaps.map((lap, index) => (
                   <tr key={lap.lapID} className="hover:bg-base-300">
                     <td>{index + 1}</td>
-                    <td>{lap.username}</td>
+                    <td>{lap.userUsername}</td>
                     <td>{formatLapTime(lap.lapTime)}</td>
                     <td>
                       {lap.airTemperature}°C / {lap.trackTemperature}°C
