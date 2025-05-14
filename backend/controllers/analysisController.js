@@ -268,22 +268,16 @@ const addAnalysisLap = async (req, res) => {
       `addanalysislap called, analysisid:${analysisID}, lapid:${lapID}`
     );
 
-    const lapToAdd = await db
-      .select(Laps)
-      .values({
-        lapID: Laps.LapID,
-        isPublic: Sessions.IsSessionPublic,
-      })
-      .from(Laps)
-      .innerJoin(Sessions, eq(Laps.LapID, Sessions.LapID));
     const addAnalysisLap = await db.insert(AnalysisLaps).values({
       AnalysisID: analysisID,
       LapID: lapID,
     });
 
     console.log(`analysis id:${analysisID} lap id:${lapID} added`);
+    res.status(200).json({ message: "Lap added to analysis" });
   } catch (error) {
     console.log("getaddlaplist error:", error);
+    res.status(500).json({ message: "Failed to add lap to analysis" });
   }
 };
 
@@ -305,9 +299,18 @@ const pasteAnalysisLap = async (req, res) => {
       .where(eq(Laps.LapID, lapID));
 
     const ispublic = lapToAdd[0].isPublic;
+
     console.log(`is pasteanalysispublic lapid:${lapID}, public:${ispublic}`);
 
-    //if ()
+    if (ispublic) {
+      const addAnalysisLap = await db.insert(AnalysisLaps).values({
+        AnalysisID: analysisID,
+        LapID: lapID,
+      });
+    } else {
+      res.status(403).json({ message: "Lap is from a private session" });
+    }
+    res.status(200).json({ message: "Lap added to analysis" });
   } catch (error) {
     console.log("error pastinganalysislap, error:", error);
   }
