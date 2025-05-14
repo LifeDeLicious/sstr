@@ -304,9 +304,8 @@ const pasteAnalysisLap = async (req, res) => {
       .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
       .where(eq(Laps.LapID, lapID));
 
-    console.log(
-      `is pasteanalysispublic lapid:${lapID}, public:${lapToAdd[0].isPublic}`
-    );
+    const ispublic = lapToAdd[0].isPublic;
+    console.log(`is pasteanalysispublic lapid:${lapID}, public:${ispublic}`);
 
     //if ()
   } catch (error) {
