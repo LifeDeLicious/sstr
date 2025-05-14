@@ -4,6 +4,7 @@ import {
   int,
   timestamp,
   double,
+  boolean,
 } from "drizzle-orm/mysql-core";
 import { Users } from "./Users.js";
 import { Cars } from "./Cars.js";
@@ -19,4 +20,5 @@ export const Sessions = mysqlTable("Sessions", {
   AirTemperature: varchar("AirTemperature", { length: 4 }).notNull(),
   FastestLapTime: double("FastestLapTime").notNull(),
   AmountOfLaps: int("AmountOfLaps").notNull(),
+  IsSessionPublic: boolean("IsSessionPublic").default(true).notNull(),
 });

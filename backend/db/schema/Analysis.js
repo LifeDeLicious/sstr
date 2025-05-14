@@ -13,6 +13,6 @@ export const Analysis = mysqlTable("Analysis", {
   AnalysisName: varchar("AnalysisName", { length: 255 }),
   TrackID: int("TrackID").references(() => Tracks.TrackID),
   CarID: int("CarID").references(() => Cars.CarID),
-  IsAnalysisPublic: boolean("IsAnalysisPublic").default(false).notNull(),
+  IsAnalysisPublic: boolean("IsAnalysisPublic").default(true).notNull(),
   AnalysisDate: timestamp("AnalysisDate").defaultNow(),
 });

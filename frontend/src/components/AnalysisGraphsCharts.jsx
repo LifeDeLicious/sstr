@@ -230,25 +230,6 @@ export default function AnalysisGraphsCharts({
                 connectNulls={true}
               />
             ))}
-
-            {/* <Line
-              //data={data2}
-              type="monotone"
-              dataKey="Speed2"
-              stroke={dataColors[1]}
-              fill={dataColors[1]}
-              dot={false}
-              connectNulls={true}
-            />
-            <Line
-              //data={data2}
-              type="monotone"
-              dataKey="Speed3"
-              stroke={dataColors[2]}
-              fill={dataColors[1]}
-              dot={false}
-              connectNulls={true}
-            /> */}
           </LineChart>
         </ResponsiveContainer>
         <h4>Throttle</h4>

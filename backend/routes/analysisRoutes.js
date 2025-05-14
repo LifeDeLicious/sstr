@@ -11,4 +11,14 @@ router.get("/", requireAuth, analysisController.getAnalysisList);
 
 router.get("/graphs/:analysisID", requireAuth, analysisController.getGraphData);
 
+router.get(
+  "/bestlaps/:analysisID",
+  requireAuth,
+  analysisController.getUsersBestLaps
+);
+
+router.post("/lap", requireAuth, analysisController.addAnalysisLap);
+
+//!router.delete?? pareizais methods?("/lap", requireAuth, analysisController.removeAnalysisLap);
+
 export default router;

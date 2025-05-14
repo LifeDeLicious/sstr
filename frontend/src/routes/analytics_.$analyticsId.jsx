@@ -6,8 +6,10 @@ import {
   Link,
 } from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
+import AddLapModal from "../components/AddLapModal.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const Route = createFileRoute("/analytics_/$analyticsId")({
   component: RouteComponent,
@@ -17,6 +19,8 @@ function RouteComponent() {
   const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   console.log("analyticsid", analyticsId);
 
   //const userName = user.Username;
@@ -64,6 +68,18 @@ function RouteComponent() {
       </div>
     );
   }
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleLapAdded = () => {
+    queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
+  };
 
   return (
     <>
@@ -125,6 +141,14 @@ function RouteComponent() {
           <button className="btn btn-warning">Delete analytics</button>
         </div>
       </div>
+      <AddLapModal
+        analysisID={analyticsId}
+        carID={analyticsData.carID}
+        trackID={analyticsData.trackID}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onLapAdded={handleLapAdded}
+      />
     </>
   );
 }

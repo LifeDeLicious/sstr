@@ -1,5 +1,5 @@
 import { db } from "../db/index.js";
-import { desc, or, eq, and, count, sum, max, min } from "drizzle-orm";
+import { desc, or, eq, and, count, sum, max, min, sql, as } from "drizzle-orm";
 import { Sessions } from "../db/schema/Sessions.js";
 import { UserSessions } from "../db/schema/UserSessions.js";
 import { Laps } from "../db/schema/Laps.js";
@@ -175,11 +175,144 @@ const getGraphData = async (req, res) => {
   }
 };
 
+const getUsersBestLaps = async (req, res) => {
+  try {
+    const { analysisID } = req.params.analysisID;
+    console.log("getusersbestlaps called, analysisid:", analysisID);
+
+    const analysisConfig = await db
+      .select({
+        carID: Analysis.CarID,
+        trackID: Analysis.TrackID,
+      })
+      .from(Analysis)
+      .where(eq(Analysis.AnalysisID, analysisID));
+
+    const carID = analysisConfig.carID;
+    const trackID = analysisConfig.trackID;
+
+    const bestLapsQuery = await db
+      .select({
+        userID: Users.UserID,
+        userUsername: Users.Username,
+        lapID: Laps.LapID,
+        lapTime: Laps.LapTime,
+        lapFileKey: Laps.LapFileKey,
+        sessionID: Sessions.SessionID,
+        airTemperature: Sessions.AirTemperature,
+        trackTemperature: Sessions.TrackTemperature,
+      })
+      .from(Users)
+      .innerJoin(
+        db
+          .select({
+            userID: Laps.UserID,
+            minLapTime: min(Laps.LapTime).as("minLapTime"),
+          })
+          .from(Laps)
+          .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
+          .where(
+            and(
+              eq(Sessions.CarID, parseInt(carID)),
+              eq(Sessions.TrackID, parseInt(trackID)),
+              eq(Sessions.IsSessionPublic, true)
+            )
+          )
+          .groupBy(Laps.UserID)
+          .as("bestLaps"),
+        eq(Users.UserID, sql`bestLaps.userID`)
+      )
+      .innerJoin(
+        Laps,
+        and(
+          eq(Laps.UserID, sql`bestLaps.userID`),
+          eq(Laps.LapTime, sql`bestLaps.minLapTime`)
+        )
+      )
+      .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
+      .where(
+        and(
+          eq(Sessions.CarID, parseInt(carID)),
+          eq(Sessions.TrackID, parseInt(trackID)),
+          eq(Sessions.IsSessionPublic, true)
+        )
+      )
+      .orderBy(asc(Laps.LapTime));
+
+    console.log("getusersbetlaplist query completed");
+
+    const formattedResults = bestLapsQuery.map((lap) => ({
+      userID: lap.userID,
+      userUsername: lap.userUsername,
+      lapID: lap.lapID,
+      lapTime: Number(lap.lapTime),
+      lapFileKey: lap.lapFileKey,
+      sessionID: lap.sessionID,
+      airTemperature: Number(lap.airTemperature),
+      trackTemperature: Number(lap.trackTemperature),
+    }));
+
+    res.status(200).json({ bestLaps: formattedResults });
+  } catch (error) {
+    console.log("getaddlaplist error:", error);
+  }
+};
+
+const addAnalysisLap = async (req, res) => {
+  try {
+    //const { analysisID } = req.params.analysisID;
+    const { analysisID, lapID, userID } = req.body;
+    console.log(
+      `addanalysislap called, analysisid:${analysisID}, lapid:${lapID}`
+    );
+
+    const addedAnalysisLap = await db.insert(AnalysisLaps).values({
+      AnalysisID: analysisID,
+      LapID: lapID,
+    });
+
+    console.log(`analysis id:${analysisID} lap id:${lapID} added`);
+    //const analysisConfig = await db
+    // .select({
+    //   carID: Analysis.CarID,
+    //   trackID: Analysis.TrackID,
+    // })
+    // .from(Analysis)
+    // .where(eq(Analysis.AnalysisID, analysisID));
+
+    //const addLapList = await db.select({});
+  } catch (error) {
+    console.log("getaddlaplist error:", error);
+  }
+};
+
+const removeAnalysisLap = async (req, res) => {
+  try {
+    const { analysisID } = req.params.analysisID;
+    console.log("getaddlaplist called, analysisid:", analysisID);
+
+    const analysisConfig = await db
+      .select({
+        carID: Analysis.CarID,
+        trackID: Analysis.TrackID,
+      })
+      .from(Analysis)
+      .where(eq(Analysis.AnalysisID, analysisID));
+
+    const addLapList = await db.select({});
+  } catch (error) {
+    console.log("getaddlaplist error:", error);
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
   getAnalysisList,
   getGraphData,
+  getUsersBestLaps,
+  addAnalysisLap,
+  removeAnalysisLap,
 };
 
 export default analysisController;
