@@ -178,6 +178,7 @@ const getGraphData = async (req, res) => {
 const getUsersBestLaps = async (req, res) => {
   try {
     const { analysisID } = req.params.analysisID;
+    console.log("getusersbestlaps params: ", req.params);
     console.log("getusersbestlaps called, analysisid:", analysisID);
 
     const analysisConfig = await db
