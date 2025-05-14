@@ -19,6 +19,10 @@ router.get(
 
 router.post("/lap", requireAuth, analysisController.addAnalysisLap);
 
-//!router.delete?? pareizais methods?("/lap", requireAuth, analysisController.removeAnalysisLap);
+router.delete(
+  "/lap/:analysisID/:lapID",
+  requireAuth,
+  analysisController.removeAnalysisLap
+);
 
 export default router;

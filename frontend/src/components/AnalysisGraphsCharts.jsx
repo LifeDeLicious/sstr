@@ -1,8 +1,4 @@
 import { React, useEffect, useMemo, useState } from "react";
-//import telemetryData from "./telemetry3.json";
-//import telemetryData2 from "./lap-2.json";
-//import faster from "./lap-3.json";
-
 import {
   LineChart,
   Line,
@@ -16,15 +12,9 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
-//import { response } from "express";
 
 const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
 const heightValue = 127;
-
-// const data = telemetryData;
-
-// const data2 = telemetryData2;
-// const data3 = faster;
 
 function mergeTelemetryData(...dataSources) {
   // Step 1: Collect all unique TrackPositions from all datasets
@@ -54,25 +44,6 @@ function mergeTelemetryData(...dataSources) {
     return entry;
   });
 }
-
-//const combined = mergeTelemetryData(data, data2, faster);
-
-// const trackPositions = Array.from(
-//   new Set([...data, ...data2].map((d) => d.TrackPosition))
-// ).sort((a, b) => a - b);
-
-// const combined = trackPositions.map((trackPos) => {
-//   const a = data.find((d) => d.TrackPosition === trackPos);
-//   const b = data2.find((d) => d.TrackPosition === trackPos);
-
-//   return {
-//     TrackPosition: trackPos,
-//     SpeedA: a ? a.Speed : null,
-//     SpeedB: b ? b.Speed : null,
-//   };
-// });
-
-//console.log(combined.length);
 
 export default function AnalysisGraphsCharts({
   analyticsGraphData,
@@ -152,45 +123,6 @@ export default function AnalysisGraphsCharts({
   if (combined.length === 0) {
     return <div>No telemetry data available</div>;
   }
-  // const combinedData = useMemo(() => {
-  //   if (!telemetryData) return [];
-
-  //   const telemetrySources = telemetryData.map((item) => item.data);
-
-  //   if (telemetrySources.length === 0) return [];
-
-  //   return mergeTelemetryData(...telemetrySources);
-  // }, [telemetryData]);
-
-  // if (!telemetryData) {
-  //   return <div>Waiting for telemetry data...</div>;
-  // }
-
-  // const fetchTelemetryData = async (lapFileKeys) => {
-  //   try {
-  //     const res = await fetch(`https://api.sstr.reinis.space/laps/batch`, {
-  //       method: "GET",
-  //       credentials: "include",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ fileKeys: lapFileKeys }),
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error("Failed to fetch teleemetry data");
-  //     }
-
-  //     const result = await res.json();
-  //     console.log(result);
-  //     return result.telemetry;
-  //   } catch (error) {
-  //     console.error("Error fetching telemetry data: ", error);
-  //     throw error;
-  //   }
-  // };
-
-  // fetchTelemetryData(analyticsGraphData);
 
   return (
     <>
@@ -203,7 +135,7 @@ export default function AnalysisGraphsCharts({
             data={combined}
             syncId="anyId"
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
               left: 0,
               bottom: 0,
@@ -241,7 +173,7 @@ export default function AnalysisGraphsCharts({
             data={combined}
             syncId="anyId"
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
               left: 0,
               bottom: 0,
@@ -278,13 +210,13 @@ export default function AnalysisGraphsCharts({
             data={combined}
             syncId="anyId"
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
               left: 0,
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="TrackPosition" />
             <YAxis />
             <Tooltip
@@ -315,15 +247,15 @@ export default function AnalysisGraphsCharts({
             data={combined}
             syncId="anyId"
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
               left: 0,
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="TrackPosition" />
-            <YAxis />
+            <YAxis domain={[0, 7]} />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#222c42",
@@ -352,13 +284,13 @@ export default function AnalysisGraphsCharts({
             data={combined}
             syncId="anyId"
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
               left: 0,
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="TrackPosition" />
             <YAxis />
             <Tooltip
@@ -379,35 +311,8 @@ export default function AnalysisGraphsCharts({
               />
             ))}
             <Brush />
-            {/* endindexam jabut json entryu daudzumam? */}
           </LineChart>
         </ResponsiveContainer>
-
-        {/* <ResponsiveContainer width="100%" height={heightValue}>
-          <AreaChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 10,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="pv"
-              stroke={dataColors[0]}
-              fill="#82ca9d"
-            />
-          </AreaChart>
-        </ResponsiveContainer> */}
       </div>
     </>
   );

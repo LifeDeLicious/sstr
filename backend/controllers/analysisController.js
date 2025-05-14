@@ -290,18 +290,24 @@ const addAnalysisLap = async (req, res) => {
 
 const removeAnalysisLap = async (req, res) => {
   try {
-    const { analysisID } = req.params.analysisID;
-    console.log("getaddlaplist called, analysisid:", analysisID);
+    const analysisID = req.params.analysisID;
+    const lapID = req.params.lapID;
 
-    const analysisConfig = await db
-      .select({
-        carID: Analysis.CarID,
-        trackID: Analysis.TrackID,
-      })
-      .from(Analysis)
-      .where(eq(Analysis.AnalysisID, analysisID));
+    console.log(
+      `deleteanalysislap called, analysisid:${analysisID}, lapid:${lapID}`
+    );
 
-    const addLapList = await db.select({});
+    const deletedAnalysisLap = await db
+      .delete(AnalysisLaps)
+      .where(
+        and(
+          eq(AnalysisLaps.AnalysisID, analysisID),
+          eq(AnalysisLaps.LapID, lapID)
+        )
+      );
+
+    console.log("analysis lap deleted");
+    res.status(200).json({ message: "Lap removed from analysis" });
   } catch (error) {
     console.log("getaddlaplist error:", error);
   }

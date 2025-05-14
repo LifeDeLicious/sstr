@@ -7,7 +7,31 @@ const sessionsDropdown = [
   },
 ];
 
-export default function AnalysisLapsTable({ analyticsLaps }) {
+export default function AnalysisLapsTable({
+  analyticsLaps,
+  analyticsID,
+  onLapRemoved,
+}) {
+  const handleRemoveLap = async (analysisID, lapID) => {
+    try {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/lap/${analysisID}/${lapID}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to remove lap from analysis");
+      }
+
+      onLapRemoved && onLapRemoved(lapID);
+    } catch (error) {
+      console.error("error removing lap:", error);
+    }
+  };
+
   return (
     <>
       <div className="overflow-x-auto">

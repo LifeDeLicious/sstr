@@ -81,6 +81,10 @@ function RouteComponent() {
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
 
+  const handleLapRemoved = () => {
+    queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
+  };
+
   const handlePasteLap = async (analysisID) => {
     try {
       const lapID = await navigator.clipboard.readText();
@@ -155,7 +159,11 @@ function RouteComponent() {
           <h2 className="text-2xl mt-3 mb-2.5">Laps</h2>
           {/* <AnalysisEvent /> */}
           {analyticsData.laps && (
-            <AnalysisLapsTable analyticsLaps={analyticsData.laps} />
+            <AnalysisLapsTable
+              analyticsLaps={analyticsData.laps}
+              analyticsID={analyticsId}
+              onLapRemoved={handleLapRemoved}
+            />
           )}
           {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
           {/* <Accordion /> */}
