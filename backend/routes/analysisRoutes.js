@@ -19,6 +19,8 @@ router.get(
 
 router.post("/lap", requireAuth, analysisController.addAnalysisLap);
 
+router.post("/pastelap", requireAuth, analysisController.pasteAnalysisLap);
+
 router.delete(
   "/lap/:analysisID/:lapID",
   requireAuth,

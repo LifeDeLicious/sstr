@@ -92,7 +92,7 @@ function RouteComponent() {
       //input.value = text;
 
       const response = await fetch(
-        `https://api.sstr.reinis.space/analysis/lap`,
+        `https://api.sstr.reinis.space/analysis/pastelap`,
         {
           method: "POST",
           credentials: "include",

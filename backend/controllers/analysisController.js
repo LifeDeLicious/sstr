@@ -268,23 +268,49 @@ const addAnalysisLap = async (req, res) => {
       `addanalysislap called, analysisid:${analysisID}, lapid:${lapID}`
     );
 
-    const addedAnalysisLap = await db.insert(AnalysisLaps).values({
+    const lapToAdd = await db
+      .select(Laps)
+      .values({
+        lapID: Laps.LapID,
+        isPublic: Sessions.IsSessionPublic,
+      })
+      .from(Laps)
+      .innerJoin(Sessions, eq(Laps.LapID, Sessions.LapID));
+    const addAnalysisLap = await db.insert(AnalysisLaps).values({
       AnalysisID: analysisID,
       LapID: lapID,
     });
 
     console.log(`analysis id:${analysisID} lap id:${lapID} added`);
-    //const analysisConfig = await db
-    // .select({
-    //   carID: Analysis.CarID,
-    //   trackID: Analysis.TrackID,
-    // })
-    // .from(Analysis)
-    // .where(eq(Analysis.AnalysisID, analysisID));
-
-    //const addLapList = await db.select({});
   } catch (error) {
     console.log("getaddlaplist error:", error);
+  }
+};
+
+const pasteAnalysisLap = async (req, res) => {
+  try {
+    const { analysisID, lapID, userID } = req.body;
+
+    console.log(
+      `pastealysislap called, analysisid:${analysisID}, lapid:${lapID}`
+    );
+
+    const lapToAdd = await db
+      .select(Laps)
+      .values({
+        lapID: Laps.LapID,
+        isPublic: Sessions.IsSessionPublic,
+      })
+      .from(Laps)
+      .innerJoin(Sessions, eq(Laps.LapID, Sessions.LapID));
+
+    console.log(
+      `is pasteanalysispublic lapid:${lapID}, public:${lapToAdd[0].isPublic}`
+    );
+
+    //if ()
+  } catch (error) {
+    console.log("error pastinganalysislap, error:", error);
   }
 };
 
@@ -320,6 +346,7 @@ const analysisController = {
   getGraphData,
   getUsersBestLaps,
   addAnalysisLap,
+  pasteAnalysisLap,
   removeAnalysisLap,
 };
 
