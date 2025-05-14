@@ -131,7 +131,9 @@ function RouteComponent() {
           {/* <Accordion /> */}
           {/* <Outlet /> */}
           <br></br>
-          <button className="btn btn-info">Add lap</button>
+          <button className="btn btn-info" onClick={openModal}>
+            Add lap
+          </button>
           <button className="btn btn-accent">Paste lap ID</button>
           <br></br>
           <Link to={`/analytics/${analyticsId}/graphs`}>
