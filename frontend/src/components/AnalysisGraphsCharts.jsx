@@ -218,7 +218,7 @@ export default function AnalysisGraphsCharts({
           <LineChart
             width={500}
             height={heightValue}
-            data={combined}
+            //data={combined}
             syncId="anyId"
             margin={{
               top: 10,
