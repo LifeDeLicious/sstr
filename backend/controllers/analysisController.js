@@ -232,8 +232,8 @@ const getUsersBestLaps = async (req, res) => {
       .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
       .where(
         and(
-          eq(Sessions.CarID, parseInt(carID)),
-          eq(Sessions.TrackID, parseInt(trackID)),
+          eq(Sessions.CarID, carID), //parseInt(carID)
+          eq(Sessions.TrackID, trackID), //parseInt(trackID)
           eq(Sessions.IsSessionPublic, true)
         )
       )
