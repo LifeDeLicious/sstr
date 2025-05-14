@@ -301,7 +301,7 @@ const pasteAnalysisLap = async (req, res) => {
         isPublic: Sessions.IsSessionPublic,
       })
       .from(Laps)
-      .innerJoin(Sessions, eq(Laps.LapID, Sessions.LapID))
+      .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
       .where(eq(Laps.LapID, lapID));
 
     console.log(
