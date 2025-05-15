@@ -49,9 +49,9 @@ const getAnalysisData = async (req, res) => {
     //!check vai analysis ispublic un vai anaysis ir useranalysis listaa ar konkreto usera id
 
     const analysisID = req.params.analysisID;
-    const { userID } = req.body;
-    const userId = req.user.userID || req.user.userId;
-    const { UserID } = req.body;
+    const userID = req.user.UserID;
+    //const userId = req.user.userID || req.user.userId;
+    //const { UserID } = req.body;
     console.log(
       `getanalysisdata userID:${userID}, userId:${userId}, UserID:${UserID}`
     );
