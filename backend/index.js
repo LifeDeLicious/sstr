@@ -40,7 +40,7 @@ app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Origin", "https://sstr.reinis.space"); //"https://sstr.reinis.space"
   res.header(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
   );
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
