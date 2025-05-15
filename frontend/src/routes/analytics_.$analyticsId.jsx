@@ -183,7 +183,6 @@ function RouteComponent() {
             <div className="join col-span-1">
               <button className="btn h-8 join-item bg-slate-400">
                 {analyticsData.isPublic ? "Public" : "Private"}
-                {/*state ispublic? */}
               </button>
               <details className="dropdown join-item dropdown-end">
                 <summary className="btn bg-slate-400 h-8">v</summary>
@@ -191,7 +190,6 @@ function RouteComponent() {
                   <li>
                     <a onClick={() => handleChangeAccess()}>
                       {analyticsData.isPublic ? "Private" : "Public"}
-                      {/*state opposite of ispublic */}
                     </a>
                   </li>
                 </ul>
