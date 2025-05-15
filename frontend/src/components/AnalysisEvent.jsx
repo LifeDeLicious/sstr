@@ -36,9 +36,9 @@ export default function SessionsCollapse({ analyticsList }) {
                 Total time on track: {53}
               </p> */}
                 <p className="mt-7">
-                  {analyticsList.creationDate
+                  {analysisEvent.creationDate
                     ? formatDistanceToNow(
-                        new Date(analyticsList.creationDate),
+                        new Date(analysisEvent.creationDate),
                         {
                           addSuffix: true,
                         }
