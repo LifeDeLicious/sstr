@@ -89,8 +89,6 @@ function RouteComponent() {
     try {
       const lapID = await navigator.clipboard.readText();
 
-      //input.value = text;
-
       const response = await fetch(
         `https://api.sstr.reinis.space/analysis/pastelap`,
         {
@@ -116,6 +114,29 @@ function RouteComponent() {
     }
   };
 
+  const handleChangeAccess = async (isPublic) => {
+    try {
+      const analysisID = analyticsId;
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/pastelap`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ analysisID, isPublic }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to change analysis accessibility");
+      }
+    } catch (error) {
+      console.error("Error changing analysis accessibility:", error);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -126,15 +147,17 @@ function RouteComponent() {
             </h1>
             <div className="join col-span-1">
               <button className="btn h-8 join-item bg-slate-400">
-                {"Private"}
+                {analyticsData.isPublic ? "Public" : "Private"}
                 {/*state ispublic? */}
               </button>
               <details className="dropdown join-item dropdown-end">
                 <summary className="btn bg-slate-400 h-8">v</summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-30 h-10 p-2 shadow-sm">
                   <li>
-                    <a>
-                      {"Public"}
+                    <a
+                      onClick={() => handleChangeAccess(analyticsData.isPublic)}
+                    >
+                      {analyticsData.isPublic ? "Private" : "Public"}
                       {/*state opposite of ispublic */}
                     </a>
                   </li>

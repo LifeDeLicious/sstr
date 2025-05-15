@@ -27,4 +27,6 @@ router.delete(
   analysisController.removeAnalysisLap
 );
 
+router.patch("/", requireAuth, analysisController.changeAnalysisAccessibility);
+
 export default router;

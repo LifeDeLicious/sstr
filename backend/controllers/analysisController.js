@@ -46,6 +46,8 @@ const createAnalysis = async (req, res) => {
 
 const getAnalysisData = async (req, res) => {
   try {
+    //!check vai analysis ispublic un vai anaysis ir useranalysis listaa ar konkreto usera id
+
     const analysisID = req.params.analysisID;
     const { userID } = req.body;
 
@@ -56,6 +58,7 @@ const getAnalysisData = async (req, res) => {
         trackID: Tracks.TrackID,
         trackName: Tracks.TrackAssetName,
         trackLayout: Tracks.TrackLayout,
+        isAnalysisPublic: Analysis.IsAnalysisPublic,
       })
       .from(Analysis)
       .innerJoin(Cars, eq(Analysis.CarID, Cars.CarID))
@@ -313,6 +316,7 @@ const pasteAnalysisLap = async (req, res) => {
     res.status(200).json({ message: "Lap added to analysis" });
   } catch (error) {
     console.log("error pastinganalysislap, error:", error);
+    res.status(500).json({ message: "Failed to add lap to analysis" });
   }
 };
 
@@ -341,6 +345,32 @@ const removeAnalysisLap = async (req, res) => {
   }
 };
 
+const changeAnalysisAccessibility = async (req, res) => {
+  try {
+    const { analysisID, isPublic } = req.body;
+    console.log(
+      `changepublicaccess called , analysisid:${analysisID}, currently public:${isPublic}`
+    );
+
+    const accesChanged = await db
+      .update(Analysis)
+      .set({
+        IsAnalysisPublic: !isPublic,
+      })
+      .where(eq(Analysis.AnalysisID, analysisID));
+
+    console.log(`analysisid:${analysisID}, is now public:${isPublic}`);
+    res
+      .status(200)
+      .json({ message: "Analysis accessibility changed successfully" });
+  } catch (error) {
+    console.Error("Error changing public access:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to change analysis accessibility" });
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
@@ -350,6 +380,7 @@ const analysisController = {
   addAnalysisLap,
   pasteAnalysisLap,
   removeAnalysisLap,
+  changeAnalysisAccessibility,
 };
 
 export default analysisController;
