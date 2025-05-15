@@ -88,7 +88,7 @@ const getAnalysisData = async (req, res) => {
       console.log(
         `userid:${userID} doesn't have access to analysisid${analysisID}`
       );
-      res
+      return res
         .status(401)
         .json({ message: "User doesn't have access to this analysis" });
     }
