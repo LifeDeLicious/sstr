@@ -104,6 +104,7 @@ const getAnalysisData = async (req, res) => {
       trackID: analysisConfig.trackID,
       trackName: analysisConfig.trackName,
       trackLayout: analysisConfig.trackLayout,
+      isPublic: analysisConfig.isAnalysisPublic,
       laps: laps,
     };
 
