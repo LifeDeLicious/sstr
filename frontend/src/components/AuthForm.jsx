@@ -65,7 +65,8 @@ const AuthForm = ({ type }) => {
           //! set auth state to true
           //setAuthState(true);
           console.log("Registration successful");
-          navigate({ to: "/sessions" });
+          //navigate({ to: "/sessions" });
+          window.location.href = "/sessions";
         }
       } catch (error) {
         console.error(`Error during ${type} process:`, error);
