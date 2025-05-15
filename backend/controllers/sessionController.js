@@ -5,6 +5,7 @@ import { UserSessions } from "../db/schema/UserSessions.js";
 import { Laps } from "../db/schema/Laps.js";
 import { Cars } from "../db/schema/Cars.js";
 import { Tracks } from "../db/schema/Tracks.js";
+import { Users } from "../db/schema/Users.js";
 
 const createSession = async (req, res) => {
   try {
@@ -195,6 +196,7 @@ const getSessionData = async (req, res) => {
         trackAssetName: Tracks.TrackAssetName,
         trackID: Tracks.TrackID,
         trackLayout: Tracks.TrackLayout,
+        userUsername: Users.Username,
       })
       .from(Sessions)
       .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
