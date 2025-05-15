@@ -118,6 +118,9 @@ function RouteComponent() {
     try {
       const analysisID = analyticsId;
       const isPublic = analyticsData.isPublic;
+
+      console.log(`is analysis public:${isPublic}`);
+
       const response = await fetch(
         `https://api.sstr.reinis.space/analysis/accessibility`,
         {
