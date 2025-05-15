@@ -201,6 +201,7 @@ const getSessionData = async (req, res) => {
       .from(Sessions)
       .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
       .innerJoin(Tracks, eq(Sessions.TrackID, Tracks.TrackID))
+      .innerJoin(Users, eq(Sessions.UserID, Users.UserID))
       .where(eq(Sessions.SessionID, parseInt(sessionID)))
       .limit(1);
 
