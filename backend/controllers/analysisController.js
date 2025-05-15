@@ -154,6 +154,7 @@ const getAnalysisData = async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     console.log("getanalysisdata error: ", error);
+    return res.status(500).json({ message: "Failed to get analysis data" });
   }
 };
 
