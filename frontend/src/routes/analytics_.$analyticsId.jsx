@@ -36,7 +36,9 @@ function RouteComponent() {
         }
       );
 
-      if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("This analysis is private");
+      } else if (!response.ok) {
         throw new Error("Failed to fetch session data");
       }
 
@@ -57,6 +59,20 @@ function RouteComponent() {
   // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
+  }
+
+  if (analyticsError) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="alert alert-error">
+          <span>
+            {analyticsError.message === "private"
+              ? "This analysis is private. You don't have access to view it."
+              : "Failed to load analysis data"}
+          </span>
+        </div>
+      </div>
+    );
   }
 
   if (!analyticsData) {
