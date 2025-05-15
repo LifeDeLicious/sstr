@@ -76,6 +76,21 @@ export const registerUser = async (req, res) => {
       EventType: "REGISTER",
     });
 
+    const token = generateToken(user);
+
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      //secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 21 * 24 * 60 * 60 * 1000,
+    });
+
+    console.log("login successful");
+    res.status(200).json({
+      UserID: user.UserID,
+      Username: user.Username,
+    });
+
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
