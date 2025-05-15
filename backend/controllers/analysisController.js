@@ -51,6 +51,38 @@ const getAnalysisData = async (req, res) => {
     const analysisID = req.params.analysisID;
     const { userID } = req.body;
 
+    const analysisPublicCheck = await db
+      .select({
+        isPublic: Analysis.IsAnalysisPublic,
+      })
+      .from(Analysis)
+      .where(eq(Analysis.AnalysisID, analysisID))
+      .limit(1);
+
+    const isPublic = analysisPublicCheck[0].isPublic;
+
+    const userAnalysisCheck = await db
+      .select({
+        userAnalysisID: UserAnalysis.ID,
+      })
+      .from(UserAnalysis)
+      .where(
+        and(
+          eq(UserAnalysis.AnalysisID, analysisID),
+          eq(UserAnalysis.UserID, userID)
+        )
+      )
+      .limit(1);
+
+    const userAnalysis = userAnalysisCheck[0];
+
+    if (isPublic && userAnalysis.length === 0) {
+      const addUserAnalysis = await db.insert(UserAnalysis).values({
+        AnalysisID: analysisID,
+        UserID: userID,
+      });
+    }
+
     const analysisConfigQuery = await db
       .select({
         carID: Cars.CarID,
