@@ -41,7 +41,7 @@ function RouteComponent() {
       );
 
       if (response.status === 401) {
-        throw new Error("This analysis is private");
+        throw new Error("private");
       } else if (!response.ok) {
         throw new Error("Failed to fetch session data");
       }
