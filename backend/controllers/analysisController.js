@@ -84,6 +84,13 @@ const getAnalysisData = async (req, res) => {
         AnalysisID: analysisID,
         UserID: userID,
       });
+    } else if (!isPublic && userAnalysisCheck.length === 0) {
+      console.log(
+        `userid:${userID} doesn't have access to analysisid${analysisID}`
+      );
+      res
+        .status(401)
+        .json({ message: "User doesn't have access to this analysis" });
     }
 
     const analysisConfigQuery = await db
