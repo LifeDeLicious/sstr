@@ -197,6 +197,7 @@ const getSessionData = async (req, res) => {
         trackID: Tracks.TrackID,
         trackLayout: Tracks.TrackLayout,
         userUsername: Users.Username,
+        isPublic: Sessions.IsSessionPublic,
       })
       .from(Sessions)
       .innerJoin(Cars, eq(Sessions.CarID, Cars.CarID))
