@@ -260,7 +260,7 @@ const changeSessionAccessibility = async (req, res) => {
       .status(200)
       .json({ message: "Session accessibility changed successfully" });
   } catch (error) {
-    console.Error("Error changing session public access:", error);
+    console.error("Error changing session public access:", error);
     res.status(500).json({ message: "Failed to change session accessibility" });
   }
 };
