@@ -130,7 +130,7 @@ export default function AnalysisGraphsCharts({
     <>
       <div className="grid grid-cols-3" style={{ width: "100%" }}>
         <div className="col-span-1">
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width={500} height={400}>
             <ScatterChart
               margin={{
                 top: 10,
@@ -139,10 +139,14 @@ export default function AnalysisGraphsCharts({
                 left: 10,
               }}
             >
-              <XAxis />
-              <YAxis />
-              <Tooltip />
-              <Scatter />
+              <XAxis dataKey="X" name="X position" type="number" />
+              <YAxis dataKey="Y" name="Y position" type="number" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
+              />
+              <Scatter name="Car position" line />
             </ScatterChart>
           </ResponsiveContainer>
         </div>
