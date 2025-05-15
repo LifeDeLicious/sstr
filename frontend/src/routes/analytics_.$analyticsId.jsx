@@ -49,6 +49,13 @@ function RouteComponent() {
       return response.json();
     },
     enabled: !!user && !!analyticsId,
+    retry: (failureCount, error) => {
+      if (error.message === "private") {
+        return false;
+      }
+      // Retry other errors up to 3 times
+      return failureCount < 3;
+    },
   });
 
   // Show loading state
