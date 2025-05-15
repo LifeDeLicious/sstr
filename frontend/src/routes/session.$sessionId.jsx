@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import formatLapTime from "../utils/timeFromatter.js";
 
 export const Route = createFileRoute("/session/$sessionId")({
@@ -22,6 +22,7 @@ function RouteComponent() {
   const { sessionId } = Route.useParams();
   console.log("router params: ", Route.useParams());
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   //console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
