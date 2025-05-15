@@ -109,7 +109,7 @@ function RouteComponent() {
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
           </LineChart>
         </div> */}
-        <div className="col-span-2">
+        <div className="">
           <AnalysisGraphsCharts
             analyticsGraphData={analyticsGraphData}
             className=""
