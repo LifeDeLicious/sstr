@@ -239,7 +239,7 @@ function RouteComponent() {
             <button className="btn btn-secondary">Review</button>
           </Link>
           <br></br>
-          <button className="btn btn-warning mt-10">Delete analytics</button>
+          <button className="btn btn-warning mt-30">Delete analytics</button>
         </div>
       </div>
       <AddLapModal
@@ -252,10 +252,6 @@ function RouteComponent() {
       />
     </>
   );
-}
-
-function pasteLapID() {
-  console.log("lap id pasted");
 }
 
 <svg
