@@ -117,14 +117,17 @@ function RouteComponent() {
   const handleChangeAccess = async (isPublic) => {
     try {
       const analysisID = analyticsId;
-      const response = await fetch(`https://api.sstr.reinis.space/analysis`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ analysisID, isPublic }),
-      });
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/accessibility`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ analysisID, isPublic }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to change analysis accessibility");
