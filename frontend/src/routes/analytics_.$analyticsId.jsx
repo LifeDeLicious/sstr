@@ -114,9 +114,10 @@ function RouteComponent() {
     }
   };
 
-  const handleChangeAccess = async (isPublic) => {
+  const handleChangeAccess = async () => {
     try {
       const analysisID = analyticsId;
+      const isPublic = analyticsData.isPublic;
       const response = await fetch(
         `https://api.sstr.reinis.space/analysis/accessibility`,
         {
@@ -132,6 +133,10 @@ function RouteComponent() {
       if (!response.ok) {
         throw new Error("Failed to change analysis accessibility");
       }
+
+      queryClient.invalidateQueries({
+        queryKey: ["analyticsData", analyticsId],
+      });
     } catch (error) {
       console.error("Error changing analysis accessibility:", error);
     }
@@ -154,9 +159,7 @@ function RouteComponent() {
                 <summary className="btn bg-slate-400 h-8">v</summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-30 h-10 p-2 shadow-sm">
                   <li>
-                    <a
-                      onClick={() => handleChangeAccess(analyticsData.isPublic)}
-                    >
+                    <a onClick={() => handleChangeAccess()}>
                       {analyticsData.isPublic ? "Private" : "Public"}
                       {/*state opposite of ispublic */}
                     </a>
