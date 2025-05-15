@@ -239,7 +239,7 @@ function RouteComponent() {
             <button className="btn btn-secondary">Review</button>
           </Link>
           <br></br>
-          <button className="btn btn-warning">Delete analytics</button>
+          <button className="btn btn-warning mt-10">Delete analytics</button>
         </div>
       </div>
       <AddLapModal

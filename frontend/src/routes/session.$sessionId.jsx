@@ -91,7 +91,7 @@ function RouteComponent() {
             </div>
           </div>
           {/* <p>Hello "/sessions"!</p> */}
-          <h2>Driver: {sessionData.session.userUsername}</h2>
+          <strong>Driver: {sessionData.session.userUsername}</strong>
           <div className="grid grid-cols-2">
             <p className="text-lg">
               <strong>Track:</strong> {sessionData.session.trackAssetName} (

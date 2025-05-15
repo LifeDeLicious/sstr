@@ -26,16 +26,21 @@ const AuthForm = ({ type }) => {
       return res.json();
     },
 
-    onSuccess: () => {
-      if (type === "login") {
-        refreshAuth();
+    onSuccess: async () => {
+      try {
+        if (type === "login") {
+          await refreshAuth();
 
-        navigate({ to: "/sessions" });
-      } else if (type === "register") {
-        //! set auth state to true
-        //setAuthState(true);
-        console.log("Registration successful");
-        navigate({ to: "/sessions" });
+          navigate({ to: "/sessions" });
+        } else if (type === "register") {
+          await refreshAuth();
+          //! set auth state to true
+          //setAuthState(true);
+          console.log("Registration successful");
+          navigate({ to: "/sessions" });
+        }
+      } catch (error) {
+        console.error(`Error during ${type} process:`, error);
       }
     },
   });
