@@ -52,9 +52,7 @@ const getAnalysisData = async (req, res) => {
     const userID = req.user.UserID;
     //const userId = req.user.userID || req.user.userId;
     //const { UserID } = req.body;
-    console.log(
-      `getanalysisdata userID:${userID}, userId:${userId}, UserID:${UserID}`
-    );
+    console.log(`getanalysisdata userID:${userID}`);
 
     const analysisPublicCheck = await db
       .select({
