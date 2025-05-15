@@ -25,7 +25,11 @@ function RouteComponent() {
 
   //const userName = user.Username;
 
-  const { data: analyticsData, isLoading: analyticsLoading } = useQuery({
+  const {
+    data: analyticsData,
+    isLoading: analyticsLoading,
+    error: analyticsError,
+  } = useQuery({
     queryKey: ["analyticsData", analyticsId],
     queryFn: async () => {
       const response = await fetch(
