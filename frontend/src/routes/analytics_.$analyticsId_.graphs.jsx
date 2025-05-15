@@ -103,7 +103,7 @@ function RouteComponent() {
         </Link>
       </div>
       <div className="divider mt-0 mb-0"></div>
-      <div className="grid grid-cols-3 w-full">
+      <div className="w-full">
         {/* <div className="border col-span-1">
           <LineChart width={500} height={400} data={data}>
             <Line type="monotone" dataKey="uv" stroke="#8884d8" />
