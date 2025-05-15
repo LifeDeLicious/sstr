@@ -1,7 +1,14 @@
 import SessionsCollapseTable from "./SessionsCollapseTable";
 import { Link } from "@tanstack/react-router";
+import { formatDistanceToNow } from "date-fns";
 
 export default function SessionsCollapse({ analyticsList }) {
+  const formattedSinceCreated = analyticsList.creationDate
+    ? formatDistanceToNow(new Date(analyticsList.creationDate), {
+        addSuffix: true,
+      })
+    : "N/A";
+
   return (
     <>
       {analyticsList.map((analysisEvent, index) => (
@@ -28,7 +35,16 @@ export default function SessionsCollapse({ analyticsList }) {
               <p className="absolute top-10 right-38">
                 Total time on track: {53}
               </p> */}
-                <p className="mt-7">{"x time ago"}</p>
+                <p className="mt-7">
+                  {analyticsList.creationDate
+                    ? formatDistanceToNow(
+                        new Date(analyticsList.creationDate),
+                        {
+                          addSuffix: true,
+                        }
+                      )
+                    : "N/A"}
+                </p>
               </div>
               <div className="col-span-1">
                 <Link to={`/analytics/${analysisEvent.analysisID}`}>
