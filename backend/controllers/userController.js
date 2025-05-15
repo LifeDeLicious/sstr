@@ -76,6 +76,21 @@ export const registerUser = async (req, res) => {
       EventType: "REGISTER",
     });
 
+    //?added
+
+    const users = await db
+      .select()
+      .from(Users)
+      .where(eq(Users.Email, email))
+      .limit(1);
+
+    const user = users[0];
+
+    await db.insert(UserLogs).values({
+      UserID: user.UserID,
+      EventType: "LOGIN",
+    });
+
     const token = generateToken(user);
 
     res.cookie("auth_token", token, {
