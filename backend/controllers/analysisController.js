@@ -74,9 +74,9 @@ const getAnalysisData = async (req, res) => {
       )
       .limit(1);
 
-    const userAnalysis = userAnalysisCheck[0];
+    //const userAnalysis = userAnalysisCheck[0];
 
-    if (isPublic && userAnalysis.length === 0) {
+    if (isPublic && userAnalysisCheck.length === 0) {
       const addUserAnalysis = await db.insert(UserAnalysis).values({
         AnalysisID: analysisID,
         UserID: userID,
