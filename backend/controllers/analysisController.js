@@ -446,12 +446,12 @@ const changeAnalysisAccessibility = async (req, res) => {
       })
       .where(eq(Analysis.AnalysisID, analysisID));
 
-    console.log(`analysisid:${analysisID}, is now public:${isPublic}`);
+    console.log(`analysisid:${analysisID}, is now public:${!isPublic}`);
     res
       .status(200)
       .json({ message: "Analysis accessibility changed successfully" });
   } catch (error) {
-    console.Error("Error changing public access:", error);
+    console.Error("Error changing analysis public access:", error);
     res
       .status(500)
       .json({ message: "Failed to change analysis accessibility" });

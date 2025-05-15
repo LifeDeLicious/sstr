@@ -240,38 +240,30 @@ const getSessionData = async (req, res) => {
   }
 };
 
-//test route, disable later
-// const postCar = async (req, res) => {
-//   try {
-//     const { carAssetName } = req.body;
-//     //insert car
+const changeSessionAccessibility = async (req, res) => {
+  //! kopets no analysis
+  try {
+    const { sessionID, isPublic } = req.body;
+    console.log(
+      `changesessionaccessibility called , sessionid:${sessionID}, currently public:${isPublic}`
+    );
 
-//     //let carID = carGetOrInsert(carAssetName);
+    const accesChanged = await db
+      .update(Sessions)
+      .set({
+        IsSessionPublic: !isPublic,
+      })
+      .where(eq(Sessions.SessionID, sessionID));
 
-//     //insert track
-
-//     //let trackID = trackGetOrInsert(trackAssetName);
-
-//     //insert session
-//     //insert usersession
-//     //pectam jau var postot aplus
-
-//     const carResult = await db
-//       .insert(Cars)
-//       .values({
-//         CarAssetName: carAssetName,
-//       })
-//       .$returningId();
-//     const [carIdResult] = await db.select({ insertId: sql`LAST_INSERT_ID()` });
-//     const carID = carResult[0].CarID;
-//     console.log("inserted carid: ", carID);
-//     res.status(200).json({ message: `car ${carID} inserted` });
-
-//     // const session = await db.insert(Sessions).values({});
-//   } catch (error) {
-//     console.log("error :", error);
-//   }
-// };
+    console.log(`sessionid:${sessionID}, is now public:${!isPublic}`);
+    res
+      .status(200)
+      .json({ message: "Session accessibility changed successfully" });
+  } catch (error) {
+    console.Error("Error changing session public access:", error);
+    res.status(500).json({ message: "Failed to change session accessibility" });
+  }
+};
 
 async function carGetOrInsert(carName) {
   const existing = await db
@@ -345,6 +337,7 @@ const sessionController = {
   createSession,
   getSessionSummaries,
   getSessionData,
+  changeSessionAccessibility,
   //postCar,
 };
 

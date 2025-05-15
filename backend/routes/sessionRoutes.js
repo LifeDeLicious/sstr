@@ -22,4 +22,10 @@ router.get("/data/:sessionID", requireAuth, sessionController.getSessionData);
 
 router.get("/list");
 
+router.post(
+  "/accessibility",
+  requireAuth,
+  sessionController.changeSessionAccessibility
+);
+
 export default router;

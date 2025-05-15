@@ -58,10 +58,37 @@ function RouteComponent() {
   }
 
   console.log("userid", user.UserID);
-  //const params = useParams();
-  //console.log(params);
 
-  //const { sessionId } = params || {};
+  const handleChangeAccess = async () => {
+    try {
+      const sessionID = sessionId;
+      const isPublic = sessionData.session.isPublic;
+
+      console.log(`is analysis public:${isPublic}`);
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/session/accessibility`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sessionID, isPublic }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to change session accessibility");
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ["sessionData", sessionId],
+      });
+    } catch (error) {
+      console.error("Error changing session accessibility:", error);
+    }
+  };
 
   return (
     <>
@@ -75,23 +102,20 @@ function RouteComponent() {
             </h1>
             <div className="join">
               <button className="btn h-8 join-item bg-slate-400">
-                {"Private"}
-                {/*state ispublic? */}
+                {sessionData.session.isPublic ? "Public" : "Private"}
               </button>
               <details className="dropdown join-item dropdown-end">
                 <summary className="btn bg-slate-400 h-8">v</summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-30 h-10 p-2 shadow-sm">
                   <li>
-                    <a>
-                      {"Public"}
-                      {/*state opposite of ispublic */}
+                    <a onClick={() => handleChangeAccess()}>
+                      {sessionData.session.isPublic ? "Private" : "Public"}
                     </a>
                   </li>
                 </ul>
               </details>
             </div>
           </div>
-          {/* <p>Hello "/sessions"!</p> */}
           <strong>Driver: {sessionData.session.userUsername}</strong>
           <div className="grid grid-cols-2">
             <p className="text-lg">
