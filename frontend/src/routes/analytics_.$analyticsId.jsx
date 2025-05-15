@@ -196,7 +196,6 @@ function RouteComponent() {
                   </li>
                 </ul>
               </details>
-              dropdowns neaizveras pats
             </div>
           </div>
           <div className="">

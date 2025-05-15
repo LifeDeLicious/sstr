@@ -32,63 +32,52 @@ function RouteComponent() {
   // const [telemetryData, setTelemetryData] = useState(null);
   // const [isLoadingTelemetry, setIsLoadingTelemetry] = useState(false);
 
-  const { data: analyticsGraphData, isLoading: analyticsGraphLoading } =
-    useQuery({
-      queryKey: ["analyticsGraphData", analyticsId],
-      queryFn: async () => {
-        const res = await fetch(
-          `https://api.sstr.reinis.space/analysis/graphs/${analyticsId}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (!res.ok) {
-          throw new Error("Failed to get analytics graph laps data");
+  const {
+    data: analyticsGraphData,
+    isLoading: analyticsGraphLoading,
+    error: graphError,
+  } = useQuery({
+    queryKey: ["analyticsGraphData", analyticsId],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://api.sstr.reinis.space/analysis/graphs/${analyticsId}`,
+        {
+          method: "GET",
+          credentials: "include",
         }
+      );
 
-        return res.json();
-      },
-    });
+      if (res.status === 401) {
+        throw new Error("private");
+      } else if (!res.ok) {
+        throw new Error("Failed to get analytics graph laps data");
+      }
 
-  // useEffect(() => {
-  //   async function loadTelemetryData() {
-  //     if (!analyticsGraphData?.laps?.length) return;
+      return res.json();
+    },
+    enabled: !!user && !!analyticsId,
+    retry: (failureCount, error) => {
+      if (error.message === "private") {
+        return false;
+      }
+      return failureCount < 3;
+    },
+  });
 
-  //     try {
-  //       setIsLoadingTelemetry(true);
+  if (graphError) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="alert alert-error">
+          <span>
+            {graphError.message === "private"
+              ? "This analysis is private. You don't have access to view it."
+              : "Failed to load graph data"}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
-  //       const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
-
-  //       const response = await fetch(
-  //         "https://api.sstr.reinis.space/laps/batch",
-  //         {
-  //           method: "GET",
-  //           credentials: "include",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({ fileKeys }),
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch telemetry data");
-  //       }
-
-  //       const result = await response.json();
-  //       setTelemetryData(result.telemetry);
-  //     } catch (error) {
-  //       console.error("Error fetching telemetry data:", error);
-  //     } finally {
-  //       setIsLoadingTelemetry(false);
-  //     }
-  //   }
-
-  //   loadTelemetryData();
-  // }, [analyticsGraphData]);
-
-  // Show loading state
   if (loading || analyticsGraphLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -97,7 +86,6 @@ function RouteComponent() {
     );
   }
 
-  // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
   }

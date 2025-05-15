@@ -192,9 +192,52 @@ const getAnalysisList = async (req, res) => {
 const getGraphData = async (req, res) => {
   try {
     const { userId } = req.body;
+    const userID = req.user.UserID;
     const analysisID = req.params.analysisID;
-    console.log("getgraphdata, analysisid: ", analysisID);
 
+    //? adding check
+
+    const analysisPublicCheck = await db
+      .select({
+        isPublic: Analysis.IsAnalysisPublic,
+      })
+      .from(Analysis)
+      .where(eq(Analysis.AnalysisID, analysisID))
+      .limit(1);
+
+    const isPublic = analysisPublicCheck[0].isPublic;
+
+    const userAnalysisCheck = await db
+      .select({
+        userAnalysisID: UserAnalysis.ID,
+      })
+      .from(UserAnalysis)
+      .where(
+        and(
+          eq(UserAnalysis.AnalysisID, analysisID),
+          eq(UserAnalysis.UserID, userID)
+        )
+      )
+      .limit(1);
+
+    //const userAnalysis = userAnalysisCheck[0];
+
+    if (isPublic && userAnalysisCheck.length === 0) {
+      const addUserAnalysis = await db.insert(UserAnalysis).values({
+        AnalysisID: analysisID,
+        UserID: userID,
+      });
+    } else if (!isPublic && userAnalysisCheck.length === 0) {
+      console.log(
+        `userid:${userID} doesn't have access to analysisid${analysisID}`
+      );
+      return res
+        .status(401)
+        .json({ message: "User doesn't have access to this analysis" });
+    }
+
+    //!before
+    console.log("getgraphdata, analysisid: ", analysisID);
     const analysisLapsQuery = await db
       .select({
         lapID: Laps.LapID,
@@ -218,7 +261,7 @@ const getGraphData = async (req, res) => {
     res.status(200).json({ laps });
   } catch (error) {
     console.log("getgraphdata error: ", error);
-    res.status(500).json({ message: "Failed to getgraphdata" });
+    return res.status(500).json({ message: "Failed to getgraphdata" });
   }
 };
 
