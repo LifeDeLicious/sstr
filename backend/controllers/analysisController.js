@@ -51,7 +51,7 @@ const getAnalysisData = async (req, res) => {
     const analysisID = req.params.analysisID;
     const { userID } = req.body;
     const userId = req.user.userID || req.user.userId;
-    const UserID = req.user.UserID;
+    const { UserID } = req.body;
     console.log(
       `getanalysisdata userID:${userID}, userId:${userId}, UserID:${UserID}`
     );
