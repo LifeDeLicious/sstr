@@ -1,5 +1,6 @@
 import { React, useEffect, useMemo, useState } from "react";
 import {
+  ScatterChart,
   LineChart,
   Line,
   XAxis,
@@ -11,6 +12,7 @@ import {
   AreaChart,
   Area,
   ResponsiveContainer,
+  Scatter,
 } from "recharts";
 
 const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
@@ -126,193 +128,212 @@ export default function AnalysisGraphsCharts({
 
   return (
     <>
-      <div style={{ width: "100%" }}>
-        <h4>Speed</h4>
-        <ResponsiveContainer width="100%" height={heightValue}>
-          <LineChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#222c42",
+      <div className="grid grid-cols-3" style={{ width: "100%" }}>
+        <div className="col-span-1">
+          <ResponsiveContainer width="100%" height={200}>
+            <ScatterChart
+              margin={{
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10,
               }}
-            />
-            {telemetryDataArray.map((_, index) => (
-              <Line
-                isAnimationActive={false}
-                key={`speed-line-${index}`}
-                //data={combined}
-                type="monotone"
-                dataKey={`Speed${index + 1}`}
-                stroke={dataColors[index % dataColors.length]}
-                fill={dataColors[index % dataColors.length]}
-                dot={false}
-                connectNulls={true}
+            >
+              <XAxis />
+              <YAxis />
+              <Tooltip />
+              <Scatter />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="col-span-2">
+          <h4>Speed</h4>
+          <ResponsiveContainer width="100%" height={heightValue}>
+            <LineChart
+              width={500}
+              height={heightValue}
+              data={combined}
+              syncId="anyId"
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="TrackPosition" />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-        <h4>Throttle</h4>
+              {telemetryDataArray.map((_, index) => (
+                <Line
+                  isAnimationActive={false}
+                  key={`speed-line-${index}`}
+                  //data={combined}
+                  type="monotone"
+                  dataKey={`Speed${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+          <h4>Throttle</h4>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
-          <LineChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#222c42",
+          <ResponsiveContainer width="100%" height={heightValue}>
+            <LineChart
+              width={500}
+              height={heightValue}
+              data={combined}
+              syncId="anyId"
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 0,
               }}
-            />
-            {telemetryDataArray.map((_, index) => (
-              <Line
-                isAnimationActive={false}
-                key={`throttle-line-${index}`}
-                type="monotone"
-                dataKey={`Throttle${index + 1}`}
-                stroke={dataColors[index % dataColors.length]}
-                fill={dataColors[index % dataColors.length]}
-                dot={false}
-                connectNulls={true}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="TrackPosition" />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-        <h4>Brake</h4>
+              {telemetryDataArray.map((_, index) => (
+                <Line
+                  isAnimationActive={false}
+                  key={`throttle-line-${index}`}
+                  type="monotone"
+                  dataKey={`Throttle${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+          <h4>Brake</h4>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
-          <LineChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#222c42",
+          <ResponsiveContainer width="100%" height={heightValue}>
+            <LineChart
+              width={500}
+              height={heightValue}
+              data={combined}
+              syncId="anyId"
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 0,
               }}
-            />
-            {telemetryDataArray.map((_, index) => (
-              <Line
-                isAnimationActive={false}
-                key={`brake-line-${index}`}
-                type="monotone"
-                dataKey={`Brake${index + 1}`}
-                stroke={dataColors[index % dataColors.length]}
-                fill={dataColors[index % dataColors.length]}
-                dot={false}
-                connectNulls={true}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="TrackPosition" />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-        <h4>Gear</h4>
+              {telemetryDataArray.map((_, index) => (
+                <Line
+                  isAnimationActive={false}
+                  key={`brake-line-${index}`}
+                  type="monotone"
+                  dataKey={`Brake${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+          <h4>Gear</h4>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
-          <LineChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
-            <YAxis domain={[0, 7]} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#222c42",
+          <ResponsiveContainer width="100%" height={heightValue}>
+            <LineChart
+              width={500}
+              height={heightValue}
+              data={combined}
+              syncId="anyId"
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 0,
               }}
-            />
-            {telemetryDataArray.map((_, index) => (
-              <Line
-                isAnimationActive={false}
-                key={`gear-line-${index}`}
-                type="monotone"
-                dataKey={`Gear${index + 1}`}
-                stroke={dataColors[index % dataColors.length]}
-                fill={dataColors[index % dataColors.length]}
-                dot={false}
-                connectNulls={true}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="TrackPosition" />
+              <YAxis domain={[0, 7]} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-        <h4>Steering angle</h4>
+              {telemetryDataArray.map((_, index) => (
+                <Line
+                  isAnimationActive={false}
+                  key={`gear-line-${index}`}
+                  type="monotone"
+                  dataKey={`Gear${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+          <h4>Steering angle</h4>
 
-        <ResponsiveContainer width="100%" height={heightValue}>
-          <LineChart
-            width={500}
-            height={heightValue}
-            data={combined}
-            syncId="anyId"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 0,
-              bottom: 0,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis dataKey="TrackPosition" />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#222c42",
+          <ResponsiveContainer width="100%" height={heightValue}>
+            <LineChart
+              width={500}
+              height={heightValue}
+              data={combined}
+              syncId="anyId"
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 0,
               }}
-            />
-            {telemetryDataArray.map((_, index) => (
-              <Line
-                isAnimationActive={false}
-                key={`steering-line-${index}`}
-                type="monotone"
-                dataKey={`SteeringAngle${index + 1}`}
-                stroke={dataColors[index % dataColors.length]}
-                fill={dataColors[index % dataColors.length]}
-                dot={false}
-                connectNulls={true}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="TrackPosition" />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#222c42",
+                }}
               />
-            ))}
-            <Brush />
-          </LineChart>
-        </ResponsiveContainer>
+              {telemetryDataArray.map((_, index) => (
+                <Line
+                  isAnimationActive={false}
+                  key={`steering-line-${index}`}
+                  type="monotone"
+                  dataKey={`SteeringAngle${index + 1}`}
+                  stroke={dataColors[index % dataColors.length]}
+                  fill={dataColors[index % dataColors.length]}
+                  dot={false}
+                  connectNulls={true}
+                />
+              ))}
+              <Brush />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </>
   );
