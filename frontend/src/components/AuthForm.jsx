@@ -26,22 +26,49 @@ const AuthForm = ({ type }) => {
       return res.json();
     },
 
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       try {
-        if (type === "login") {
-          await refreshAuth();
+        console.log(`${type} successful, server response:`, data);
 
-          navigate({ to: "/sessions" });
-        } else if (type === "register") {
-          await refreshAuth();
-          //! set auth state to true
-          //setAuthState(true);
-          console.log("Registration successful");
-          navigate({ to: "/sessions" });
+        // Allow a small delay before refreshing auth state
+        console.log("Waiting briefly before refreshing auth state...");
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        // Try to refresh auth state
+        console.log("Refreshing auth state...");
+        const authResult = await refreshAuth();
+        console.log("Auth refresh result:", authResult);
+
+        if (!authResult) {
+          console.error("Auth refresh returned null/undefined");
+          // You might want to show an error message to the user here
+          return;
         }
+
+        // If we got here, auth refresh worked
+        console.log(`${type} complete, navigating to sessions page`);
+        navigate({ to: "/sessions" });
       } catch (error) {
         console.error(`Error during ${type} process:`, error);
+        // You might want to show an error message to the user here
       }
+
+      //!old onsucces
+      // try {
+      //   if (type === "login") {
+      //     await refreshAuth();
+
+      //     navigate({ to: "/sessions" });
+      //   } else if (type === "register") {
+      //     await refreshAuth();
+      //     //! set auth state to true
+      //     //setAuthState(true);
+      //     console.log("Registration successful");
+      //     navigate({ to: "/sessions" });
+      //   }
+      // } catch (error) {
+      //   console.error(`Error during ${type} process:`, error);
+      // }
     },
   });
 
