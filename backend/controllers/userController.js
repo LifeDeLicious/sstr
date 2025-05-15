@@ -101,12 +101,12 @@ export const registerUser = async (req, res) => {
     });
 
     console.log("login successful");
-    res.status(200).json({
+    res.status(201).json({
       UserID: user.UserID,
       Username: user.Username,
     });
 
-    return res.status(201).json({ message: "User registered successfully" });
+    //return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
     return res.status(500).json({ message: "Error registering user" });
