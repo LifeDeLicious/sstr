@@ -64,6 +64,7 @@ export default function AnalysisGraphsCharts({
 
   const CustomTooltip = ({ active, payload, label, dataKey }) => {
     // Update active point when tooltip is active
+    //
     useEffect(() => {
       if (active && payload && payload.length) {
         const trackPos = payload[0].payload.TrackPosition;
