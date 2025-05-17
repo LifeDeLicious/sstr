@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
   Scatter,
 } from "recharts";
+import formatLapTime from "../utils/timeFromatter";
 
 const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
 const heightValue = 127;
@@ -55,6 +56,7 @@ export default function AnalysisGraphsCharts({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [combined, setCombined] = useState([]);
+  const [lapColors, setLapColors] = useState([]);
 
   useEffect(() => {
     if (
@@ -64,6 +66,11 @@ export default function AnalysisGraphsCharts({
     ) {
       return;
     }
+
+    const colors = analyticsGraphData.laps.map(
+      (lap) => lap.lapColor || "#CCCCCC"
+    );
+    setLapColors(colors);
 
     async function fetchTelemetryData() {
       try {
@@ -149,7 +156,18 @@ export default function AnalysisGraphsCharts({
               <Scatter name="Car position" line />
             </ScatterChart>
           </ResponsiveContainer>
-          <ul>
+          <ul className="mt-2">
+            {analyticsGraphData.laps.map((lap, index) => (
+              <li key={lap.lapID} className="flex items-center mb-1">
+                <div
+                  className="w-4 h-4 mr-2"
+                  style={{ backgroundColor: lap.lapColor || "#CCCCCC" }}
+                />
+                <span>
+                  {lap.userUsername}: {formatLapTime(lap.lapTime)}
+                </span>
+              </li>
+            ))}
             <li>{"username: laptime, in color"}</li>
           </ul>
         </div>
@@ -183,8 +201,12 @@ export default function AnalysisGraphsCharts({
                   //data={combined}
                   type="monotone"
                   dataKey={`Speed${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
+                  stroke={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
                   dot={false}
                   connectNulls={true}
                 />
@@ -220,8 +242,12 @@ export default function AnalysisGraphsCharts({
                   key={`throttle-line-${index}`}
                   type="monotone"
                   dataKey={`Throttle${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
+                  stroke={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
                   dot={false}
                   connectNulls={true}
                 />
@@ -257,8 +283,12 @@ export default function AnalysisGraphsCharts({
                   key={`brake-line-${index}`}
                   type="monotone"
                   dataKey={`Brake${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
+                  stroke={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
                   dot={false}
                   connectNulls={true}
                 />
@@ -294,8 +324,12 @@ export default function AnalysisGraphsCharts({
                   key={`gear-line-${index}`}
                   type="monotone"
                   dataKey={`Gear${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
+                  stroke={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
                   dot={false}
                   connectNulls={true}
                 />
@@ -331,8 +365,12 @@ export default function AnalysisGraphsCharts({
                   key={`steering-line-${index}`}
                   type="monotone"
                   dataKey={`SteeringAngle${index + 1}`}
-                  stroke={dataColors[index % dataColors.length]}
-                  fill={dataColors[index % dataColors.length]}
+                  stroke={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
                   dot={false}
                   connectNulls={true}
                 />
