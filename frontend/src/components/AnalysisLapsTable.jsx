@@ -67,10 +67,11 @@ export default function AnalysisLapsTable({
         throw new Error("Failed to update lap color");
       }
 
-      setAnalyticsLaps = (prevLaps) =>
+      setAnalyticsLaps((prevLaps) =>
         prevLaps.map((lap) =>
           lap.lapID === lapID ? { ...lap, color: hexColor } : lap
-        );
+        )
+      );
 
       if (onLapColorChanged) {
         onLapColorChanged(lapID, hexColor);

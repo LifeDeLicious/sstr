@@ -116,7 +116,7 @@ function RouteComponent() {
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
 
-  const handleLapRemoved = () => {
+  const handleLapRemoved = (lapID) => {
     setLaps((prevLaps) => prevLaps.filter((lap) => lap.lapID !== lapID));
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
@@ -141,11 +141,12 @@ function RouteComponent() {
         throw new Error("Failed to add lap to analysis");
       }
 
-      onLapAdded && onLapAdded(lapID);
-      handleLapAdded && handleLapAdded(lapID);
-      onClose();
+      handleLapAdded(lapID);
+      //onLapAdded && onLapAdded(lapID);
+      //handleLapAdded && handleLapAdded(lapID);
+      //onClose();
     } catch (error) {
-      setError(error.message);
+      //setError(error.message);
       console.error("Error adding lap:", error);
     }
   };
