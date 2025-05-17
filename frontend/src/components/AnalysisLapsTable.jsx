@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import formatLapTime from "../utils/timeFromatter.js";
 import { useState } from "react";
 import { BlockPicker } from "react-color";
+import { useEffect } from "react";
 
 const sessionsDropdown = [
   {
@@ -10,12 +11,17 @@ const sessionsDropdown = [
 ];
 
 export default function AnalysisLapsTable({
-  analyticsLaps,
+  analyticsLaps: initialAnalyticsLaps,
   analyticsID,
   onLapRemoved,
   onLapColorChanged,
 }) {
   const [openColorPickerId, setOpenColorPickerId] = useState(null);
+  const [analyticsLaps, setAnalyticsLaps] = useState(initialAnalyticsLaps);
+
+  useEffect(() => {
+    setAnalyticsLaps(initialAnalyticsLaps);
+  }, [initialAnalyticsLaps]);
 
   const handleRemoveLap = async (analysisID, lapID) => {
     try {
