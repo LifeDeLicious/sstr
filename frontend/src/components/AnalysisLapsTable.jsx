@@ -111,7 +111,7 @@ export default function AnalysisLapsTable({
                 <th>
                   <div
                     className="w-6 h-6 cursor-pointer border border-gray-500"
-                    style={{ backgroundColor: lap.color || "#CCCCCC" }}
+                    style={{ backgroundColor: lap.lapColor || "#CCCCCC" }}
                     onClick={() => toggleColorPicker(lap.lapID)}
                   ></div>
                   {openColorPickerId === lap.lapID && (
