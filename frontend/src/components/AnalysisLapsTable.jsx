@@ -13,6 +13,7 @@ export default function AnalysisLapsTable({
   analyticsLaps,
   analyticsID,
   onLapRemoved,
+  onLapColorChanged,
 }) {
   const [openColorPickerId, setOpenColorPickerId] = useState(null);
 
@@ -66,6 +67,10 @@ export default function AnalysisLapsTable({
         }
         return lap;
       });
+
+      if (onLapColorChanged) {
+        onLapColorChanged(lapID, hexColor);
+      }
 
       setOpenColorPickerId(null);
     } catch (error) {

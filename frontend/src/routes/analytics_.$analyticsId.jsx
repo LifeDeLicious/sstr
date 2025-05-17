@@ -217,6 +217,13 @@ function RouteComponent() {
               analyticsLaps={analyticsData.laps}
               analyticsID={analyticsId}
               onLapRemoved={handleLapRemoved}
+              onLapColorChanged={(lapID, newColor) => {
+                setLaps((prevLaps) =>
+                  prevLaps.map((lap) =>
+                    lap.lapID === lapID ? { ...lap, color: newColor } : lap
+                  )
+                );
+              }}
             />
           )}
           {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
