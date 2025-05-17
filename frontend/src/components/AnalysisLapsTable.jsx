@@ -20,7 +20,9 @@ export default function AnalysisLapsTable({
   const [analyticsLaps, setAnalyticsLaps] = useState(initialAnalyticsLaps);
 
   useEffect(() => {
-    setAnalyticsLaps(initialAnalyticsLaps);
+    if (initialAnalyticsLaps) {
+      setAnalyticsLaps(initialAnalyticsLaps);
+    }
   }, [initialAnalyticsLaps]);
 
   const handleRemoveLap = async (analysisID, lapID) => {

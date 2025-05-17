@@ -21,17 +21,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //console.log("analyticsid", analyticsId);
-
   const [laps, setLaps] = useState([]);
-
-  useEffect(() => {
-    if (analyticsData && analyticsData.laps) {
-      setLaps(analyticsData.laps);
-    }
-  }, [analyticsData]);
-
-  //const userName = user.Username;
 
   const {
     data: analyticsData,
@@ -66,6 +56,12 @@ function RouteComponent() {
     },
   });
 
+  useEffect(() => {
+    if (analyticsData && analyticsData.laps) {
+      setLaps(analyticsData.laps);
+    }
+  }, [analyticsData]);
+
   // Show loading state
   if (loading || analyticsLoading) {
     return (
@@ -78,6 +74,7 @@ function RouteComponent() {
   // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
+    return null;
   }
 
   if (analyticsError) {
