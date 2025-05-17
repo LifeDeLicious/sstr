@@ -36,7 +36,7 @@ export default function AnalysisLapsTable({
     }
   };
 
-  const handleColorChange = async (openColorPickerId, lapID) => {
+  const handleColorChange = async (color, lapID) => {
     try {
       const hexColor = color.hex;
 
