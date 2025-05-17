@@ -42,11 +42,48 @@ function mergeTelemetryData(...dataSources) {
       entry[`Brake${index + 1}`] = closest?.Brake ?? null;
       entry[`SteeringAngle${index + 1}`] = closest?.SteeringAngle ?? null;
       entry[`Gear${index + 1}`] = closest?.Gear ?? null;
+
+      entry[`PositionX${index + 1}`] = closest?.PositionX ?? null;
+      entry[`PositionY${index + 1}`] = closest?.PositionY ?? null;
     });
 
     return entry;
   });
 }
+
+const CustomTooltip = ({ active, payload, label, dataKey }) => {
+  // Update active point when tooltip is active
+  useEffect(() => {
+    if (active && payload && payload.length) {
+      const trackPos = payload[0].payload.TrackPosition;
+      setActivePoint(trackPos);
+    } else {
+      setActivePoint(null);
+    }
+  }, [active, payload]);
+
+  if (active && payload && payload.length) {
+    return (
+      <div
+        className="custom-tooltip"
+        style={{
+          backgroundColor: "#222c42",
+          padding: "10px",
+          border: "1px solid #ccc",
+        }}
+      >
+        <p>Track Position: {payload[0].payload.TrackPosition.toFixed(3)}</p>
+        {payload.map((p, i) => (
+          <p key={i} style={{ color: p.color }}>
+            {p.name}: {p.value !== null ? p.value : "N/A"}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export default function AnalysisGraphsCharts({
   analyticsGraphData,
@@ -57,6 +94,17 @@ export default function AnalysisGraphsCharts({
   const [error, setError] = useState(null);
   const [combined, setCombined] = useState([]);
   const [lapColors, setLapColors] = useState([]);
+  const [activePoint, setActivePoint] = useState(null);
+
+  const handleMouseMove = (e) => {
+    if (e && e.activePayload && e.activePayload.length) {
+      setActivePoint(e.activePayload[0].payload.TrackPosition);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setActivePoint(null);
+  };
 
   useEffect(() => {
     if (
@@ -162,14 +210,82 @@ export default function AnalysisGraphsCharts({
                 bottom: 10,
                 left: 10,
               }}
+              syncId="anyId"
             >
-              <XAxis dataKey="X" name="X position" type="number" />
-              <YAxis dataKey="Y" name="Y position" type="number" />
+              <XAxis
+                dataKey="trackPos"
+                name="X position"
+                type="number"
+                hide={true}
+              />
+              <YAxis
+                dataKey="value"
+                name="Y position"
+                type="number"
+                hide={true}
+              />
               <Tooltip
+                content={<CustomTooltip />}
                 contentStyle={{
                   backgroundColor: "#222c42",
                 }}
               />
+              {telemetryDataArray.map((_, index) => (
+                <Scatter
+                  key={`position-scatter-${index}`}
+                  name={`Lap ${index + 1}`}
+                  data={combined
+                    .map((point) => ({
+                      x: point[`PositionX${index + 1}`],
+                      y: point[`PositionY${index + 1}`],
+                      trackPos: point.TrackPosition,
+                      value: 0,
+                    }))
+                    .filter((point) => point.x !== null && point.y !== null)}
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  line={{
+                    stroke:
+                      lapColors[index] || dataColors[index % dataColors.length],
+                    strokeWidth: 1,
+                  }}
+                  lineType="joint"
+                  shape={(props) => {
+                    const { cx, cy, fill, isActive } = props;
+                    return isActive ? (
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={6}
+                        fill={fill}
+                        stroke="#fff"
+                        strokeWidth={2}
+                      />
+                    ) : (
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={0} // Hide inactive points to show only the line
+                        fill={fill}
+                      />
+                    );
+                  }}
+                >
+                  <XAxis
+                    dataKey="x"
+                    type="number"
+                    name="X Position"
+                    domain={["dataMin", "dataMax"]}
+                  />
+                  <YAxis
+                    dataKey="y"
+                    type="number"
+                    name="Y Position"
+                    domain={["dataMax", "dataMin"]}
+                  />
+                </Scatter>
+              ))}
               <Scatter name="Car position" line />
             </ScatterChart>
           </ResponsiveContainer>
@@ -201,6 +317,8 @@ export default function AnalysisGraphsCharts({
                 left: 0,
                 bottom: 0,
               }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
@@ -243,6 +361,8 @@ export default function AnalysisGraphsCharts({
                 left: 0,
                 bottom: 0,
               }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
@@ -284,6 +404,8 @@ export default function AnalysisGraphsCharts({
                 left: 0,
                 bottom: 0,
               }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
@@ -325,6 +447,8 @@ export default function AnalysisGraphsCharts({
                 left: 0,
                 bottom: 0,
               }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
@@ -366,6 +490,8 @@ export default function AnalysisGraphsCharts({
                 left: 0,
                 bottom: 0,
               }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
