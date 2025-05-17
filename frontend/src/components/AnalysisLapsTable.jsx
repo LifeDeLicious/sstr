@@ -40,21 +40,21 @@ export default function AnalysisLapsTable({
     try {
       const hexColor = color.hex;
 
-      const response = await fetch(
-        `https://api.sstr.reinis.space/analysis/lap`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "applicaton/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ color: hexColor }),
-        }
-      );
+      // const response = await fetch(
+      //   `https://api.sstr.reinis.space/analysis/lap`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "applicaton/json",
+      //     },
+      //     credentials: "include",
+      //     body: JSON.stringify({ color: hexColor }),
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error("Failed to update lap color");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Failed to update lap color");
+      // }
 
       setOpenColorPickerId(null);
     } catch (error) {
