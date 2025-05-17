@@ -78,6 +78,11 @@ export default function AnalysisGraphsCharts({
 
         const fileKeys = analyticsGraphData.laps.map((lap) => lap.lapFileKey);
 
+        const lapMap = analyticsGraphData.laps.reduce((map, lap) => {
+          map[lap.lapFileKey] = lap;
+          return map;
+        }, {});
+
         const response = await fetch(
           "https://api.sstr.reinis.space/laps/batch",
           {
@@ -95,7 +100,19 @@ export default function AnalysisGraphsCharts({
         }
 
         const result = await response.json();
-        setTelemetryDataArray(result.telemetry || []);
+
+        const telemetryWithColors = result.telemetry.map((item, index) => {
+          const lap = lapMap[fileKeys[index]];
+          return {
+            ...item,
+            color: lap ? lap.lapColor : "#CCCCCC",
+          };
+        });
+
+        //setTelemetryDataArray(result.telemetry || []);
+        setTelemetryDataArray(telemetryWithColors);
+
+        const orderedColors = telemetryWithColors.map((item) => item.color);
       } catch (error) {
         console.error("Error fetching telemetry data:", error);
         setError(error.message);
@@ -168,7 +185,6 @@ export default function AnalysisGraphsCharts({
                 </span>
               </li>
             ))}
-            <li>{"username: laptime, in color"}</li>
           </ul>
         </div>
         <div className="col-span-2">
