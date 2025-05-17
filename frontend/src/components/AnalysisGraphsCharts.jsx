@@ -62,6 +62,8 @@ export default function AnalysisGraphsCharts({
   const [lapColors, setLapColors] = useState([]);
   const [activePoint, setActivePoint] = useState(null);
 
+  const [positionData, setPositionData] = useState([]);
+
   const CustomTooltip = ({ active, payload, label, dataKey }) => {
     // Update active point when tooltip is active
     //
@@ -233,6 +235,24 @@ export default function AnalysisGraphsCharts({
     try {
       const dataSources = telemetryDataArray.map((item) => item.data);
 
+      // Extract raw position data
+      const rawPositionData = telemetryDataArray.map((item) => {
+        return item.data
+          .filter(
+            (point) =>
+              point.PositionX !== undefined && point.PositionY !== undefined
+          )
+          .map((point) => ({
+            x: point.PositionX,
+            y: point.PositionY,
+            trackPos: point.TrackPosition,
+          }));
+      });
+
+      // Store it
+      setPositionData(rawPositionData);
+
+      // Continue with existing merge logic
       const mergedData = mergeTelemetryData(...dataSources);
       setCombined(mergedData);
     } catch (error) {
@@ -257,7 +277,7 @@ export default function AnalysisGraphsCharts({
     <>
       <div className="grid grid-cols-3" style={{ width: "100%" }}>
         <div className="col-span-1">
-          <ResponsiveContainer width={500} height={450}>
+          <ResponsiveContainer width={500} height={500}>
             <ScatterChart
               margin={{
                 top: 10,
@@ -266,75 +286,61 @@ export default function AnalysisGraphsCharts({
                 left: 10,
               }}
               syncId="anyId"
+              aspect={1}
             >
+              <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
               <XAxis
                 type="number"
                 dataKey="x"
                 name="X Position"
-                domain={domains.xDomain}
+                domain={["dataMin", "dataMax"]}
+                tick={false}
               />
               <YAxis
                 type="number"
                 dataKey="y"
                 name="Y Position"
-                domain={domains.yDomain} // Reversed to match typical racing game coordinates
+                domain={["dataMin", "dataMax"]}
+                tick={false}
               />
-              <Tooltip
-                content={<ScatterTooltip />}
-                // contentStyle={{
-                //   backgroundColor: "#222c42",
-                // }}
-              />
-              {telemetryDataArray.map((_, index) => {
-                // Create point data for this lap
-                const pointData = combined
-                  .map((point) => ({
-                    x: point[`PositionX${index + 1}`],
-                    y: point[`PositionY${index + 1}`],
-                    trackPos: point.TrackPosition,
-                    isActive: point.TrackPosition === activePoint,
-                  }))
-                  .filter((point) => point.x !== null && point.y !== null);
+              <Tooltip content={<ScatterTooltip />} />
+              {positionData.map((lapData, index) => (
+                <Scatter
+                  key={`position-scatter-${index}`}
+                  name={`Lap ${index + 1}`}
+                  data={lapData.map((point) => ({
+                    ...point,
+                    isActive: point.trackPos === activePoint,
+                  }))}
+                  fill={
+                    lapColors[index] || dataColors[index % dataColors.length]
+                  }
+                  line={{
+                    stroke:
+                      lapColors[index] || dataColors[index % dataColors.length],
+                    strokeWidth: 1,
+                  }}
+                  lineType="joint"
+                  shape={(props) => {
+                    const { cx, cy, fill } = props;
+                    const dataPoint = props.payload;
 
-                return (
-                  <Scatter
-                    key={`position-scatter-${index}`}
-                    name={`Lap ${index + 1}`}
-                    data={pointData}
-                    fill={
-                      lapColors[index] || dataColors[index % dataColors.length]
+                    if (dataPoint.isActive) {
+                      return (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={6}
+                          fill={fill}
+                          stroke="#fff"
+                          strokeWidth={2}
+                        />
+                      );
                     }
-                    line={{
-                      stroke:
-                        lapColors[index] ||
-                        dataColors[index % dataColors.length],
-                      strokeWidth: 1,
-                    }}
-                    lineType="joint"
-                    shape={(props) => {
-                      const { cx, cy, fill } = props;
-                      // Get the original data point
-                      const dataPoint = props.payload;
-
-                      // Check if this point is active (matches the currently hovered track position)
-                      if (dataPoint.isActive) {
-                        return (
-                          <circle
-                            cx={cx}
-                            cy={cy}
-                            r={6}
-                            fill={fill}
-                            stroke="#fff"
-                            strokeWidth={2}
-                          />
-                        );
-                      }
-                      // Don't render non-active points (just show the line)
-                      return null;
-                    }}
-                  />
-                );
-              })}
+                    return null;
+                  }}
+                />
+              ))}
             </ScatterChart>
           </ResponsiveContainer>
           <ul className="mt-2">
