@@ -222,8 +222,6 @@ const getGraphData = async (req, res) => {
       )
       .limit(1);
 
-    //const userAnalysis = userAnalysisCheck[0];
-
     if (isPublic && userAnalysisCheck.length === 0) {
       const addUserAnalysis = await db.insert(UserAnalysis).values({
         AnalysisID: analysisID,
@@ -238,7 +236,6 @@ const getGraphData = async (req, res) => {
         .json({ message: "User doesn't have access to this analysis" });
     }
 
-    //!before
     console.log("getgraphdata, analysisid: ", analysisID);
     const analysisLapsQuery = await db
       .select({
@@ -246,6 +243,7 @@ const getGraphData = async (req, res) => {
         lapTime: Laps.LapTime,
         userUsername: Users.Username,
         lapFileKey: Laps.LapFileKey,
+        lapColor: AnalysisLaps.LapColor,
       })
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
@@ -258,6 +256,7 @@ const getGraphData = async (req, res) => {
       lapTime: Number(lap.lapTime),
       userUsername: lap.userUsername,
       lapFileKey: lap.lapFileKey,
+      lapColor: lap.lapColor,
     }));
 
     res.status(200).json({ laps });
