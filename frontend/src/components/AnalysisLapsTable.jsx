@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import formatLapTime from "../utils/timeFromatter.js";
+import { useState } from "react";
+import { BlockPicker } from "react-color";
 
 const sessionsDropdown = [
   {
@@ -12,6 +14,8 @@ export default function AnalysisLapsTable({
   analyticsID,
   onLapRemoved,
 }) {
+  const [openColorPickerId, setOpenColorPickerId] = useState(null);
+
   const handleRemoveLap = async (analysisID, lapID) => {
     try {
       const response = await fetch(
@@ -30,6 +34,36 @@ export default function AnalysisLapsTable({
     } catch (error) {
       console.error("error removing lap:", error);
     }
+  };
+
+  const handleColorChange = async (openColorPickerId, lapID) => {
+    try {
+      const hexColor = color.hex;
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/lap`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "applicaton/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ color: hexColor }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update lap color");
+      }
+
+      setOpenColorPickerId(null);
+    } catch (error) {
+      console.error("Error updating lap color:", error);
+    }
+  };
+
+  const toggleColorPicker = (lapID) => {
+    setOpenColorPickerId(openColorPickerId === lapID ? null : lapID);
   };
 
   return (
@@ -51,7 +85,24 @@ export default function AnalysisLapsTable({
             {analyticsLaps.map((lap, index) => (
               <tr key={lap.lapID} className="hover:bg-base-300">
                 <th>{index + 1}</th>
-                <th></th>
+                <th>
+                  <div
+                    className="w-6 h-6 cursor-pointer border border-gray-500"
+                    style={{ backgroundColor: lap.color || "#CCCCCC" }}
+                    onClick={() => toggleColorPicker(lap.lapID)}
+                  ></div>
+                  {openColorPickerId === lap.lapID && (
+                    <div className="absolute z-10 mt-2">
+                      <BlockPicker
+                        color={lap.color || "#CCCCCC"}
+                        onChange={(color) =>
+                          handleColorChange(color, lap.lapID)
+                        }
+                        triangle="top-left"
+                      />
+                    </div>
+                  )}
+                </th>
                 <th>{lap.userUsername}</th>
                 <td>{formatLapTime(lap.lapTime)}</td>
                 <td>

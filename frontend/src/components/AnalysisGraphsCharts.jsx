@@ -130,7 +130,7 @@ export default function AnalysisGraphsCharts({
     <>
       <div className="grid grid-cols-3" style={{ width: "100%" }}>
         <div className="col-span-1">
-          <ResponsiveContainer width={500} height={400}>
+          <ResponsiveContainer width={500} height={450}>
             <ScatterChart
               margin={{
                 top: 10,
@@ -149,6 +149,9 @@ export default function AnalysisGraphsCharts({
               <Scatter name="Car position" line />
             </ScatterChart>
           </ResponsiveContainer>
+          <ul>
+            <li>{"username: laptime, in color"}</li>
+          </ul>
         </div>
         <div className="col-span-2">
           <h4>Speed</h4>
