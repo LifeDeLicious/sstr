@@ -33,6 +33,6 @@ router.post(
   analysisController.changeAnalysisAccessibility
 );
 
-router.post("color", requireAuth, analysisController.changeAnalysisLapColor);
+router.post("/color", requireAuth, analysisController.changeAnalysisLapColor);
 
 export default router;
