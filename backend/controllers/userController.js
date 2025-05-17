@@ -159,7 +159,7 @@ export const loginUser = async (req, res) => {
 
     if (loginSource === "desktop_client") {
       res.status(200).json({
-        UserID: user.UserID.toString(),
+        UserID: user.UserID,
         Username: user.Username,
       });
     } else {

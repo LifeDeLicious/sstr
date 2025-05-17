@@ -123,6 +123,7 @@ const getAnalysisData = async (req, res) => {
         trackTemperature: Sessions.TrackTemperature,
         userUsername: Users.Username,
         userID: Laps.UserID,
+        lapColor: AnalysisLaps.LapColor,
       })
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
@@ -137,6 +138,7 @@ const getAnalysisData = async (req, res) => {
       trackTemperature: Number(lap.trackTemperature),
       userUsername: lap.userUsername,
       userID: lap.userID,
+      lapColor: lap.lapColor,
     }));
 
     const response = {
@@ -458,6 +460,39 @@ const changeAnalysisAccessibility = async (req, res) => {
   }
 };
 
+const changeAnalysisLapVisibility = async (req, res) => {
+  try {
+    console.log("changeanalysislapvisibility");
+  } catch (error) {
+    console.error("error changeanalysislapvisibility:", error);
+  }
+};
+
+const changeAnalysisLapColor = async (req, res) => {
+  try {
+    const { color, lapID, analysisID } = req.body;
+    console.log("changeanalysislapcolor");
+
+    const changedLapColor = await db
+      .update(AnalysisLaps)
+      .set({
+        LapColor: color,
+      })
+      .where(
+        and(
+          eq(AnalysisLaps.LapID, lapID),
+          eq(AnalysisLaps.AnalysisID, analysisID)
+        )
+      );
+
+    console.log(`analysisid ${analysisID}, lapid:${lapID}, new color:${color}`);
+    res.status(200).json({ message: "Lap color changed successfully" });
+  } catch (error) {
+    console.error("error changeanalysislapcolor:", error);
+    res.status(500).json({ message: "Failed to change lap color" });
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
@@ -468,6 +503,8 @@ const analysisController = {
   pasteAnalysisLap,
   removeAnalysisLap,
   changeAnalysisAccessibility,
+  changeAnalysisLapVisibility,
+  changeAnalysisLapColor,
 };
 
 export default analysisController;
