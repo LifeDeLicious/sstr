@@ -9,7 +9,7 @@ import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
 import AddLapModal from "../components/AddLapModal.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/analytics_/$analyticsId")({
   component: RouteComponent,
@@ -21,7 +21,15 @@ function RouteComponent() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("analyticsid", analyticsId);
+  //console.log("analyticsid", analyticsId);
+
+  const [laps, setLaps] = useState([]);
+
+  useEffect(() => {
+    if (analyticsData && analyticsData.laps) {
+      setLaps(analyticsData.laps);
+    }
+  }, [analyticsData]);
 
   //const userName = user.Username;
 
@@ -109,6 +117,7 @@ function RouteComponent() {
   };
 
   const handleLapRemoved = () => {
+    setLaps((prevLaps) => prevLaps.filter((lap) => lap.lapID !== lapID));
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
 
@@ -172,6 +181,16 @@ function RouteComponent() {
     }
   };
 
+  const handleLapColorChanged = (lapID, newColor) => {
+    setLaps((prevLaps) =>
+      prevLaps.map((lap) =>
+        lap.lapID === lapID ? { ...lap, color: newColor } : lap
+      )
+    );
+
+    queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
+  };
+
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -217,13 +236,7 @@ function RouteComponent() {
               analyticsLaps={analyticsData.laps}
               analyticsID={analyticsId}
               onLapRemoved={handleLapRemoved}
-              onLapColorChanged={(lapID, newColor) => {
-                setLaps((prevLaps) =>
-                  prevLaps.map((lap) =>
-                    lap.lapID === lapID ? { ...lap, color: newColor } : lap
-                  )
-                );
-              }}
+              onLapColorChanged={handleLapColorChanged}
             />
           )}
           {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
