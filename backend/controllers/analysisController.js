@@ -471,7 +471,11 @@ const changeAnalysisLapVisibility = async (req, res) => {
 const changeAnalysisLapColor = async (req, res) => {
   try {
     const { color, lapID, analysisID } = req.body;
-    console.log("changeanalysislapcolor");
+    console.log("changeanalysislapcolor body:", req.body);
+
+    if (!color) {
+      return res.status(400).json({ message: "Color value is required" });
+    }
 
     const changedLapColor = await db
       .update(AnalysisLaps)
