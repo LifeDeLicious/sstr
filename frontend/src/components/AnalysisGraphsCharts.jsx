@@ -96,6 +96,60 @@ export default function AnalysisGraphsCharts({
     return null;
   };
 
+  const ScatterTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const point = payload[0].payload;
+      return (
+        <div
+          className="custom-tooltip"
+          style={{
+            backgroundColor: "#222c42",
+            padding: "10px",
+            border: "1px solid #ccc",
+          }}
+        >
+          <p>Track Position: {point.trackPos.toFixed(3)}</p>
+          <p>
+            X: {point.x.toFixed(2)}, Y: {point.y.toFixed(2)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const calculateDomains = () => {
+    if (!combined || !combined.length)
+      return { xDomain: [0, 1], yDomain: [0, 1] };
+
+    let minX = Infinity,
+      maxX = -Infinity;
+    let minY = Infinity,
+      maxY = -Infinity;
+
+    // Go through all laps and find min/max X and Y
+    telemetryDataArray.forEach((_, index) => {
+      combined.forEach((point) => {
+        const x = point[`PositionX${index + 1}`];
+        const y = point[`PositionY${index + 1}`];
+
+        if (x !== null && y !== null) {
+          minX = Math.min(minX, x);
+          maxX = Math.max(maxX, x);
+          minY = Math.min(minY, y);
+          maxY = Math.max(maxY, y);
+        }
+      });
+    });
+
+    return {
+      xDomain: [minX, maxX],
+      yDomain: [maxY, minY], // Reversed Y axis
+    };
+  };
+
+  const domains = calculateDomains();
+
   const handleMouseMove = (e) => {
     if (e && e.activePayload && e.activePayload.length) {
       setActivePoint(e.activePayload[0].payload.TrackPosition);
@@ -213,80 +267,73 @@ export default function AnalysisGraphsCharts({
               syncId="anyId"
             >
               <XAxis
-                dataKey="trackPos"
-                name="X position"
                 type="number"
-                hide={true}
+                dataKey="x"
+                name="X Position"
+                domain={domains.xDomain}
               />
               <YAxis
-                dataKey="value"
-                name="Y position"
                 type="number"
-                hide={true}
+                dataKey="y"
+                name="Y Position"
+                domain={domains.yDomain} // Reversed to match typical racing game coordinates
               />
               <Tooltip
-                content={<CustomTooltip />}
-                contentStyle={{
-                  backgroundColor: "#222c42",
-                }}
+                content={<ScatterTooltip />}
+                // contentStyle={{
+                //   backgroundColor: "#222c42",
+                // }}
               />
-              {telemetryDataArray.map((_, index) => (
-                <Scatter
-                  key={`position-scatter-${index}`}
-                  name={`Lap ${index + 1}`}
-                  data={combined
-                    .map((point) => ({
-                      x: point[`PositionX${index + 1}`],
-                      y: point[`PositionY${index + 1}`],
-                      trackPos: point.TrackPosition,
-                      value: 0,
-                    }))
-                    .filter((point) => point.x !== null && point.y !== null)}
-                  fill={
-                    lapColors[index] || dataColors[index % dataColors.length]
-                  }
-                  line={{
-                    stroke:
-                      lapColors[index] || dataColors[index % dataColors.length],
-                    strokeWidth: 1,
-                  }}
-                  lineType="joint"
-                  shape={(props) => {
-                    const { cx, cy, fill, isActive } = props;
-                    return isActive ? (
-                      <circle
-                        cx={cx}
-                        cy={cy}
-                        r={6}
-                        fill={fill}
-                        stroke="#fff"
-                        strokeWidth={2}
-                      />
-                    ) : (
-                      <circle
-                        cx={cx}
-                        cy={cy}
-                        r={0} // Hide inactive points to show only the line
-                        fill={fill}
-                      />
-                    );
-                  }}
-                >
-                  <XAxis
-                    dataKey="x"
-                    type="number"
-                    name="X Position"
-                    domain={["dataMin", "dataMax"]}
+              {telemetryDataArray.map((_, index) => {
+                // Create point data for this lap
+                const pointData = combined
+                  .map((point) => ({
+                    x: point[`PositionX${index + 1}`],
+                    y: point[`PositionY${index + 1}`],
+                    trackPos: point.TrackPosition,
+                    isActive: point.TrackPosition === activePoint,
+                  }))
+                  .filter((point) => point.x !== null && point.y !== null);
+
+                return (
+                  <Scatter
+                    key={`position-scatter-${index}`}
+                    name={`Lap ${index + 1}`}
+                    data={pointData}
+                    fill={
+                      lapColors[index] || dataColors[index % dataColors.length]
+                    }
+                    line={{
+                      stroke:
+                        lapColors[index] ||
+                        dataColors[index % dataColors.length],
+                      strokeWidth: 1,
+                    }}
+                    lineType="joint"
+                    shape={(props) => {
+                      const { cx, cy, fill } = props;
+                      // Get the original data point
+                      const dataPoint = props.payload;
+
+                      // Check if this point is active (matches the currently hovered track position)
+                      if (dataPoint.isActive) {
+                        return (
+                          <circle
+                            cx={cx}
+                            cy={cy}
+                            r={6}
+                            fill={fill}
+                            stroke="#fff"
+                            strokeWidth={2}
+                          />
+                        );
+                      }
+                      // Don't render non-active points (just show the line)
+                      return null;
+                    }}
                   />
-                  <YAxis
-                    dataKey="y"
-                    type="number"
-                    name="Y Position"
-                    domain={["dataMax", "dataMin"]}
-                  />
-                </Scatter>
-              ))}
-              <Scatter name="Car position" line />
+                );
+              })}
             </ScatterChart>
           </ResponsiveContainer>
           <ul className="mt-2">
