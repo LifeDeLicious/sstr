@@ -46,7 +46,7 @@ export default function AnalysisLapsTable({
         {
           method: "POST",
           headers: {
-            "Content-Type": "applicaton/json",
+            "Content-Type": "application/json",
           },
           credentials: "include",
           body: JSON.stringify({
