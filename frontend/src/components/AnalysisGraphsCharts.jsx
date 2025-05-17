@@ -51,40 +51,6 @@ function mergeTelemetryData(...dataSources) {
   });
 }
 
-const CustomTooltip = ({ active, payload, label, dataKey }) => {
-  // Update active point when tooltip is active
-  useEffect(() => {
-    if (active && payload && payload.length) {
-      const trackPos = payload[0].payload.TrackPosition;
-      setActivePoint(trackPos);
-    } else {
-      setActivePoint(null);
-    }
-  }, [active, payload]);
-
-  if (active && payload && payload.length) {
-    return (
-      <div
-        className="custom-tooltip"
-        style={{
-          backgroundColor: "#222c42",
-          padding: "10px",
-          border: "1px solid #ccc",
-        }}
-      >
-        <p>Track Position: {payload[0].payload.TrackPosition.toFixed(3)}</p>
-        {payload.map((p, i) => (
-          <p key={i} style={{ color: p.color }}>
-            {p.name}: {p.value !== null ? p.value : "N/A"}
-          </p>
-        ))}
-      </div>
-    );
-  }
-
-  return null;
-};
-
 export default function AnalysisGraphsCharts({
   analyticsGraphData,
   telemetryData,
@@ -95,6 +61,40 @@ export default function AnalysisGraphsCharts({
   const [combined, setCombined] = useState([]);
   const [lapColors, setLapColors] = useState([]);
   const [activePoint, setActivePoint] = useState(null);
+
+  const CustomTooltip = ({ active, payload, label, dataKey }) => {
+    // Update active point when tooltip is active
+    useEffect(() => {
+      if (active && payload && payload.length) {
+        const trackPos = payload[0].payload.TrackPosition;
+        setActivePoint(trackPos);
+      } else {
+        setActivePoint(null);
+      }
+    }, [active, payload]);
+
+    if (active && payload && payload.length) {
+      return (
+        <div
+          className="custom-tooltip"
+          style={{
+            backgroundColor: "#222c42",
+            padding: "10px",
+            border: "1px solid #ccc",
+          }}
+        >
+          <p>Track Position: {payload[0].payload.TrackPosition.toFixed(3)}</p>
+          {payload.map((p, i) => (
+            <p key={i} style={{ color: p.color }}>
+              {p.name}: {p.value !== null ? p.value : "N/A"}
+            </p>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   const handleMouseMove = (e) => {
     if (e && e.activePayload && e.activePayload.length) {
