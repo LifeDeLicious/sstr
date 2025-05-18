@@ -248,7 +248,10 @@ const getGraphData = async (req, res) => {
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
       .innerJoin(Users, eq(Laps.UserID, Users.UserID))
-      .where(eq(AnalysisLaps.AnalysisID, analysisID))
+      .where(
+        and(eq(AnalysisLaps.AnalysisID, analysisID)),
+        eq(AnalysisLaps.LapIsVisible, true)
+      )
       .orderBy(desc(AnalysisLaps.LapID));
 
     const laps = analysisLapsQuery.map((lap) => ({
