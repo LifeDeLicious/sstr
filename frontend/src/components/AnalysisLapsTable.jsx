@@ -89,7 +89,7 @@ export default function AnalysisLapsTable({
   const handleLapVisibilityChange = async (lapID, isLapVisible) => {
     try {
       //const lapID = lapID;
-
+      const newVisibility = !isLapVisible;
       const response = await fetch(
         `https://api.sstr.reinis.space/analysis/lapvisibility`,
         {
@@ -110,8 +110,14 @@ export default function AnalysisLapsTable({
         throw new Error("Failed to update lap color");
       }
 
+      setAnalyticsLaps((prevLaps) =>
+        prevLaps.map((lap) =>
+          lap.lapID === lapID ? { ...lap, isLapVisible: newVisibility } : lap
+        )
+      );
+
       if (onLapVisibilityChange) {
-        onLapVisibilityChange();
+        onLapVisibilityChange(lapID, newVisibility);
       }
     } catch (error) {
       console.error("Error changing lap visibility:", error);
