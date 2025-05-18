@@ -295,6 +295,8 @@ export default function AnalysisGraphsCharts({
                 name="X Position"
                 domain={["dataMin", "dataMax"]}
                 tick={false}
+                axisLine={false}
+                hide={true}
               />
               <YAxis
                 type="number"
@@ -302,6 +304,8 @@ export default function AnalysisGraphsCharts({
                 name="Y Position"
                 domain={["dataMin", "dataMax"]}
                 tick={false}
+                axisLine={false}
+                hide={true}
               />
               <Tooltip content={<ScatterTooltip />} />
               {positionData.map((lapData, index) => (
