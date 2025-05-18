@@ -484,7 +484,7 @@ const changeAnalysisLapVisibility = async (req, res) => {
       );
 
     console.log(
-      `analysisid:${analysisID}, lapid:${lapID}, is now visible:${!isPublic}`
+      `analysisid:${analysisID}, lapid:${lapID}, is now visible:${!isLapVisible}`
     );
     res
       .status(200)
