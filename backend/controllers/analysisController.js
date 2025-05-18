@@ -457,7 +457,7 @@ const changeAnalysisAccessibility = async (req, res) => {
       .status(200)
       .json({ message: "Analysis accessibility changed successfully" });
   } catch (error) {
-    console.Error("Error changing analysis public access:", error);
+    console.error("Error changing analysis public access:", error);
     res
       .status(500)
       .json({ message: "Failed to change analysis accessibility" });
@@ -468,7 +468,7 @@ const changeAnalysisLapVisibility = async (req, res) => {
   try {
     const { analysisID, lapID, isLapVisible } = req.body;
     console.log(
-      `changepublicaccess called , analysisid:${analysisID}, lapid:${lapID} currently visible:${isLapVisible}`
+      `changeanalysislapvisibility , analysisid:${analysisID}, lapid:${lapID} currently visible:${isLapVisible}`
     );
 
     const visibilityChanged = await db
@@ -490,10 +490,10 @@ const changeAnalysisLapVisibility = async (req, res) => {
       .status(200)
       .json({ message: "Analysis accessibility changed successfully" });
   } catch (error) {
-    console.Error("Error changing analysis public access:", error);
+    console.error("Error changing analysis lap visibility:", error);
     res
       .status(500)
-      .json({ message: "Failed to change analysis accessibility" });
+      .json({ message: "Failed to change analysis lap visibility" });
   }
 };
 
