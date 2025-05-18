@@ -174,10 +174,9 @@ export default function AnalysisLapsTable({
                     </button>
                     <button
                       className="btn h-8 bg-slate-400"
-                      onClick={handleLapVisibilityChange(
-                        lap.lapID,
-                        lap.isLapVisible
-                      )}
+                      onClick={() =>
+                        handleLapVisibilityChange(lap.lapID, lap.isLapVisible)
+                      }
                     >
                       {lap.isLapVisible ? "Visible" : "Not visible"}
                     </button>
