@@ -293,7 +293,7 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="x"
                 name="X Position"
-                domain={["dataMin", "dataMax"]}
+                domain={[domains.xDomain[1], domains.xDomain[0]]}
                 tick={false}
                 axisLine={false}
                 hide={true}
@@ -302,7 +302,7 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="y"
                 name="Y Position"
-                domain={["dataMin", "dataMax"]}
+                domain={[domains.yDomain[1], domains.yDomain[0]]}
                 tick={false}
                 axisLine={false}
                 hide={true}
