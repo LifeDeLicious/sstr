@@ -124,6 +124,7 @@ const getAnalysisData = async (req, res) => {
         userUsername: Users.Username,
         userID: Laps.UserID,
         lapColor: AnalysisLaps.LapColor,
+        isLapVisible: AnalysisLaps.LapIsVisible,
       })
       .from(AnalysisLaps)
       .innerJoin(Laps, eq(AnalysisLaps.LapID, Laps.LapID))
@@ -139,6 +140,7 @@ const getAnalysisData = async (req, res) => {
       userUsername: lap.userUsername,
       userID: lap.userID,
       lapColor: lap.lapColor,
+      isLapVisible: lap.isLapVisible,
     }));
 
     const response = {
@@ -464,9 +466,34 @@ const changeAnalysisAccessibility = async (req, res) => {
 
 const changeAnalysisLapVisibility = async (req, res) => {
   try {
-    console.log("changeanalysislapvisibility");
+    const { analysisID, lapID, isLapVisible } = req.body;
+    console.log(
+      `changepublicaccess called , analysisid:${analysisID}, lapid:${lapID} currently visible:${isLapVisible}`
+    );
+
+    const visibilityChanged = await db
+      .update(AnalysisLaps)
+      .set({
+        LapIsVisible: !isLapVisible,
+      })
+      .where(
+        and(
+          eq(AnalysisLaps.AnalysisID, analysisID),
+          eq(AnalysisLaps.LapID, lapID)
+        )
+      );
+
+    console.log(
+      `analysisid:${analysisID}, lapid:${lapID}, is now visible:${!isPublic}`
+    );
+    res
+      .status(200)
+      .json({ message: "Analysis accessibility changed successfully" });
   } catch (error) {
-    console.error("error changeanalysislapvisibility:", error);
+    console.Error("Error changing analysis public access:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to change analysis accessibility" });
   }
 };
 

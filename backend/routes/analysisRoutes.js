@@ -35,4 +35,10 @@ router.post(
 
 router.post("/color", requireAuth, analysisController.changeAnalysisLapColor);
 
+router.post(
+  "/lapvisibility",
+  requireAuth,
+  analysisController.changeAnalysisLapVisibility
+);
+
 export default router;
