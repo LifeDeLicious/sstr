@@ -293,19 +293,19 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="x"
                 name="X Position"
-                domain={[domains.xDomain[1], domains.xDomain[0]]}
+                domain={[domains.xDomain[0], domains.xDomain[1]]}
                 tick={false}
                 axisLine={false}
-                hide={true}
+                hide
               />
               <YAxis
                 type="number"
                 dataKey="y"
                 name="Y Position"
-                domain={[domains.yDomain[1], domains.yDomain[0]]}
+                domain={[domains.yDomain[0], domains.yDomain[1]]}
                 tick={false}
                 axisLine={false}
-                hide={true}
+                hide
               />
               <Tooltip content={<ScatterTooltip />} />
               {positionData.map((lapData, index) => (
