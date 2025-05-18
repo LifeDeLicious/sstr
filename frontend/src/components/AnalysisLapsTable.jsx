@@ -15,6 +15,7 @@ export default function AnalysisLapsTable({
   analyticsID,
   onLapRemoved,
   onLapColorChanged,
+  onLapVisibilityChange,
 }) {
   const [openColorPickerId, setOpenColorPickerId] = useState(null);
   const [analyticsLaps, setAnalyticsLaps] = useState(initialAnalyticsLaps);
@@ -85,6 +86,38 @@ export default function AnalysisLapsTable({
     }
   };
 
+  const handleLapVisibilityChange = async (lapID, isLapVisible) => {
+    try {
+      //const lapID = lapID;
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/lapvisibility`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            lapID: lapID,
+            analysisID: analyticsID,
+            isLapVisible: isLapVisible,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update lap color");
+      }
+
+      if (onLapVisibilityChange) {
+        onLapVisibilityChange();
+      }
+    } catch (error) {
+      console.error("Error changing lap visibility:", error);
+    }
+  };
+
   const toggleColorPicker = (lapID) => {
     setOpenColorPickerId(openColorPickerId === lapID ? null : lapID);
   };
@@ -139,46 +172,19 @@ export default function AnalysisLapsTable({
                     >
                       Remove Lap
                     </button>
-                    <button className="btn h-8 bg-slate-400">
-                      Lap visibility
+                    <button
+                      className="btn h-8 bg-slate-400"
+                      onClick={handleLapVisibilityChange(
+                        lap.lapID,
+                        lap.isLapVisible
+                      )}
+                    >
+                      {lap.isLapVisible ? "Visible" : "Not visible"}
                     </button>
                   </div>
                 </td>
               </tr>
             ))}
-            {/* row 1 */}
-
-            {/* row 2 */}
-            {/* <tr className="hover:bg-base-300">
-              <th>2</th>
-              <th>a</th>
-              <th>driver</th>
-              <td>xyz</td>
-              <td>15c 18c</td>
-              <td className="w-15">
-                <div className="join">
-                  <button className="btn h-8 join-item bg-slate-400">
-                    Analyze
-                  </button>
-                  <details className="dropdown join-item dropdown-end">
-                    <summary className="btn bg-slate-400 h-8">v</summary>
-                    <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm">
-                      <li>
-                        <a>Copy lap ID</a>
-                      </li>
-                    </ul>
-                  </details>
-                </div>
-              </td>
-            </tr>
-            {/* row 3 */}
-            {/* <tr className="hover:bg-base-300">
-              <th>3</th>
-              <th> a</th>
-              <th>driver</th>
-              <td>abc</td>
-              <td>15c 18c</td>
-            </tr> */}
           </tbody>
         </table>
       </div>

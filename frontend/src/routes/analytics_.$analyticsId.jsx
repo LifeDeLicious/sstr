@@ -118,6 +118,10 @@ function RouteComponent() {
     queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
   };
 
+  const handleLapVisibilityChange = () => {
+    queryClient.invalidateQueries({ queryKey: ["analyticsData", analyticsId] });
+  };
+
   const handlePasteLap = async (analysisID) => {
     try {
       const lapID = await navigator.clipboard.readText();
@@ -235,6 +239,7 @@ function RouteComponent() {
               analyticsID={analyticsId}
               onLapRemoved={handleLapRemoved}
               onLapColorChanged={handleLapColorChanged}
+              onLapVisibilityChanged={handleLapVisibilityChange}
             />
           )}
           {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
