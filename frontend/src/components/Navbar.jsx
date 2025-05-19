@@ -67,7 +67,9 @@ export default function Navbar() {
               {user.IsAdmin ? (
                 <>
                   <div className="divider mt-0 mb-0"></div>
-                  <Link to={"/admin"}>Admin panel</Link>
+                  <li>
+                    <Link to={"/admin"}>Admin panel</Link>
+                  </li>
                 </>
               ) : (
                 <></>
