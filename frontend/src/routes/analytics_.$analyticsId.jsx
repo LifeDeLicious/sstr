@@ -111,7 +111,7 @@ function RouteComponent() {
     setIsDeleteModalOpen(false);
   };
 
-  handleDeleteSuccess = () => {
+  const handleDeleteSuccess = () => {
     navigate({ to: "/analytics" });
   };
 
