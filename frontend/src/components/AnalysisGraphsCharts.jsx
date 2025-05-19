@@ -294,7 +294,7 @@ export default function AnalysisGraphsCharts({
                 dataKey="x"
                 name="X Position"
                 domain={[domains.xDomain[1], domains.xDomain[0]]}
-                reversed={true}
+                reversed={false}
                 tick={false}
                 axisLine={{ stroke: "transparent" }}
                 hide
