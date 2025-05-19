@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-//import { checkAuthStatus } from "../../../backend/controllers/userController.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AuthContext = createContext();
@@ -9,7 +8,6 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  //    const [user, setUser] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: user, isLoading: loading } = useQuery({
@@ -32,8 +30,7 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
-      console.log("auth data received:", data);
-      //return response.json();
+
       return {
         UserID: data.UserID,
         Username: data.Username,
@@ -41,12 +38,6 @@ export function AuthProvider({ children }) {
       };
     },
     retry: false,
-    // onSuccess: (data) => {
-    //   setUser(data);
-    // },
-    // onError: () => {
-    //   setUser(null);
-    // },
   });
 
   const loginMutation = useMutation({
@@ -66,8 +57,6 @@ export function AuthProvider({ children }) {
       return response.json();
     },
     onSuccess: (data) => {
-      //   setUser(data);
-
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
   });
@@ -86,8 +75,6 @@ export function AuthProvider({ children }) {
       return response.json();
     },
     onSuccess: () => {
-      //   setUser(null);
-
       queryClient.invalidateQueries({ queryKey: ["authStatus"] });
     },
   });

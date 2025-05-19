@@ -12,10 +12,6 @@ const userOptions = [
     title: "Analytics",
     linkTo: "/analytics",
   },
-  {
-    title: "admin",
-    linkTo: "/admin",
-  },
 ];
 
 export default function Navbar() {
@@ -34,7 +30,7 @@ export default function Navbar() {
     <div className="navbar light bg-base-100 shadow-sm">
       <div className="navbar-start">
         <Link to={"/"} className="btn btn-ghost normal-case text-lg">
-          {/* <a>Sim Racing Telemetry Tool</a> */}Sim Racing Telemetry Tool
+          Sim Racing Telemetry Tool
         </Link>
         <ul className="menu menu-horizontal px-1">
           {userOptions.map((option) => (
@@ -48,16 +44,14 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-      </div>
-      {/* </ul>
-      </div> */}{" "}
+      </div>{" "}
       <div className="navbar-end">
         {user ? (
           <>
             <button
               className="btn"
               popoverTarget="popover-1"
-              style={{ anchorName: "--anchor-1" } /* as React.CSSProperties */}
+              style={{ anchorName: "--anchor-1" }}
             >
               {user.Username}
             </button>
@@ -65,22 +59,13 @@ export default function Navbar() {
               className="dropdown dropdown-end menu w-52 bg-base-200 rounded-box shadow-sm"
               popover="auto"
               id="popover-1"
-              style={
-                { positionAnchor: "--anchor-1" } /* as React.CSSProperties */
-              }
+              style={{ positionAnchor: "--anchor-1" }}
             >
               <li>
                 <Link to={"/usersettings"}>User settings</Link>
               </li>
               <div className="divider mt-0 mb-0"></div>
-              {/* {user.isAdmin && (
-            <> */}
-              <li>
-                <Link to={"/admin"}>Admin panel</Link>
-              </li>
               <div className="divider mt-0 mb-0"></div>
-              {/* </>
-          )} */}
               <li onClick={handleLogout}>
                 <a>Log out</a>
               </li>
