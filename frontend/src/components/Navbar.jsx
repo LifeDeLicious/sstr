@@ -68,9 +68,7 @@ export default function Navbar() {
                 <>
                   <div className="divider mt-0 mb-0"></div>
                   <li>
-                    <Link className="ml-1.5" to={"/admin"}>
-                      Admin panel
-                    </Link>
+                    <Link to={"/admin"}>Admin panel</Link>
                   </li>
                 </>
               ) : (
