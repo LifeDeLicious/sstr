@@ -218,7 +218,9 @@ export const adminGetCars = async (req, res) => {
       .from(Users)
       .where(eq(Users.UserID, userID));
 
-    if (!userData[0].isAdmin) {
+    const isAdmin = userData[0].isAdmin;
+
+    if (!isAdmin) {
       return res.status(401).json({ message: "User is not an admin" });
     }
 
