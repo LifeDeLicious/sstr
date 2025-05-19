@@ -238,14 +238,36 @@ export const adminGetCars = async (req, res) => {
   }
 };
 
-export const adminGetTracks = (req, res) => {
-  console.log("auth check user data: ", req.user);
+export const adminGetTracks = async (req, res) => {
+  try {
+    const { userID } = req.user;
+    console.log(`adminid:${userID}, admingetcars `);
 
-  res.status(200).json({
-    UserID: req.user.UserID || req.user.userId,
-    Username: req.user.Username || req.user.username,
-    IsAdmin: req.user.IsAdmin,
-  });
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
+
+    const isAdmin = userData[0].isAdmin;
+
+    if (!isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
+
+    const cars = await db
+      .select({
+        carModel: Cars.CarModel,
+        carAssetName: Cars.CarAssetName,
+      })
+      .from(Cars);
+
+    res.status(200).json({ cars });
+  } catch (error) {
+    console.log("error admingetcars:", error);
+    res.status(500).json({ message: "Failed to admingetcars" });
+  }
 };
 
 // const loginUserClient = async (req, res) => {
