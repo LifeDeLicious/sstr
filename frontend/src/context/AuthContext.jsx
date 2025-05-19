@@ -32,6 +32,7 @@ export function AuthProvider({ children }) {
       }
 
       const data = await response.json();
+      console.log("auth data received:", data);
       //return response.json();
       return {
         UserID: data.UserID,
