@@ -298,6 +298,7 @@ export default function AnalysisGraphsCharts({
                 reversed={false}
                 tickLine={false}
                 axisLine={false}
+                cursor={false}
                 hide
                 style={{ display: "none" }}
               />
@@ -310,6 +311,7 @@ export default function AnalysisGraphsCharts({
                 tick={false}
                 tickLine={false}
                 axisLine={false}
+                cursor={false}
                 hide
                 style={{ display: "none" }}
               />

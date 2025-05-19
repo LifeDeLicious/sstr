@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import AnalysisLapsTable from "../components/AnalysisLapsTable.jsx";
 import AddLapModal from "../components/AddLapModal.jsx";
+import DeleteAnalysisModal from "../components/DeleteAnalysisModal.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
@@ -22,6 +23,7 @@ function RouteComponent() {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [laps, setLaps] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const {
     data: analyticsData,
@@ -100,6 +102,18 @@ function RouteComponent() {
       </div>
     );
   }
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  handleDeleteSuccess = () => {
+    navigate({ to: "/analytics" });
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -260,7 +274,9 @@ function RouteComponent() {
             <button className="btn btn-secondary">Review</button>
           </Link>
           <br></br>
-          <button className="btn btn-warning mt-30">Delete analytics</button>
+          <button className="btn btn-warning mt-30" onClick={openDeleteModal}>
+            Delete analysis
+          </button>
         </div>
       </div>
       <AddLapModal
@@ -270,6 +286,14 @@ function RouteComponent() {
         isOpen={isModalOpen}
         onClose={closeModal}
         onLapAdded={handleLapAdded}
+      />
+
+      <DeleteAnalysisModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        analysisID={analyticsId}
+        analysisName={analyticsData.name || "this analysis"}
+        onDeleteSuccess={handleDeleteSuccess}
       />
     </>
   );
