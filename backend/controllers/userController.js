@@ -6,6 +6,7 @@ import { UserLogs } from "../db/schema/UserLogs.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/jwtutil.js";
 import { Cars } from "../db/schema/Cars.js";
+import { Tracks } from "../db/schema/Tracks.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -226,6 +227,7 @@ export const adminGetCars = async (req, res) => {
 
     const cars = await db
       .select({
+        carID: Cars.CarID,
         carModel: Cars.CarModel,
         carAssetName: Cars.CarAssetName,
       })
@@ -241,7 +243,7 @@ export const adminGetCars = async (req, res) => {
 export const adminGetTracks = async (req, res) => {
   try {
     const userID = req.user.UserID;
-    console.log(`adminid:${userID}, admingetcars `);
+    console.log(`adminid:${userID}, admingettracks `);
 
     const userData = await db
       .select({
@@ -256,17 +258,19 @@ export const adminGetTracks = async (req, res) => {
       return res.status(401).json({ message: "User is not an admin" });
     }
 
-    const cars = await db
+    const tracks = await db
       .select({
-        carModel: Cars.CarModel,
-        carAssetName: Cars.CarAssetName,
+        trackID: Tracks.TrackID,
+        trackName: Tracks.TrackName,
+        trackAssetName: Tracks.TrackAssetName,
+        trackLayout: Tracks.TrackLayout,
       })
-      .from(Cars);
+      .from(Tracks);
 
-    res.status(200).json({ cars });
+    res.status(200).json({ tracks });
   } catch (error) {
-    console.log("error admingetcars:", error);
-    res.status(500).json({ message: "Failed to admingetcars" });
+    console.log("error admingettracks:", error);
+    res.status(500).json({ message: "Failed to admingettracks" });
   }
 };
 
