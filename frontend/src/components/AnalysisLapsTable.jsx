@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import formatLapTime from "../utils/timeFromatter.js";
 import { useState } from "react";
-import { BlockPicker } from "react-color";
+import { BlockPicker, CompactPicker } from "react-color";
 import { useEffect } from "react";
 
 const sessionsDropdown = [
@@ -155,7 +155,7 @@ export default function AnalysisLapsTable({
                   ></div>
                   {openColorPickerId === lap.lapID && (
                     <div className="absolute z-10 mt-2">
-                      <BlockPicker
+                      <CompactPicker
                         color={lap.color || "#CCCCCC"}
                         onChange={(color) =>
                           handleColorChange(color, lap.lapID)
