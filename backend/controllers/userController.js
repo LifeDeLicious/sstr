@@ -201,6 +201,7 @@ export const checkAuthStatus = (req, res) => {
   res.status(200).json({
     UserID: req.user.UserID || req.user.userId,
     Username: req.user.Username || req.user.username,
+    IsAdmin: req.user.IsAdmin,
   });
 };
 
