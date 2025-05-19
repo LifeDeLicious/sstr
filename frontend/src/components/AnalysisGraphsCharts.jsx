@@ -295,7 +295,7 @@ export default function AnalysisGraphsCharts({
                 name="X Position"
                 domain={["dataMax", "dataMin"]}
                 tick={false}
-                axisLine={false}
+                axisLine={{ stroke: "transparent" }}
                 hide
               />
               <YAxis
@@ -304,7 +304,7 @@ export default function AnalysisGraphsCharts({
                 name="Y Position"
                 domain={["dataMin", "dataMax"]}
                 tick={false}
-                axisLine={false}
+                axisLine={{ stroke: "transparent" }}
                 hide
               />
               <Tooltip content={<ScatterTooltip />} />
