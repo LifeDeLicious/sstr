@@ -297,6 +297,7 @@ export default function AnalysisGraphsCharts({
                 tick={false}
                 axisLine={{ stroke: "transparent" }}
                 hide
+                style={{ display: "none" }}
               />
               <YAxis
                 type="number"
@@ -306,6 +307,7 @@ export default function AnalysisGraphsCharts({
                 tick={false}
                 axisLine={{ stroke: "transparent" }}
                 hide
+                style={{ display: "none" }}
               />
               <Tooltip content={<ScatterTooltip />} />
               {positionData.map((lapData, index) => (
