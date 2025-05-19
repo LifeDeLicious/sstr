@@ -302,7 +302,7 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="y"
                 name="Y Position"
-                domain={["dataMax", "dataMin"]}
+                domain={["dataMin", "dataMax"]}
                 tick={false}
                 axisLine={false}
                 hide
