@@ -21,6 +21,8 @@ function RouteComponent() {
   // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
+  } else if (!user.IsAdmin) {
+    navigate({ to: "/sessions" });
   }
 
   return (
