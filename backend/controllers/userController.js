@@ -208,7 +208,7 @@ export const checkAuthStatus = (req, res) => {
 
 export const adminGetCars = async (req, res) => {
   try {
-    const { userID } = req.body;
+    const userID = req.user.UserID;
     console.log(`adminid:${userID}, admingetcars `);
 
     const userData = await db
