@@ -5,6 +5,7 @@ import { UserLogs } from "../db/schema/UserLogs.js";
 //import { UserLogs } from "./db/schema/UserLogs.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/jwtutil.js";
+import { Cars } from "../db/schema/Cars.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -205,6 +206,46 @@ export const checkAuthStatus = (req, res) => {
   });
 };
 
+export const adminGetCars = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    console.log(`adminid:${userID}, admingetcars `);
+
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
+
+    if (!userData[0].isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
+
+    const cars = await db
+      .select({
+        carModel: Cars.CarModel,
+        carAssetName: Cars.CarAssetName,
+      })
+      .from(Cars);
+
+    res.status(200).json({ cars });
+  } catch (error) {
+    console.log("error admingetcars:", error);
+    res.status(500).json({ message: "Failed to admingetcars" });
+  }
+};
+
+export const adminGetTracks = (req, res) => {
+  console.log("auth check user data: ", req.user);
+
+  res.status(200).json({
+    UserID: req.user.UserID || req.user.userId,
+    Username: req.user.Username || req.user.username,
+    IsAdmin: req.user.IsAdmin,
+  });
+};
+
 // const loginUserClient = async (req, res) => {
 //   try {
 //     const { email, password } = req.body; //username vieta email
@@ -267,6 +308,8 @@ const userController = {
   loginUser,
   checkAuthStatus,
   logoutUser,
+  adminGetCars,
+  adminGetTracks,
   //loginUserClient,
 };
 

@@ -24,4 +24,6 @@ router.get("/auth/status", requireAuth, userController.checkAuthStatus);
 
 router.post("/logout", userController.logoutUser);
 
+router.get("/admingetcars", requireAuth, userController.adminGetCars);
+
 export default router;
