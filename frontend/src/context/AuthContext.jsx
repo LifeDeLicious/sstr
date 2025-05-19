@@ -36,6 +36,7 @@ export function AuthProvider({ children }) {
       return {
         UserID: data.UserID,
         Username: data.Username,
+        IsAdmin: data.IsAdmin,
       };
     },
     retry: false,

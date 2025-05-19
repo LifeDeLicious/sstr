@@ -136,7 +136,7 @@ export default function AnalysisLapsTable({
           <thead>
             <tr>
               <th className=" w-15">Lap</th>
-              <th className="w-15">Color pickeri</th>
+              <th className="w-15">Data Color</th>
               <th className="w-40">Driver</th>
               <th className="w-15">Lap time</th>
               <th className="w-20">Track conditions</th>
