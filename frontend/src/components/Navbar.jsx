@@ -64,7 +64,14 @@ export default function Navbar() {
               <li>
                 <Link to={"/usersettings"}>User settings</Link>
               </li>
-              <div className="divider mt-0 mb-0"></div>
+              {user.IsAdmin ? (
+                <>
+                  <div className="divider mt-0 mb-0"></div>
+                  <Link to={"/admin"}>Admin panel</Link>
+                </>
+              ) : (
+                <></>
+              )}
               <div className="divider mt-0 mb-0"></div>
               <li onClick={handleLogout}>
                 <a>Log out</a>
