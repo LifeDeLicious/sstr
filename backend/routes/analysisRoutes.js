@@ -41,4 +41,6 @@ router.post(
   analysisController.changeAnalysisLapVisibility
 );
 
+router.post("/delete", requireAuth, analysisController.deleteAnalysis);
+
 export default router;

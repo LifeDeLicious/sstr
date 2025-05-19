@@ -528,6 +528,23 @@ const changeAnalysisLapColor = async (req, res) => {
   }
 };
 
+const deleteAnalysis = async (req, res) => {
+  try {
+    const { analysisID } = req.body;
+    console.log(`deleteanalysisid:${analysisID}`);
+
+    const deletedAnalysis = await db
+      .delete(Analysis)
+      .where(eq(Analysis.AnalysisID, analysisID));
+
+    console.log(`analysisid ${analysisID}, deleted`);
+    res.status(200).json({ message: "Analysis deleted successfully" });
+  } catch (error) {
+    console.error("error deleting analysis:", error);
+    res.status(500).json({ message: "Failed to delete analysis" });
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
@@ -540,6 +557,7 @@ const analysisController = {
   changeAnalysisAccessibility,
   changeAnalysisLapVisibility,
   changeAnalysisLapColor,
+  deleteAnalysis,
 };
 
 export default analysisController;

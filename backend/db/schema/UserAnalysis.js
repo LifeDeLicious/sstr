@@ -5,5 +5,7 @@ import { Analysis } from "./Analysis.js";
 export const UserAnalysis = mysqlTable("UserAnalysis", {
   ID: int("ID").primaryKey().autoincrement().notNull(),
   AnalysisID: int("AnalysisID").references(() => Analysis.AnalysisID),
-  UserID: int("UserID").references(() => Users.UserID),
+  UserID: int("UserID").references(() => Users.UserID, {
+    onDelete: "cascade",
+  }),
 });

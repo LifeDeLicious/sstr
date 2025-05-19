@@ -15,5 +15,4 @@ export const Laps = mysqlTable("Laps", {
   LapTime: double("LapTime").notNull(),
   SessionID: int("SessionID").references(() => Sessions.SessionID),
   IsFastestLapOfSession: boolean("IsFastestLapOfSession"),
-  //LapOfSession: int("LapOfSession").notNull(),
 });
