@@ -147,7 +147,7 @@ export default function AnalysisGraphsCharts({
 
     return {
       xDomain: [minX, maxX],
-      yDomain: [maxY, minY], // Reversed Y axis
+      yDomain: [minY, maxY], // Reversed Y axis
     };
   };
 
@@ -293,7 +293,7 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="x"
                 name="X Position"
-                domain={["dataMax", "dataMin"]}
+                domain={[domains.xDomain[1], domains.xDomain[0]]}
                 tick={false}
                 axisLine={{ stroke: "transparent" }}
                 hide
@@ -303,7 +303,7 @@ export default function AnalysisGraphsCharts({
                 type="number"
                 dataKey="y"
                 name="Y Position"
-                domain={["dataMin", "dataMax"]}
+                domain={[domains.yDomain[1], domains.yDomain[0]]}
                 tick={false}
                 axisLine={{ stroke: "transparent" }}
                 hide
