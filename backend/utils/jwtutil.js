@@ -8,6 +8,7 @@ export const generateToken = (user) => {
     {
       UserID: user.UserID,
       Username: user.Username,
+      IsAdmin: user.IsAdmin,
     },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRY }
