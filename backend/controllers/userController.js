@@ -274,6 +274,38 @@ export const adminGetTracks = async (req, res) => {
   }
 };
 
+export const adminGetUsers = async (req, res) => {
+  try {
+    const userID = req.user.UserID;
+    console.log(`adminid:${userID}, admingetusers`);
+
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
+
+    const isAdmin = userData[0].isAdmin;
+
+    if (!isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
+
+    const users = await db
+      .select({
+        userUsername: Users.Username,
+        userID: Users.UserID,
+      })
+      .from(Users);
+
+    res.status(200).json({ users });
+  } catch (error) {
+    console.log("error admingetusers:", error);
+    res.status(500).json({ message: "Failed to admingetusers" });
+  }
+};
+
 // const loginUserClient = async (req, res) => {
 //   try {
 //     const { email, password } = req.body; //username vieta email
@@ -338,6 +370,7 @@ const userController = {
   logoutUser,
   adminGetCars,
   adminGetTracks,
+  adminGetUsers,
   //loginUserClient,
 };
 

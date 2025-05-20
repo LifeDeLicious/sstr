@@ -28,4 +28,6 @@ router.get("/admingetcars", requireAuth, userController.adminGetCars);
 
 router.get("/admingettracks", requireAuth, userController.adminGetTracks);
 
+router.get("/admingetusers", requireAuth, userController.adminGetUsers);
+
 export default router;
