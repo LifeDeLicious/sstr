@@ -11,9 +11,11 @@ export default function SessionsCollapse({ summary, sessions }) {
       <details className="collapse collapse-arrow bg-base-200 border-base-300 border mb-3">
         <summary className="collapse-title font-semibold">
           <div>
-            <p className="text-lg">{summary.car}</p>
             <p className="text-lg">
-              {summary.track} ({summary.trackLayout})
+              {summary.carName ? summary.carName : summary.carAssetName}
+            </p>
+            <p className="text-lg">
+              {summary.trackName} ({summary.trackLayout})
             </p>
             <p className="absolute top-3 right-100">
               Events: {summary.eventCount}

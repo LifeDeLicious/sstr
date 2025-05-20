@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 import AdminUsersCollapse from "../components/AdminUsersCollapse.jsx";
 import AdminTracksCollapse from "../components/AdminTracksCollapse.jsx";
+import AdminCarsCollapse from "../components/AdminCarsCollapse.jsx";
 
 export const Route = createFileRoute("/admin")({
   component: RouteComponent,
@@ -34,6 +35,7 @@ function RouteComponent() {
         <div className="w-350">
           <AdminUsersCollapse />
           <AdminTracksCollapse />
+          <AdminCarsCollapse />
         </div>
       </div>
     </>

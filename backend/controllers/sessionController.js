@@ -77,9 +77,11 @@ const getSessionSummaries = async (req, res) => {
     const combinationQuery = await db
       .select({
         carID: Cars.CarID,
-        carName: Cars.CarAssetName, //!
+        carName: Cars.CarModel,
+        carAssetName: Cars.CarAssetName,
         trackID: Tracks.TrackID,
-        trackName: Tracks.TrackAssetName,
+        trackName: Tracks.TrackName,
+        trackAssetName: Tracks.TrackAssetName,
         trackLayout: Tracks.TrackLayout,
         eventCount: count(Sessions.SessionID).as("eventCount"),
         totalLaps: sum(Sessions.AmountOfLaps).as("totalLaps"),
