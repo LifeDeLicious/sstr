@@ -2,7 +2,7 @@ import SessionsCollapseTable from "./SessionsCollapseTable";
 import { Link } from "@tanstack/react-router";
 import { formatDistanceToNow } from "date-fns";
 
-export default function SessionsCollapse({ analyticsList }) {
+export default function AnalysisEvent({ analyticsList }) {
   const formattedSinceCreated = analyticsList.creationDate
     ? formatDistanceToNow(new Date(analyticsList.creationDate), {
         addSuffix: true,
@@ -12,7 +12,10 @@ export default function SessionsCollapse({ analyticsList }) {
   return (
     <>
       {analyticsList.map((analysisEvent, index) => (
-        <details className="collapse bg-base-200 border-base-300 border mb-3">
+        <details
+          key={analysisEvent.analysisID}
+          className="collapse bg-base-200 border-base-300 border mb-3"
+        >
           <summary className="collapse-title font-semibold">
             <div className="grid grid-cols-5">
               <div className="col-span-2">
@@ -21,9 +24,12 @@ export default function SessionsCollapse({ analyticsList }) {
                     ? analysisEvent.analysisName
                     : "Untitled analysis"}
                 </h1>
-                <p className="text-md">{analysisEvent.carAssetName}</p>
                 <p className="text-md">
-                  {analysisEvent.trackAssetName} ({analysisEvent.trackLayout})
+                  {analysisEvent.carName || analysisEvent.carAssetName}
+                </p>
+                <p className="text-md">
+                  {analysisEvent.trackName || analysisEvent.trackAssetName} (
+                  {analysisEvent.trackLayout})
                 </p>
               </div>
               <div className="col-span-2">

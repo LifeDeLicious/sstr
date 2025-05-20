@@ -77,7 +77,7 @@ const getSessionSummaries = async (req, res) => {
     const combinationQuery = await db
       .select({
         carID: Cars.CarID,
-        carName: Cars.CarModel,
+        carModel: Cars.CarModel,
         carAssetName: Cars.CarAssetName,
         trackID: Tracks.TrackID,
         trackName: Tracks.TrackName,
@@ -158,8 +158,10 @@ const getSessionSummaries = async (req, res) => {
 
       result.push({
         summary: {
-          car: combo.carName,
-          track: combo.trackName,
+          carName: combo.carModel,
+          carAssetName: combo.carAssetName,
+          trackName: combo.trackName,
+          trackAssetName: combo.trackAssetName,
           trackLayout: combo.trackLayout,
           eventCount: Number(combo.eventCount),
           totalLaps: Number(combo.totalLaps),
@@ -193,8 +195,10 @@ const getSessionData = async (req, res) => {
         fastestLapTime: Sessions.FastestLapTime,
         trackTemperature: Sessions.TrackTemperature,
         airTemperature: Sessions.AirTemperature,
+        carName: Cars.CarModel,
         carAssetName: Cars.CarAssetName,
         carID: Cars.CarID,
+        trackName: Tracks.TrackName,
         trackAssetName: Tracks.TrackAssetName,
         trackID: Tracks.TrackID,
         trackLayout: Tracks.TrackLayout,

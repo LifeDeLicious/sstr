@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function AdminCarsCollapse() {
   const queryClient = useQueryClient();
-  const [trackNames, setTrackNames] = useState({});
+  const [carNames, setCarNames] = useState({});
 
   const {
     data: carsData,
@@ -39,18 +39,18 @@ export default function AdminCarsCollapse() {
   });
 
   useEffect(() => {
-    if (carsData?.tracks) {
-      const initialTrackNames = {};
-      carsData.tracks.forEach((track) => {
-        initialTrackNames[car.carID] = track.trackName;
+    if (carsData?.cars) {
+      const initialCarNames = {};
+      carsData.cars.forEach((car) => {
+        initialCarNames[car.carID] = car.carModel || car.carAssetName;
       });
-      setTrackNames(initialTrackNames);
+      setCarNames(initialCarNames);
     }
-  }, [tracksData]);
+  }, [carsData]);
 
   console.log("tracksdata", carsData);
 
-  const tracks = carsData?.tracks || [];
+  const cars = carsData?.cars || [];
 
   const handleInputChange = (carID, value) => {
     setTrackNames((prev) => ({
@@ -59,7 +59,7 @@ export default function AdminCarsCollapse() {
     }));
   };
 
-  const handleSubmit = async (e, track) => {
+  const handleSubmit = async (e, car) => {
     e.preventDefault();
     try {
       const response = await fetch(
