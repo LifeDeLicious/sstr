@@ -363,6 +363,45 @@ export const adminDeleteUser = async (req, res) => {
   }
 };
 
+export const adminUpdateTrack = async (req, res) => {
+  try {
+    const userID = req.user.UserID;
+    const { trackID, trackName } = req.body;
+
+    console.log(
+      `adminid:${userID}, adminudpatetrackid:${trackID}, name:${trackName} `
+    );
+
+    // const userData = await db
+    //   .select({
+    //     isAdmin: Users.IsAdmin,
+    //   })
+    //   .from(Users)
+    //   .where(eq(Users.UserID, userID));
+
+    // const isAdmin = userData[0].isAdmin;
+
+    // if (!isAdmin) {
+    //   return res.status(401).json({ message: "User is not an admin" });
+    // }
+
+    // const cars = await db
+    //   .select({
+    //     carID: Cars.CarID,
+    //     carModel: Cars.CarModel,
+    //     carAssetName: Cars.CarAssetName,
+    //   })
+    //   .from(Cars);
+
+    // res.status(200).json({ cars });
+  } catch (error) {
+    console.log("error admingetcars:", error);
+    res.status(500).json({ message: "Failed to admingetcars" });
+  }
+};
+
+export const adminUpdateCar = async (req, res) => {};
+
 // const loginUserClient = async (req, res) => {
 //   try {
 //     const { email, password } = req.body; //username vieta email
@@ -429,6 +468,8 @@ const userController = {
   adminGetTracks,
   adminGetUsers,
   adminDeleteUser,
+  adminUpdateTrack,
+  adminUpdateCar,
   //loginUserClient,
 };
 

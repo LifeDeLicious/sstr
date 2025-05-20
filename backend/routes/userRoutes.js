@@ -32,4 +32,8 @@ router.get("/admin/getusers", requireAuth, userController.adminGetUsers);
 
 router.post("/admin/deleteuser", requireAuth, userController.adminDeleteUser);
 
+router.post("/admin/updatetrack", requireAuth, userController.adminUpdateTrack);
+
+router.post("/admin/updatecar", requireAuth, userController.adminUpdateCar);
+
 export default router;

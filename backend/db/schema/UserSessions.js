@@ -4,7 +4,9 @@ import { Users } from "./Users.js";
 
 export const UserSessions = mysqlTable("UserSessions", {
   ID: int("ID").primaryKey().autoincrement().notNull(),
-  SessionID: int("SessionID").references(() => Sessions.SessionID),
+  SessionID: int("SessionID").references(() => Sessions.SessionID, {
+    onDelete: "cascade",
+  }),
   UserID: int("UserID").references(() => Users.UserID, {
     onDelete: "cascade",
   }),
