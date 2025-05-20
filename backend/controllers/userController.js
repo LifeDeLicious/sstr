@@ -336,6 +336,8 @@ export const adminDeleteUser = async (req, res) => {
       .innerJoin(Laps, eq(Users.UserID, Laps.UserID))
       .where(eq(Users.UserID, deleteUserID));
 
+    console.log("userfilekeys", userFileKeys);
+
     for (const key of userFileKeys) {
       if (key.length > 0) {
         const withoutFirstChar = key.substring(1);
