@@ -34,10 +34,10 @@ export default function AdminUsersCollapse() {
     },
   });
 
-  //const users = usersData?.users || [];
+  const users = usersData?.users || [];
 
   console.log(usersData);
-  //console.log(users);
+  console.log(users);
 
   return (
     <>
@@ -59,9 +59,9 @@ export default function AdminUsersCollapse() {
                 </tr>
               </thead>
               <tbody>
-                {usersData.map((user) => (
+                {/* {usersData.map((user) => (
                   <p>{user.userUsername}</p>
-                ))}
+                ))} */}
                 {/* {sessions.map((session) => (
                   <tr
                     key={session.sessionID}
