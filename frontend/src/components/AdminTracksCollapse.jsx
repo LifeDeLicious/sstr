@@ -52,7 +52,7 @@ export default function AdminTracksCollapse() {
 
   console.log("tracksdata", tracksData);
 
-  const tracks = tracksData?.users || [];
+  const tracks = tracksData?.tracks || [];
 
   const handleInputChange = (trackID, value) => {
     setTrackNames((prev) => ({
