@@ -34,10 +34,10 @@ export default function AdminUsersCollapse() {
     },
   });
 
-  const users = usersData?.users || [];
+  //const users = usersData?.users || [];
 
   console.log(usersData);
-  console.log(users);
+  //console.log(users);
 
   return (
     <>
