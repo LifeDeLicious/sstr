@@ -338,14 +338,14 @@ export const adminDeleteUser = async (req, res) => {
 
     console.log("userfilekeys", userFileKeys);
 
-    for (const key of userFileKeys) {
-      if (key.length > 0) {
-        const withoutFirstChar = key.substring(1);
+    for (let i = 0; i < userFileKeys.length; i++) {
+      const item = dataArray[i];
+      if (item && item.fileKey && item.fileKey.length > 0) {
+        const withoutFirstChar = item.fileKey.substring(1);
         const withJsonExtension = withoutFirstChar + ".json";
         fileKeys.push(withJsonExtension);
       }
     }
-
     console.log("filekeys:", fileKeys);
 
     // const deletedUser = await db.delete().from(Users).where();
