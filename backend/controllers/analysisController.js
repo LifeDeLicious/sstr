@@ -96,9 +96,11 @@ const getAnalysisData = async (req, res) => {
     const analysisConfigQuery = await db
       .select({
         carID: Cars.CarID,
-        carName: Cars.CarAssetName,
+        carName: Cars.CarModel,
+        carAssetName: Cars.CarAssetName,
         trackID: Tracks.TrackID,
-        trackName: Tracks.TrackAssetName,
+        trackName: Tracks.TrackName,
+        trackAssetName: Tracks.TrackAssetName,
         trackLayout: Tracks.TrackLayout,
         isAnalysisPublic: Analysis.IsAnalysisPublic,
       })
@@ -147,8 +149,10 @@ const getAnalysisData = async (req, res) => {
       analysisID: Number(analysisID),
       carID: analysisConfig.carID,
       carName: analysisConfig.carName,
+      carAssetName: analysisConfig.carAssetName,
       trackID: analysisConfig.trackID,
       trackName: analysisConfig.trackName,
+      trackAssetName: analysisConfig.trackAssetName,
       trackLayout: analysisConfig.trackLayout,
       isPublic: analysisConfig.isAnalysisPublic,
       laps: laps,

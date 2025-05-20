@@ -234,19 +234,15 @@ function RouteComponent() {
           <div className="">
             <p className="text-lg">
               <strong>Track:</strong>{" "}
-              {/* {analyticsData.trackName} ({analyticsData.trackLayout}) */}
-              {analyticsData.trackName && analyticsData.trackLayout
-                ? `${analyticsData.trackName} (${analyticsData.trackLayout})`
-                : "Loading..."}
+              {analyticsData.trackName || analyticsData.trackAssetName}
+              {analyticsData.trackLayout && ` (${analyticsData.trackLayout})`}
             </p>
             <p className="text-lg">
-              {/*inline relative left-105 top-[-27px]  */}
               <strong>Car:</strong>{" "}
-              {analyticsData.carName ? analyticsData.carName : "Loading..."}
+              {analyticsData.carName || analyticsData.carAssetName}
             </p>
           </div>
           <h2 className="text-2xl mt-3 mb-2.5">Laps</h2>
-          {/* <AnalysisEvent /> */}
           {analyticsData.laps && (
             <AnalysisLapsTable
               analyticsLaps={analyticsData.laps}
@@ -256,9 +252,6 @@ function RouteComponent() {
               onLapVisibilityChanged={handleLapVisibilityChange}
             />
           )}
-          {/* <AnalysisLapsTable analyticsLaps={analyticsData.laps} /> */}
-          {/* <Accordion /> */}
-          {/* <Outlet /> */}
           <br></br>
           <button className="btn btn-info" onClick={openModal}>
             Add lap

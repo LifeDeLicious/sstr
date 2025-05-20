@@ -24,7 +24,7 @@ export default function AdminCarsCollapse() {
       if (response.status === 401) {
         throw new Error("unauthorized");
       } else if (!response.ok) {
-        throw new Error("Failed to fetch tracks");
+        throw new Error("Failed to fetch cars");
       }
 
       return response.json();
@@ -53,7 +53,7 @@ export default function AdminCarsCollapse() {
   const cars = carsData?.cars || [];
 
   const handleInputChange = (carID, value) => {
-    setTrackNames((prev) => ({
+    setCarNames((prev) => ({
       ...prev,
       [carID]: value,
     }));
@@ -99,11 +99,11 @@ export default function AdminCarsCollapse() {
         </summary>
         <div className="divider mt-0 mb-0"></div>
         <div className="collapse-content text-sm">
-          {tracksLoading ? (
+          {carsLoading ? (
             <div className="flex justify-center p-4">
               <span className="loading loading-spinner loading-md"></span>
             </div>
-          ) : tracksError ? (
+          ) : carsError ? (
             <div className="alert alert-error">
               <span>Error loading cars: {carsError.message}</span>
             </div>
@@ -128,7 +128,7 @@ export default function AdminCarsCollapse() {
                     </label>
                     <input
                       type="text"
-                      value={trackNames[car.carID] || ""}
+                      value={carNames[car.carID] || ""}
                       onChange={(e) =>
                         handleInputChange(car.carID, e.target.value)
                       }
