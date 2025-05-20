@@ -10,7 +10,7 @@ export default function AdminUsersCollapse() {
     queryKey: ["usersData"],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.sstr.reinis.space/admingetusers`,
+        `https://api.sstr.reinis.space/admin/getusers`,
         {
           credentials: "include",
           method: "GET",
@@ -36,8 +36,36 @@ export default function AdminUsersCollapse() {
 
   const users = usersData?.users || [];
 
-  console.log(usersData);
-  console.log(users);
+  const handleDeleteUser = async (userID, userUsername) => {
+    try {
+      console.log(`is analysis public:${isPublic}`);
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/admin/deleteuser`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            deleteUserID: userID,
+            deleteUserUsername: userUsername,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ["usersData"],
+      });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
   return (
     <>
@@ -60,7 +88,19 @@ export default function AdminUsersCollapse() {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <p>{user.userUsername}</p>
+                  <tr key={user.userID} className="hover:bg-base-300">
+                    <td>{user.userUsername}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() =>
+                          handleDeleteUser(user.userID, user.userUsername)
+                        }
+                      >
+                        Delete user
+                      </button>
+                    </td>
+                  </tr>
                 ))}
                 {/* {sessions.map((session) => (
                   <tr

@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/jwtutil.js";
 import { Cars } from "../db/schema/Cars.js";
 import { Tracks } from "../db/schema/Tracks.js";
+import { Laps } from "../db/schema/Laps.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -304,6 +305,49 @@ export const adminGetUsers = async (req, res) => {
     console.log("error admingetusers:", error);
     res.status(500).json({ message: "Failed to admingetusers" });
   }
+};
+
+export const adminDeleteUser = async (req, res) => {
+  const { deleteUserID, deleteUserUsername } = req.body;
+
+  console.log(
+    `delteuserid:${deleteUserID}, deleteusername:${deleteUserUsername}`
+  );
+
+  // try {
+  //   const userID = req.user.UserID;
+  //   const { deleteUserID, deleteUserUsername } = req.body;
+
+  //   console.log(`adminid:${userID}, admingetusers`);
+
+  //   const userData = await db
+  //     .select({
+  //       isAdmin: Users.IsAdmin,
+  //     })
+  //     .from(Users)
+  //     .where(eq(Users.UserID, userID));
+
+  //   const isAdmin = userData[0].isAdmin;
+
+  //   if (!isAdmin) {
+  //     return res.status(401).json({ message: "User is not an admin" });
+  //   }
+
+  //   const userFileKeys = await db
+  //     .select({
+  //       fileKey: Laps.LapFileKey,
+  //     })
+  //     .from(Users)
+  //     .innerJoin(Laps, eq(Users.UserID, Laps.UserID))
+  //     .where(eq(Users.UserID, user));
+
+  //   const deletedUser = await db.delete().from(Users).where();
+
+  //   res.status(200).json({ users });
+  // } catch (error) {
+  //   console.log("error admingetusers:", error);
+  //   res.status(500).json({ message: "Failed to admingetusers" });
+  // }
 };
 
 // const loginUserClient = async (req, res) => {

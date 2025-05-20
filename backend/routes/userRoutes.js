@@ -24,10 +24,12 @@ router.get("/auth/status", requireAuth, userController.checkAuthStatus);
 
 router.post("/logout", userController.logoutUser);
 
-router.get("/admingetcars", requireAuth, userController.adminGetCars);
+router.get("/admin/getcars", requireAuth, userController.adminGetCars);
 
-router.get("/admingettracks", requireAuth, userController.adminGetTracks);
+router.get("/admin/gettracks", requireAuth, userController.adminGetTracks);
 
-router.get("/admingetusers", requireAuth, userController.adminGetUsers);
+router.get("/admin/getusers", requireAuth, userController.adminGetUsers);
+
+router.post("/admin/deleteuser", requireAuth, userController.adminDeleteUser);
 
 export default router;

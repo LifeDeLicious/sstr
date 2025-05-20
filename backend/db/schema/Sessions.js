@@ -12,7 +12,9 @@ import { Tracks } from "./Tracks.js";
 
 export const Sessions = mysqlTable("Sessions", {
   SessionID: int("SessionID").primaryKey().autoincrement().notNull(),
-  UserID: int("UserID").references(() => Users.UserID),
+  UserID: int("UserID").references(() => Users.UserID, {
+    onDelete: "cascade",
+  }),
   CarID: int("CarID").references(() => Cars.CarID),
   TrackID: int("TrackID").references(() => Tracks.TrackID),
   DateTime: timestamp("DateTime").defaultNow().notNull(),

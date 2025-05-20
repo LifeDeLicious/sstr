@@ -7,5 +7,7 @@ export const UserAnalysis = mysqlTable("UserAnalysis", {
   AnalysisID: int("AnalysisID").references(() => Analysis.AnalysisID, {
     onDelete: "cascade",
   }),
-  UserID: int("UserID").references(() => Users.UserID),
+  UserID: int("UserID").references(() => Users.UserID, {
+    onDelete: "cascade",
+  }),
 });
