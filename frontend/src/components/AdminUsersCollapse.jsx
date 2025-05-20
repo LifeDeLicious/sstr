@@ -38,7 +38,7 @@ export default function AdminUsersCollapse() {
 
   const handleDeleteUser = async (userID, userUsername) => {
     try {
-      console.log(`is analysis public:${isPublic}`);
+      //console.log(`is analysis public:${isPublic}`);
 
       const response = await fetch(
         `https://api.sstr.reinis.space/admin/deleteuser`,
