@@ -135,7 +135,13 @@ export default function AdminUsersCollapse() {
               <button className="btn btn-ghost" onClick={closeDeleteUserModal}>
                 Cancel
               </button>
-              <button className="btn btn-error" onClick={handleDeleteUser}>
+              <button
+                className="btn btn-error"
+                onClick={handleDeleteUser(
+                  selectedUser.userID,
+                  selectedUser.userUsername
+                )}
+              >
                 Delete User
               </button>
             </div>
