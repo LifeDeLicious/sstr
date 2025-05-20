@@ -113,57 +113,48 @@ export default function AdminTracksCollapse() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="table">
-                <tbody>
-                  {tracks.map((track) => (
-                    <tr key={track.trackID} className="hover:bg-base-300">
-                      <td className="w-full">
-                        <form
-                          onSubmit={(e) => handleSubmit(e, track)}
-                          className="flex items-center flex-wrap gap-4"
-                        >
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold">
-                              Asset name:
-                            </label>
-                            <span className="text-md">
-                              {track.trackAssetName}
-                            </span>
-                          </div>
+              {tracks.map((track) => (
+                <form
+                  key={track.trackID}
+                  onSubmit={(e) => handleSubmit(e, track)}
+                  className="flex items-center gap-4 mb-4 p-2 bg-base-300 bg-opacity-50 rounded-lg"
+                >
+                  <div className="flex items-center gap-2">
+                    <label className="font-semibold whitespace-nowrap">
+                      Asset name:
+                    </label>
+                    <span className="text-md">{track.trackAssetName}</span>
+                  </div>
 
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold">
-                              Display name:
-                            </label>
-                            <input
-                              type="text"
-                              value={trackNames[track.trackID] || ""}
-                              onChange={(e) =>
-                                handleInputChange(track.trackID, e.target.value)
-                              }
-                              className="input input-bordered input-sm"
-                            />
-                          </div>
+                  <div className="flex items-center gap-2">
+                    <label className="font-semibold whitespace-nowrap">
+                      Display name:
+                    </label>
+                    <input
+                      type="text"
+                      value={trackNames[track.trackID] || ""}
+                      onChange={(e) =>
+                        handleInputChange(track.trackID, e.target.value)
+                      }
+                      className="input input-bordered input-sm"
+                    />
+                  </div>
 
-                          <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold">
-                              Track configuration:
-                            </label>
-                            <span className="text-md">{track.trackLayout}</span>
-                          </div>
+                  <div className="flex items-center gap-2">
+                    <label className="font-semibold whitespace-nowrap">
+                      Track configuration:
+                    </label>
+                    <span className="text-md">{track.trackLayout}</span>
+                  </div>
 
-                          <button
-                            type="submit"
-                            className="btn btn-sm btn-primary ml-auto"
-                          >
-                            Save
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                  <button
+                    type="submit"
+                    className="btn btn-sm btn-primary ml-auto"
+                  >
+                    Save
+                  </button>
+                </form>
+              ))}
             </div>
           )}
         </div>
