@@ -1,11 +1,12 @@
 //import { formatDistanceToNow } from "date-fns";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AdminUsersCollapse() {
+export default function AdminTracksCollapse() {
   const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const queryClient = useQueryClient();
+  const [trackNames, setTrackNames] = useState({});
 
   const {
     data: tracksData,
@@ -39,53 +40,58 @@ export default function AdminUsersCollapse() {
     },
   });
 
+  useEffect(() => {
+    if (tracksData?.tracks) {
+      const initialTrackNames = {};
+      tracksData.tracks.forEach((track) => {
+        initialTrackNames[track.trackID] = track.trackName;
+      });
+      setTrackNames(initialTrackNames);
+    }
+  }, [tracksData]);
+
   console.log("tracksdata", tracksData);
 
   const tracks = tracksData?.users || [];
 
-  //   const openDeleteUserModal = (user) => {
-  //     setSelectedUser(user);
-  //     setIsDeleteUserModalOpen(true);
-  //   };
+  const handleInputChange = (trackID, value) => {
+    setTrackNames((prev) => ({
+      ...prev,
+      [trackID]: value,
+    }));
+  };
 
-  //   const closeDeleteUserModal = () => {
-  //     setIsDeleteUserModalOpen(false);
-  //     setSelectedUser(null);
-  //   };
+  const handleSubmit = async (e, track) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/admin/updatetrack`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            trackID: track.trackID,
+            trackName: trackNames[track.trackID],
+          }),
+        }
+      );
 
-  //   const handleDeleteUserSuccess = () => {};
+      if (!response.ok) {
+        throw new Error("Failed to update track");
+      }
 
-  //   const handleDeleteUser = async (userID, userUsername) => {
-  //     try {
-  //       //console.log(`is analysis public:${isPublic}`);
+      queryClient.invalidateQueries({
+        queryKey: ["tracksData"],
+      });
 
-  //       const response = await fetch(
-  //         `https://api.sstr.reinis.space/admin/updatetrack`,
-  //         {
-  //           method: "POST",
-  //           credentials: "include",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             deleteUserID: userID,
-  //             deleteUserUsername: userUsername,
-  //           }),
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to delete user");
-  //       }
-
-  //       queryClient.invalidateQueries({
-  //         queryKey: ["tracksData"],
-  //       });
-  //       //closeDeleteUserModal();
-  //     } catch (error) {
-  //       console.error("Error deleting user:", error);
-  //     }
-  //   };
+      alert("Track updated successfully");
+    } catch (error) {
+      console.error("Error updating track:", error);
+    }
+  };
 
   return (
     <>
@@ -97,43 +103,69 @@ export default function AdminUsersCollapse() {
         </summary>
         <div className="divider mt-0 mb-0"></div>
         <div className="collapse-content text-sm">
-          <div className="overflow-x-auto">
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {tracks.map((track) => (
-                  <tr key={track.trackID} className="hover:bg-base-300">
-                    <div>
-                      <p className="text-md">
-                        Asset name: {track.trackAssetName}, configuration:{" "}
-                        {track.trackLayout}
-                      </p>
-                      <br></br>
-                      <form>
-                        <label>Display name:</label>
-                        <input
-                          type="text"
-                          name="trackname"
-                          placeholder={track.trackName}
-                        ></input>
-                        <button type="submit" className="btn btn-neutral">
-                          Save
-                        </button>
-                      </form>
-                    </div>
-                    <td> </td>
-                    <td></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {tracksLoading ? (
+            <div className="flex justify-center p-4">
+              <span className="loading loading-spinner loading-md"></span>
+            </div>
+          ) : tracksError ? (
+            <div className="alert alert-error">
+              <span>Error loading tracks: {tracksError.message}</span>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="table">
+                <tbody>
+                  {tracks.map((track) => (
+                    <tr key={track.trackID} className="hover:bg-base-300">
+                      <td className="w-full">
+                        <form
+                          onSubmit={(e) => handleSubmit(e, track)}
+                          className="flex items-center flex-wrap gap-4"
+                        >
+                          <div className="flex flex-col gap-1">
+                            <label className="text-sm font-semibold">
+                              Asset name:
+                            </label>
+                            <span className="text-md">
+                              {track.trackAssetName}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-col gap-1">
+                            <label className="text-sm font-semibold">
+                              Display name:
+                            </label>
+                            <input
+                              type="text"
+                              value={trackNames[track.trackID] || ""}
+                              onChange={(e) =>
+                                handleInputChange(track.trackID, e.target.value)
+                              }
+                              className="input input-bordered input-sm"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-1">
+                            <label className="text-sm font-semibold">
+                              Track configuration:
+                            </label>
+                            <span className="text-md">{track.trackLayout}</span>
+                          </div>
+
+                          <button
+                            type="submit"
+                            className="btn btn-sm btn-primary ml-auto"
+                          >
+                            Save
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </details>
       {/* {isDeleteUserModalOpen && selectedUser && (
