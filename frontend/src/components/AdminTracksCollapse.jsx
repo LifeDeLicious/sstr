@@ -86,8 +86,6 @@ export default function AdminTracksCollapse() {
       queryClient.invalidateQueries({
         queryKey: ["tracksData"],
       });
-
-      alert("Track updated successfully");
     } catch (error) {
       console.error("Error updating track:", error);
     }
@@ -136,7 +134,7 @@ export default function AdminTracksCollapse() {
                       onChange={(e) =>
                         handleInputChange(track.trackID, e.target.value)
                       }
-                      className="input input-bordered input-sm"
+                      className="input input-bordered input-sm min-w-[150px] flex-grow"
                     />
                   </div>
 
