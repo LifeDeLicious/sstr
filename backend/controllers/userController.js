@@ -372,31 +372,30 @@ export const adminUpdateTrack = async (req, res) => {
       `adminid:${userID}, adminudpatetrackid:${trackID}, name:${trackName} `
     );
 
-    // const userData = await db
-    //   .select({
-    //     isAdmin: Users.IsAdmin,
-    //   })
-    //   .from(Users)
-    //   .where(eq(Users.UserID, userID));
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
 
-    // const isAdmin = userData[0].isAdmin;
+    const isAdmin = userData[0].isAdmin;
 
-    // if (!isAdmin) {
-    //   return res.status(401).json({ message: "User is not an admin" });
-    // }
+    if (!isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
 
-    // const cars = await db
-    //   .select({
-    //     carID: Cars.CarID,
-    //     carModel: Cars.CarModel,
-    //     carAssetName: Cars.CarAssetName,
-    //   })
-    //   .from(Cars);
+    const trackUpdated = await db
+      .update(Tracks)
+      .set({
+        TrackName: trackName,
+      })
+      .where(eq(Tracks.TrackID, trackID));
 
-    // res.status(200).json({ cars });
+    res.status(200).json({ message: "Track updated successfully" });
   } catch (error) {
-    console.log("error admingetcars:", error);
-    res.status(500).json({ message: "Failed to admingetcars" });
+    console.log("error updating track:", error);
+    res.status(500).json({ message: "Failed to update track" });
   }
 };
 
