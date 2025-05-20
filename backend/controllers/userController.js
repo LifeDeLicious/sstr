@@ -415,6 +415,7 @@ const userController = {
   adminGetCars,
   adminGetTracks,
   adminGetUsers,
+  adminDeleteUser,
   //loginUserClient,
 };
 

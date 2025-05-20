@@ -71,6 +71,13 @@
       "when": 1747643895498,
       "tag": "0009_ambitious_glorian",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1747758841469,
+      "tag": "0010_curvy_silver_samurai",
+      "breakpoints": true
     }
   ]
 }
