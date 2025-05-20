@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../context/AuthContext.jsx";
 import AdminUsersCollapse from "../components/AdminUsersCollapse.jsx";
+import AdminTracksCollapse from "../components/AdminTracksCollapse.jsx";
 
 export const Route = createFileRoute("/admin")({
   component: RouteComponent,
@@ -32,6 +33,7 @@ function RouteComponent() {
       <div className="flex flex-col items-center ">
         <div className="w-350">
           <AdminUsersCollapse />
+          <AdminTracksCollapse />
         </div>
       </div>
     </>
