@@ -115,46 +115,6 @@ export default function SessionLapsTable({
                 </td>
               </tr>
             ))}
-            {/* row 1 */}
-            {/* <tr className="hover:bg-base-300">
-              <th>1</th>
-              <td>{"1:46.35"}</td>
-              <td className="w-15">
-                <div className="join">
-                  <button className="btn h-8 join-item bg-slate-400">
-                    Analyze
-                  </button>
-                  <select className="select h-8 w-2 join-item">
-                    <option>Copy lap ID</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
-            {/* row 2 */}
-            {/* <tr className="hover:bg-base-300">
-              <th>2</th>
-              <td>abc</td>
-              <td className="w-15">
-                <div className="join">
-                  <button className="btn h-8 join-item bg-slate-400">
-                    Analyze
-                  </button>
-                  <details className="dropdown join-item dropdown-end">
-                    <summary className="btn bg-slate-400 h-8">v</summary>
-                    <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-28 p-2 shadow-sm">
-                      <li>
-                        <a>Copy lap ID</a>
-                      </li>
-                    </ul>
-                  </details>
-                </div>
-              </td>
-            </tr>
-            {/* row 3 */}
-            {/* <tr className="hover:bg-base-300">
-              <th>3</th>
-              <td>xyz</td>
-            </tr> */}
           </tbody>
         </table>
       </div>

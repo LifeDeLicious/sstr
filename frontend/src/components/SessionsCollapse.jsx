@@ -32,7 +32,6 @@ export default function SessionsCollapse({ summary, sessions }) {
         </summary>
         <div className="divider mt-0 mb-0"></div>
         <div className="collapse-content text-sm">
-          but upatikami samazinat starpu starp divideru un tabulas headingiem
           <SessionsCollapseTable sessions={sessions} />
         </div>
       </details>

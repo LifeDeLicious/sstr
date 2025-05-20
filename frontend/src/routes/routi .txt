@@ -1,7 +1,0 @@
-index - auth login/register
-sessions - sesiju parskats
-session/<int:id> - konkreta sesija
-analysis
-analysis/<int:id>
-analysis/<int:id>/graphs == mosh nomainit uz analysis/graphs/<int:id>??
-admin - admin panelis
