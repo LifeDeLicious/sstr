@@ -137,10 +137,12 @@ export default function AdminUsersCollapse() {
               </button>
               <button
                 className="btn btn-error"
-                onClick={handleDeleteUser(
-                  selectedUser.userID,
-                  selectedUser.userUsername
-                )}
+                onClick={() =>
+                  handleDeleteUser(
+                    selectedUser.userID,
+                    selectedUser.userUsername
+                  )
+                }
               >
                 Delete User
               </button>
