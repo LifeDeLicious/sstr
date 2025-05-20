@@ -339,7 +339,7 @@ export const adminDeleteUser = async (req, res) => {
     console.log("userfilekeys", userFileKeys);
 
     for (let i = 0; i < userFileKeys.length; i++) {
-      const item = dataArray[i];
+      const item = userFileKeys[i];
       if (item && item.fileKey && item.fileKey.length > 0) {
         const withoutFirstChar = item.fileKey.substring(1);
         const withJsonExtension = withoutFirstChar + ".json";
