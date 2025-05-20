@@ -39,6 +39,8 @@ export default function AdminUsersCollapse() {
     },
   });
 
+  console.log("tracksdata", tracksData);
+
   const tracks = tracksData?.users || [];
 
   //   const openDeleteUserModal = (user) => {
