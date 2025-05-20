@@ -30,9 +30,10 @@ function RouteComponent() {
     <>
       <h1 className="ml-65 text-3xl mb-8">Admin panel</h1>
       <div className="flex flex-col items-center ">
-        <div className="w-350 bg-amber-400">Hello "/sessions"!</div>
+        <div className="w-350">
+          <AdminUsersCollapse />
+        </div>
       </div>
-      <AdminUsersCollapse />
     </>
   );
 }
