@@ -353,8 +353,7 @@ export const adminDeleteUser = async (req, res) => {
     deleteFilesByKeys(fileKeys);
 
     const deletedUser = await db
-      .delete()
-      .from(Users)
+      .delete(Users)
       .where(eq(Users.UserID, deleteUserID));
 
     res.status(200).json({ message: "user deleted successfully" });
