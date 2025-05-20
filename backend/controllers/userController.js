@@ -308,46 +308,51 @@ export const adminGetUsers = async (req, res) => {
 };
 
 export const adminDeleteUser = async (req, res) => {
-  const { deleteUserID, deleteUserUsername } = req.body;
+  try {
+    const userID = req.user.UserID;
+    const { deleteUserID, deleteUserUsername } = req.body;
 
-  console.log(
-    `delteuserid:${deleteUserID}, deleteusername:${deleteUserUsername}`
-  );
+    console.log(`adminid:${userID}, admindeleteuser`);
 
-  // try {
-  //   const userID = req.user.UserID;
-  //   const { deleteUserID, deleteUserUsername } = req.body;
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
 
-  //   console.log(`adminid:${userID}, admingetusers`);
+    const isAdmin = userData[0].isAdmin;
 
-  //   const userData = await db
-  //     .select({
-  //       isAdmin: Users.IsAdmin,
-  //     })
-  //     .from(Users)
-  //     .where(eq(Users.UserID, userID));
+    if (!isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
 
-  //   const isAdmin = userData[0].isAdmin;
+    const fileKeys = [];
+    const userFileKeys = await db
+      .select({
+        fileKey: Laps.LapFileKey,
+      })
+      .from(Users)
+      .innerJoin(Laps, eq(Users.UserID, Laps.UserID))
+      .where(eq(Users.UserID, deleteUserID));
 
-  //   if (!isAdmin) {
-  //     return res.status(401).json({ message: "User is not an admin" });
-  //   }
+    for (const key of userFileKeys) {
+      if (key.length > 0) {
+        const withoutFirstChar = key.substring(1);
+        const withJsonExtension = withoutFirstChar + ".json";
+        fileKeys.push(withJsonExtension);
+      }
+    }
 
-  //   const userFileKeys = await db
-  //     .select({
-  //       fileKey: Laps.LapFileKey,
-  //     })
-  //     .from(Users)
-  //     .innerJoin(Laps, eq(Users.UserID, Laps.UserID))
-  //     .where(eq(Users.UserID, user));
+    console.log("filekeys:", fileKeys);
 
-  //   const deletedUser = await db.delete().from(Users).where();
+    // const deletedUser = await db.delete().from(Users).where();
 
-  //   res.status(200).json({ users });
-  // } catch (error) {
-  //   console.log("error admingetusers:", error);
-  //   res.status(500).json({ message: "Failed to admingetusers" });
-  // }
+    // res.status(200).json({ users });
+  } catch (error) {
+    console.log("error admingetusers:", error);
+    res.status(500).json({ message: "Failed to admingetusers" });
+  }
 };
 
 // const loginUserClient = async (req, res) => {
