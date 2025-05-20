@@ -399,7 +399,41 @@ export const adminUpdateTrack = async (req, res) => {
   }
 };
 
-export const adminUpdateCar = async (req, res) => {};
+export const adminUpdateCar = async (req, res) => {
+  try {
+    const userID = req.user.UserID;
+    const { carID, carName } = req.body;
+
+    console.log(
+      `adminid:${userID}, adminudpatecarid:${carID}, name:${carName} `
+    );
+
+    const userData = await db
+      .select({
+        isAdmin: Users.IsAdmin,
+      })
+      .from(Users)
+      .where(eq(Users.UserID, userID));
+
+    const isAdmin = userData[0].isAdmin;
+
+    if (!isAdmin) {
+      return res.status(401).json({ message: "User is not an admin" });
+    }
+
+    const carUpdated = await db
+      .update(Cars)
+      .set({
+        CarModel: carName,
+      })
+      .where(eq(Cars.CarID, carID));
+
+    res.status(200).json({ message: "Car updated successfully" });
+  } catch (error) {
+    console.log("error updating car:", error);
+    res.status(500).json({ message: "Failed to update car" });
+  }
+};
 
 // const loginUserClient = async (req, res) => {
 //   try {

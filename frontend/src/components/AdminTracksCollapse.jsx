@@ -3,8 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 export default function AdminTracksCollapse() {
-  const [isTrackModalOpen, setIsTrackModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const queryClient = useQueryClient();
   const [trackNames, setTrackNames] = useState({});
 
@@ -157,33 +155,6 @@ export default function AdminTracksCollapse() {
           )}
         </div>
       </details>
-      {/* {isDeleteUserModalOpen && selectedUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
-          <div className="bg-base-100 p-6 rounded-lg shadow-xl w-96 max-w-full">
-            <h3 className="text-lg font-bold text-red-500 mb-4">Delete User</h3>
-            <p className="mb-6">
-              Are you sure you want to delete user: "{selectedUser.userUsername}
-              "?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button className="btn btn-ghost" onClick={closeDeleteUserModal}>
-                Cancel
-              </button>
-              <button
-                className="btn btn-error"
-                onClick={() =>
-                  handleDeleteUser(
-                    selectedUser.userID,
-                    selectedUser.userUsername
-                  )
-                }
-              >
-                Delete User
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 }
