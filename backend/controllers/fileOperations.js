@@ -1,4 +1,9 @@
-import { GetObjectCommand, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3,
+  DeleteObjectsCommand,
+} from "@aws-sdk/client-s3";
 
 const s3Client = new S3({
   forcePathStyle: false,
@@ -104,3 +109,36 @@ const uploadObject = async (params) => {
     throw err;
   }
 };
+
+export async function deleteFilesByKeys(fileKeysToDelete) {
+  try {
+    if (fileKeysToDelete.length === 0) {
+      console.log("No file keys provided for deletion.");
+      return;
+    }
+
+    const deleteParams = {
+      Bucket: "sstr-laps",
+      Delete: {
+        Objects: fileKeysToDelete.map((key) => ({ Key: key })),
+        Quiet: false, // Set to true if you don't need details of deleted objects in the response
+      },
+    };
+
+    const deleteCommand = new DeleteObjectsCommand(deleteParams);
+    const deleteResult = await s3Client.send(deleteCommand);
+
+    if (deleteResult.Errors) {
+      console.error("Errors during deletion:", deleteResult.Errors);
+    } else {
+      console.log(
+        `Successfully initiated deletion of ${fileKeysToDelete.length} files.`
+      );
+      if (deleteResult.Deleted) {
+        console.log("Successfully deleted:", deleteResult.Deleted); // Uncomment to see details
+      }
+    }
+  } catch (error) {
+    console.error("Error deleting files:", error);
+  }
+}

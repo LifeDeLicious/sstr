@@ -9,6 +9,8 @@ import { Cars } from "../db/schema/Cars.js";
 import { Tracks } from "../db/schema/Tracks.js";
 import { Laps } from "../db/schema/Laps.js";
 
+import { deleteFilesByKeys } from "./fileOperations.js";
+
 export const getUser = async (req, res) => {
   try {
     const { id } = req.query;
@@ -336,7 +338,7 @@ export const adminDeleteUser = async (req, res) => {
       .innerJoin(Laps, eq(Users.UserID, Laps.UserID))
       .where(eq(Users.UserID, deleteUserID));
 
-    console.log("userfilekeys", userFileKeys);
+    //console.log("userfilekeys", userFileKeys);
 
     for (let i = 0; i < userFileKeys.length; i++) {
       const item = userFileKeys[i];
@@ -348,12 +350,17 @@ export const adminDeleteUser = async (req, res) => {
     }
     console.log("filekeys:", fileKeys);
 
-    // const deletedUser = await db.delete().from(Users).where();
+    deleteFilesByKeys(fileKeys);
 
-    // res.status(200).json({ users });
+    const deletedUser = await db
+      .delete()
+      .from(Users)
+      .where(eq(Users.UserID, deleteUserID));
+
+    res.status(200).json({ message: "user deleted successfully" });
   } catch (error) {
-    console.log("error admingetusers:", error);
-    res.status(500).json({ message: "Failed to admingetusers" });
+    console.log("error deleting user:", error);
+    res.status(500).json({ message: "Failed to delete user" });
   }
 };
 
