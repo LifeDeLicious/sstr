@@ -1,7 +1,7 @@
 //import { formatDistanceToNow } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 
-export default function AdminUsersCollapse({ summary, sessions }) {
+export default function AdminUsersCollapse() {
   const {
     data: usersData,
     isLoading: usersLoading,
@@ -25,7 +25,6 @@ export default function AdminUsersCollapse({ summary, sessions }) {
 
       return response.json();
     },
-    enabled: !!user && !!analyticsId,
     retry: (failureCount, error) => {
       if (error.message === "private") {
         return false;
@@ -57,7 +56,7 @@ export default function AdminUsersCollapse({ summary, sessions }) {
                 </tr>
               </thead>
               <tbody>
-                {sessions.map((session) => (
+                {/* {sessions.map((session) => (
                   <tr
                     key={session.sessionID}
                     className="hover:bg-base-300"
@@ -70,7 +69,7 @@ export default function AdminUsersCollapse({ summary, sessions }) {
                     </td>
                     <td>{session.laps}</td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>
