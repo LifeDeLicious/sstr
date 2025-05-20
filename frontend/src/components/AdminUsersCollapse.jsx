@@ -59,6 +59,9 @@ export default function AdminUsersCollapse() {
                 </tr>
               </thead>
               <tbody>
+                {usersData.map((user) => (
+                  <p>{user.userUsername}</p>
+                ))}
                 {/* {sessions.map((session) => (
                   <tr
                     key={session.sessionID}
