@@ -282,7 +282,7 @@ function RouteComponent() {
             {/* <h1 className="text-3xl mb-8 col-span-4">
               {"Analysis name inside a textbox/outline"}
             </h1> */}
-            <div className="col-span-4">
+            <div className="col-span-2">
               {isEditingName ? (
                 <input
                   ref={nameInputRef}
