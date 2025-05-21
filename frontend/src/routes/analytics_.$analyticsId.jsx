@@ -308,7 +308,7 @@ function RouteComponent() {
                 )}
               </div>
             </div>
-            <div className="join col-span-1 ml-auto">
+            <div className="join col-span-1 mr-auto">
               <button className="btn h-8 join-item bg-slate-400">
                 {analyticsData.isPublic ? "Public" : "Private"}
               </button>
