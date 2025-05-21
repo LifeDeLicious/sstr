@@ -553,6 +553,30 @@ const deleteAnalysis = async (req, res) => {
   }
 };
 
+const changeAnalysisName = async (req, res) => {
+  try {
+    const { analysisID, analysisName } = req.body;
+    console.log("changeanalysisnameid:", analysisID);
+
+    if (!color) {
+      return res.status(400).json({ message: "Color value is required" });
+    }
+
+    const changedLapColor = await db
+      .update(Analysis)
+      .set({
+        AnalysisName: analysisName,
+      })
+      .where(eq(AnalysisLaps.AnalysisID, analysisID));
+
+    console.log(`analysisid ${analysisID}, new name:${analysisName}`);
+    res.status(200).json({ message: "Analysis name changed successfully" });
+  } catch (error) {
+    console.error("error changeanalysisname:", error);
+    res.status(500).json({ message: "Failed to change analysis name" });
+  }
+};
+
 const analysisController = {
   createAnalysis,
   getAnalysisData,
@@ -566,6 +590,7 @@ const analysisController = {
   changeAnalysisLapVisibility,
   changeAnalysisLapColor,
   deleteAnalysis,
+  changeAnalysisName,
 };
 
 export default analysisController;

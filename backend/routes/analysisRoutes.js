@@ -43,4 +43,6 @@ router.post(
 
 router.post("/delete", requireAuth, analysisController.deleteAnalysis);
 
+router.post("/changename", requireAuth, analysisController.changeAnalysisName);
+
 export default router;

@@ -75,7 +75,7 @@ function RouteComponent() {
 
     try {
       const response = await fetch(
-        `https://api.sstr.reinis.space/analysis/update/${analyticsId}`,
+        `https://api.sstr.reinis.space/analysis/changename`,
         {
           method: "POST",
           credentials: "include",
@@ -83,6 +83,7 @@ function RouteComponent() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            analysisID: analyticsId,
             analysisName: analysisName,
           }),
         }
