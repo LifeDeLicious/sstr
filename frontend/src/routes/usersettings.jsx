@@ -8,13 +8,16 @@ export const Route = createFileRoute("/usersettings")({
 });
 
 function RouteComponent() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] =
     useState(false);
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] =
+    useState(false);
   const [newUsername, setNewUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
 
   const {
     data: userData,
@@ -72,6 +75,50 @@ function RouteComponent() {
       setUsernameError(error.message);
     },
   });
+
+  const deleteAccountMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/deleteprofile`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete account");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      // On successful deletion, log the user out and redirect to home
+      logout();
+      navigate({ to: "/" });
+    },
+    onError: (error) => {
+      setDeleteError(error.message);
+    },
+  });
+
+  const openDeleteModal = () => {
+    setIsDeleteAccountModalOpen(true);
+    setDeleteError("");
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteAccountModalOpen(false);
+    setDeleteError("");
+  };
+
+  const confirmDeleteAccount = () => {
+    deleteAccountMutation.mutate();
+  };
 
   const handleUsernameChange = (e) => {
     setNewUsername(e.target.value);
@@ -145,7 +192,10 @@ function RouteComponent() {
             </div>
           </div>
           <div className="pt-4 mt-5">
-            <button className="btn btn-outline btn-error btn-sm px-6">
+            <button
+              className="btn btn-outline btn-error btn-sm px-6"
+              onClick={openDeleteModal}
+            >
               Delete account
             </button>
           </div>
@@ -192,6 +242,58 @@ function RouteComponent() {
                   <span className="loading loading-spinner loading-xs"></span>
                 ) : (
                   "Change"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isDeleteAccountModalOpen && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-base-100 p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-medium mb-4">Delete Account</h3>
+
+            <p className="mb-4">
+              Are you sure you want to delete your account? This action cannot
+              be undone. All your data will be permanently removed.
+            </p>
+
+            {deleteError && (
+              <div className="alert alert-error mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{deleteError}</span>
+              </div>
+            )}
+
+            <div className="modal-action flex justify-end mt-6">
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-error btn-sm ml-2"
+                onClick={confirmDeleteAccount}
+                disabled={deleteAccountMutation.isPending}
+              >
+                {deleteAccountMutation.isPending ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : (
+                  "Delete Account"
                 )}
               </button>
             </div>
