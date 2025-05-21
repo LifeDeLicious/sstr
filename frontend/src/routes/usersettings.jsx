@@ -12,7 +12,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isChangeUsernameModalOpen, setIsChangeUsernameModalOpen] =
-    useState(true);
+    useState(false);
   const [newUsername, setNewUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
 
@@ -120,7 +120,7 @@ function RouteComponent() {
             <div className="flex-1">{userData.username}</div>
             <button
               className="btn btn-outline btn-sm px-6"
-              onClick={() => openUsernameModal}
+              onClick={openUsernameModal}
             >
               Change
             </button>
