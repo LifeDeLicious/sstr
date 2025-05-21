@@ -66,21 +66,18 @@ export const userChangeUsername = async (req, res) => {
 export const userDeleteProfile = async (req, res) => {
   try {
     const UserID = req.user.UserID || req.user.userId;
-    const { sessionID } = req.body;
     console.log(`deletesession called , userid:${UserID}`);
 
     try {
       await db.transaction(async (tx) => {
-        await tx
-          .delete(UserSessions)
-          .where(eq(UserSessions.SessionID, sessionID));
+        await tx.delete(UserSessions).where(eq(UserSessions.UserID, UserID));
 
         const laps = await tx
           .select({
             fileKey: Laps.LapFileKey,
           })
           .from(Laps)
-          .where(eq(Laps.SessionID, sessionID));
+          .where(eq(Laps.UserID, UserID));
 
         const fileKeys = laps
           .map((lap) => {
@@ -95,22 +92,18 @@ export const userDeleteProfile = async (req, res) => {
           await deleteFilesByKeys(fileKeys);
         }
 
-        await tx.delete(Laps).where(eq(Laps.SessionID, sessionID));
-
-        await tx.delete(Sessions).where(eq(Sessions.SessionID, sessionID));
-
         await db.transaction(async (tx) => {
           // Delete user sessions relationships
-          await tx.delete(UserSessions).where(eq(UserSessions.UserID, userID));
+          await tx.delete(UserSessions).where(eq(UserSessions.UserID, UserID));
 
           // Delete user laps
-          await tx.delete(Laps).where(eq(Laps.UserID, userID));
+          await tx.delete(Laps).where(eq(Laps.UserID, UserID));
 
           // Delete user sessions
-          await tx.delete(Sessions).where(eq(Sessions.UserID, userID));
+          await tx.delete(Sessions).where(eq(Sessions.UserID, UserID));
 
           // Finally delete the user
-          await tx.delete(Users).where(eq(Users.UserID, userID));
+          await tx.delete(Users).where(eq(Users.UserID, UserID));
         });
       });
 
