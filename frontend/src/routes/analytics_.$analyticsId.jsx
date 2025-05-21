@@ -287,7 +287,7 @@ function RouteComponent() {
               className="tooltip"
               data-tip="Type in and press Enter to change analysis name"
             >
-              <div className="col-span-2">
+              <div className="col-span-3">
                 {isEditingName ? (
                   <input
                     ref={nameInputRef}
@@ -308,7 +308,7 @@ function RouteComponent() {
                 )}
               </div>
             </div>
-            <div className="join col-span-1 mr-auto">
+            <div className="join col-span-2 mr-auto">
               <button className="btn h-8 join-item bg-slate-400">
                 {analyticsData.isPublic ? "Public" : "Private"}
               </button>
