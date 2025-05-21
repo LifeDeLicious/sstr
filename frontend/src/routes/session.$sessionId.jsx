@@ -168,7 +168,9 @@ function RouteComponent() {
             </div>
           )} */}
           {/* <SessionLapsTable /> */}
-          <button className="btn btn-warning mt-30">Delete analysis</button>
+          <button className="btn btn-outline btn-error mt-30">
+            Delete analysis
+          </button>
         </div>
       </div>
     </>
