@@ -69,9 +69,9 @@ export const userDeleteProfile = async (req, res) => {
     console.log(`deletesession called , userid:${UserID}`);
 
     try {
+      // Use a single transaction instead of nested transactions
       await db.transaction(async (tx) => {
-        await tx.delete(UserSessions).where(eq(UserSessions.UserID, UserID));
-
+        // First, get all file keys to delete
         const laps = await tx
           .select({
             fileKey: Laps.LapFileKey,
@@ -88,26 +88,26 @@ export const userDeleteProfile = async (req, res) => {
           })
           .filter(Boolean);
 
+        // Delete in the correct order to maintain referential integrity
+        // Delete user session relationships first
+        await tx.delete(UserSessions).where(eq(UserSessions.UserID, UserID));
+
+        // Delete user laps
+        await tx.delete(Laps).where(eq(Laps.UserID, UserID));
+
+        // Delete user sessions
+        await tx.delete(Sessions).where(eq(Sessions.UserID, UserID));
+
+        // Finally delete the user
+        await tx.delete(Users).where(eq(Users.UserID, UserID));
+
+        // Delete files after successful DB transaction
         if (fileKeys.length > 0) {
           await deleteFilesByKeys(fileKeys);
         }
-
-        await db.transaction(async (tx) => {
-          // Delete user sessions relationships
-          await tx.delete(UserSessions).where(eq(UserSessions.UserID, UserID));
-
-          // Delete user laps
-          await tx.delete(Laps).where(eq(Laps.UserID, UserID));
-
-          // Delete user sessions
-          await tx.delete(Sessions).where(eq(Sessions.UserID, UserID));
-
-          // Finally delete the user
-          await tx.delete(Users).where(eq(Users.UserID, UserID));
-        });
       });
 
-      console.log(`userid:${UserID} deleted`);
+      console.log(`userid:${UserID} deleted successfully`);
       res.status(200).json({ message: "Account successfully deleted" });
     } catch (txError) {
       console.error("Transaction error:", txError);
