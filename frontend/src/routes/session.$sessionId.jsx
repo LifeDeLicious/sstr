@@ -271,7 +271,7 @@ function DeleteSessionModal({
           </button>
           <button
             className="btn btn-error"
-            onClick={() => handleDeleteSession}
+            onClick={handleDeleteSession}
             disabled={isDeleting}
           >
             {isDeleting ? (
