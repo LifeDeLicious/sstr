@@ -335,6 +335,9 @@ const deleteSession = async (req, res) => {
     // }
     //console.log("filekeys:", fileKeys);
     // deleteFilesByKeys(fileKeys);
+    const deletedUserSessions = await db
+      .delete(UserSessions)
+      .where(eq(UserSessions.SessionID, sessionID));
 
     const deletedLaps = await db
       .delete(Laps)
