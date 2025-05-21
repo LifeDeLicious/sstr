@@ -295,7 +295,9 @@ const deleteSession = async (req, res) => {
     }
 
     const laps = await db
-      .select()
+      .select({
+        LapFileKey: Laps.LapFileKey,
+      })
       .from(Laps)
       .where(eq(Laps.SessionID, sessionID));
 
