@@ -79,7 +79,7 @@ function RouteComponent() {
   const deleteAccountMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `https://api.sstr.reinis.space/deleteprofile`,
+        `https://api.sstr.reinis.space/user/deleteprofile`,
         {
           method: "POST",
           credentials: "include",
