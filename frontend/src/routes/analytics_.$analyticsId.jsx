@@ -11,6 +11,7 @@ import DeleteAnalysisModal from "../components/DeleteAnalysisModal.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { useRef } from "react";
 
 export const Route = createFileRoute("/analytics_/$analyticsId")({
   component: RouteComponent,
@@ -21,6 +22,9 @@ function RouteComponent() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [analysisName, setAnalysisName] = useState("");
+  const [isEditingName, setIsEditingName] = useState(false);
+  const nameInputRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [laps, setLaps] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -57,6 +61,69 @@ function RouteComponent() {
       return failureCount < 3;
     },
   });
+
+  useEffect(() => {
+    if (analyticsData?.analysisName) {
+      setAnalysisName(analyticsData.analysisName);
+    } else if (analyticsData) {
+      setAnalysisName("Untitled analysis");
+    }
+  }, [analyticsData]);
+
+  const handleNameSave = async () => {
+    if (!isEditingName || analyticsData?.analysisName === analysisName) return;
+
+    try {
+      const response = await fetch(
+        `https://api.sstr.reinis.space/analysis/update/${analyticsId}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            analysisName: analysisName,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update analysis name");
+      }
+
+      queryClient.invalidateQueries(["analyticsData", analyticsId]);
+
+      setIsEditingName(false);
+    } catch (error) {
+      console.error("Error updating analysis name:", error);
+      if (analyticsData?.name) {
+        setAnalysisName(analyticsData.name);
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleNameSave();
+    } else if (e.key === "Escape") {
+      setIsEditingName(false);
+      if (analyticsData?.analysisName) {
+        setAnalysisName(analyticsData.analysisName);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isEditingName && nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+  }, [isEditingName]);
+
+  // Handle name change
+  const handleNameChange = (e) => {
+    setAnalysisName(e.target.value);
+  };
 
   useEffect(() => {
     if (analyticsData && analyticsData.laps) {
@@ -212,9 +279,29 @@ function RouteComponent() {
       <div className="flex flex-col items-center ">
         <div className="w-350">
           <div className="grid grid-cols-5">
-            <h1 className="text-3xl mb-8 col-span-4">
+            {/* <h1 className="text-3xl mb-8 col-span-4">
               {"Analysis name inside a textbox/outline"}
-            </h1>
+            </h1> */}
+            <div className="col-span-4">
+              {isEditingName ? (
+                <input
+                  ref={nameInputRef}
+                  type="text"
+                  className="input input-bordered text-2xl mb-8 w-full"
+                  value={analysisName}
+                  onChange={handleNameChange}
+                  onBlur={handleNameSave}
+                  onKeyDown={handleKeyDown}
+                />
+              ) : (
+                <h1
+                  className="text-3xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
+                  onClick={() => setIsEditingName(true)}
+                >
+                  {analysisName || "Untitled analysis"}
+                </h1>
+              )}
+            </div>
             <div className="join col-span-1">
               <button className="btn h-8 join-item bg-slate-400">
                 {analyticsData.isPublic ? "Public" : "Private"}
