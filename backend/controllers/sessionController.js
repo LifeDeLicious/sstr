@@ -294,24 +294,45 @@ const deleteSession = async (req, res) => {
         .json({ message: "Session does not belong to user" });
     }
 
-    const fileKeys = [];
-    const userFileKeys = await db
-      .select({
-        fileKey: Laps.LapFileKey,
-      })
+    const laps = await db
+      .select()
       .from(Laps)
       .where(eq(Laps.SessionID, sessionID));
 
-    for (let i = 0; i < userFileKeys.length; i++) {
-      const item = userFileKeys[i];
-      if (item && item.fileKey && item.fileKey.length > 0) {
-        const withoutFirstChar = item.fileKey.substring(1);
-        const withJsonExtension = withoutFirstChar + ".json";
-        fileKeys.push(withJsonExtension);
-      }
+    // Extract file keys from the laps
+    const fileKeys = laps
+      .map((lap) => {
+        if (lap && lap.LapFileKey && lap.LapFileKey.length > 0) {
+          const withoutFirstChar = lap.LapFileKey.substring(1);
+          return withoutFirstChar + ".json";
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    // Delete files from storage
+    if (fileKeys.length > 0) {
+      deleteFilesByKeys(fileKeys);
     }
+
+    // const fileKeys = [];
+    // const userFileKeys = await db
+    //   .select({
+    //     fileKey: Laps.LapFileKey,
+    //   })
+    //   .from(Laps)
+    //   .where(eq(Laps.SessionID, sessionID));
+
+    // for (let i = 0; i < userFileKeys.length; i++) {
+    //   const item = userFileKeys[i];
+    //   if (item && item.fileKey && item.fileKey.length > 0) {
+    //     const withoutFirstChar = item.fileKey.substring(1);
+    //     const withJsonExtension = withoutFirstChar + ".json";
+    //     fileKeys.push(withJsonExtension);
+    //   }
+    // }
     //console.log("filekeys:", fileKeys);
-    deleteFilesByKeys(fileKeys);
+    // deleteFilesByKeys(fileKeys);
 
     const deletedLaps = await db
       .delete(Laps)
