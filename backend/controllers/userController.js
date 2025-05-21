@@ -67,9 +67,7 @@ export const userDeleteProfile = async (req, res) => {
   try {
     const UserID = req.user.UserID || req.user.userId;
     const { sessionID } = req.body;
-    console.log(
-      `deletesession called , sessionid:${sessionID}, userid:${UserID}`
-    );
+    console.log(`deletesession called , userid:${UserID}`);
 
     try {
       await db.transaction(async (tx) => {
