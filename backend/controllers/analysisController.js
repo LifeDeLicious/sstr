@@ -558,11 +558,7 @@ const changeAnalysisName = async (req, res) => {
     const { analysisID, analysisName } = req.body;
     console.log("changeanalysisnameid:", analysisID);
 
-    if (!color) {
-      return res.status(400).json({ message: "Color value is required" });
-    }
-
-    const changedLapColor = await db
+    const changedAnalysisName = await db
       .update(Analysis)
       .set({
         AnalysisName: analysisName,
