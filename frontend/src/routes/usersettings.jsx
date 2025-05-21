@@ -153,7 +153,7 @@ function RouteComponent() {
       </div>
 
       {isChangeUsernameModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-50">
           <div className="bg-base-100 p-6 rounded-lg shadow-lg max-w-md w-full">
             <h3 className="text-lg font-medium mb-4">Change username</h3>
 
