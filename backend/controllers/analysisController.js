@@ -563,7 +563,7 @@ const changeAnalysisName = async (req, res) => {
       .set({
         AnalysisName: analysisName,
       })
-      .where(eq(AnalysisLaps.AnalysisID, analysisID));
+      .where(eq(Analysis.AnalysisID, analysisID));
 
     console.log(`analysisid ${analysisID}, new name:${analysisName}`);
     res.status(200).json({ message: "Analysis name changed successfully" });
