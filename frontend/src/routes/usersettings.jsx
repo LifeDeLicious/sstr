@@ -42,6 +42,8 @@ function RouteComponent() {
 
       return response.json();
     },
+
+    enabled: !!user,
   });
 
   const updateUsernameMutation = useMutation({
@@ -145,7 +147,7 @@ function RouteComponent() {
   };
 
   // Show loading state
-  if (userLoading) {
+  if (userLoading || loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
