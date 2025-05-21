@@ -247,9 +247,9 @@ function DeleteSessionModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="modal-box bg-base-200 p-6 rounded-lg max-w-md w-full">
-        <h3 className="font-bold text-lg mb-4">Delete Session</h3>
+    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-base-100 p-6 rounded-lg shadow-xl w-96 max-w-full">
+        <h3 className="font-bold text-lg text-red-500 mb-4">Delete Session</h3>
         <p className="mb-6">
           Are you sure you want to delete this session? This action cannot be
           undone.
