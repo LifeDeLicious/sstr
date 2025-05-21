@@ -282,25 +282,30 @@ function RouteComponent() {
             {/* <h1 className="text-3xl mb-8 col-span-4">
               {"Analysis name inside a textbox/outline"}
             </h1> */}
-            <div className="col-span-2">
-              {isEditingName ? (
-                <input
-                  ref={nameInputRef}
-                  type="text"
-                  className="input input-bordered text-2xl mb-8 w-full"
-                  value={analysisName}
-                  onChange={handleNameChange}
-                  onBlur={handleNameSave}
-                  onKeyDown={handleKeyDown}
-                />
-              ) : (
-                <h1
-                  className="text-3xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
-                  onClick={() => setIsEditingName(true)}
-                >
-                  {analysisName || "Untitled analysis"}
-                </h1>
-              )}
+            <div
+              className="tooltip"
+              data-tip="Type in and press Enter to change analysis name"
+            >
+              <div className="col-span-2">
+                {isEditingName ? (
+                  <input
+                    ref={nameInputRef}
+                    type="text"
+                    className="input input-bordered text-2xl mb-8 w-full"
+                    value={analysisName}
+                    onChange={handleNameChange}
+                    onBlur={handleNameSave}
+                    onKeyDown={handleKeyDown}
+                  />
+                ) : (
+                  <h1
+                    className="text-3xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
+                    onClick={() => setIsEditingName(true)}
+                  >
+                    {analysisName || "Untitled analysis"}
+                  </h1>
+                )}
+              </div>
             </div>
             <div className="join col-span-1 ml-auto">
               <button className="btn h-8 join-item bg-slate-400">
