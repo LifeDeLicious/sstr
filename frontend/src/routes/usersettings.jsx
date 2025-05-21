@@ -46,7 +46,7 @@ function RouteComponent() {
       const response = await fetch(
         `https://api.sstr.reinis.space/user/changeusername`,
         {
-          method: "PUT",
+          method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
