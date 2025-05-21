@@ -96,7 +96,7 @@ function RouteComponent() {
         <p></p>
         <p></p>
         <p></p>
-        <p>{"Analysis name"}</p>
+        <p>{analyticsGraphData?.analysisName || "Untitled analysis"}</p>
         <p></p>
         <Link to={`/analytics/${analyticsId}`}>
           <button className="btn w-25">Configure</button>

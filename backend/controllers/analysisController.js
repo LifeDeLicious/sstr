@@ -212,12 +212,14 @@ const getGraphData = async (req, res) => {
     const analysisPublicCheck = await db
       .select({
         isPublic: Analysis.IsAnalysisPublic,
+        analysisName: Analysis.AnalysisName,
       })
       .from(Analysis)
       .where(eq(Analysis.AnalysisID, analysisID))
       .limit(1);
 
     const isPublic = analysisPublicCheck[0].isPublic;
+    const analysisName = analysisPublicCheck[0].analysisName;
 
     const userAnalysisCheck = await db
       .select({
@@ -274,7 +276,9 @@ const getGraphData = async (req, res) => {
       lapColor: lap.lapColor,
     }));
 
-    res.status(200).json({ laps });
+    res
+      .status(200)
+      .json({ laps, analysisName: analysisName || "Untitled analysis" });
   } catch (error) {
     console.log("getgraphdata error: ", error);
     return res.status(500).json({ message: "Failed to getgraphdata" });
