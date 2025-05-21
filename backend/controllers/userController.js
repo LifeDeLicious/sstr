@@ -38,6 +38,51 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+export const userChangeUsername = async (req, res) => {
+  try {
+    const userID = req.user.UserID;
+    const { newUsername } = req.body;
+
+    const userUpdated = await db
+      .update(Users)
+      .set({
+        Username: newUsername,
+      })
+      .where(eq(Users.UserID, userID));
+
+    if (userUpdated.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "username change successful" });
+  } catch (error) {
+    console.error("Error changing username:", error);
+    res.status(500).json({ message: "Error changing username" });
+  }
+};
+
+export const userDeleteProfile = async (req, res) => {
+  try {
+    const userID = req.user.UserID;
+
+    const userUpdated = await db
+      .update(Users)
+      .set({
+        Username: newUsername,
+      })
+      .where(eq(Users.UserID, userID));
+
+    if (userUpdated.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "username change successful" });
+  } catch (error) {
+    console.error("Error changing username:", error);
+    res.status(500).json({ message: "Error changing username" });
+  }
+};
+
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -487,7 +532,7 @@ export const adminUpdateCar = async (req, res) => {
 
 //export { getUser };
 const userController = {
-  getUser,
+  getUserProfile,
   registerUser,
   loginUser,
   checkAuthStatus,
@@ -498,6 +543,8 @@ const userController = {
   adminDeleteUser,
   adminUpdateTrack,
   adminUpdateCar,
+  userChangeUsername,
+  userDeleteProfile,
   //loginUserClient,
 };
 

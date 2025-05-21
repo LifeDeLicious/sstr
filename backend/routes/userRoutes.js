@@ -16,6 +16,18 @@ router.post("/register", userController.registerUser);
 
 router.get("/usersettings", requireAuth, userController.getUserProfile);
 
+router.post(
+  "/user/changeusername",
+  requireAuth,
+  userController.userChangeUsername
+);
+
+router.post(
+  "/user/deleteprofile",
+  requireAuth,
+  userController.userDeleteProfile
+);
+
 router.post("/login", userController.loginUser);
 
 //router.post("/loginclient", userController.loginUserClient);
