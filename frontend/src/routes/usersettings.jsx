@@ -52,14 +52,33 @@ function RouteComponent() {
     <>
       <div className="max-w-3xl mx-auto py-8 px-4">
         <h1 className="text-3xl font-medium mb-8">My account</h1>
-        <div className="flex flex-col items-center ">
-          <div className="w-350">
-            <h2>Username: {userData.username}</h2>
-            <button className="btn btn-outline">Change</button>
-            <br></br>
-            <h3>Email: {userData.email}</h3>
-            <h3>Sign up date: {userData.dateRegistered}</h3>
-            <button className="btn btn-outline btn-error">
+        <div className="space-y-6">
+          <div className="flex items-center">
+            <div className="w-32 font-medium">Username</div>
+            <div className="flex-1">{userData.username}</div>
+            <button className="btn btn-outline btn-sm px-6">Change</button>
+          </div>
+          <div className="flex items-center">
+            <div className="w-32 font-medium">E-mail</div>
+            <div className="flex-1">{userData.email}</div>
+          </div>
+          <div className="flex items-center">
+            <div className="w-32 font-medium">Sign up date</div>
+            <div className="flex-1">
+              {userData.dateRegistered
+                ? new Date(userData.dateRegistered)
+                    .toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                    .replace(",", "")
+                    .replace(" ", " ")
+                : "-"}
+            </div>
+          </div>
+          <div className="pt-4">
+            <button className="btn btn-outline btn-error btn-sm px-6">
               Delete account
             </button>
           </div>
