@@ -287,7 +287,7 @@ function RouteComponent() {
               className="tooltip"
               data-tip="Type in and press Enter to change analysis name"
             >
-              <div className="col-span-3 mr-20">
+              <div className="col-span-4 mr-20">
                 {isEditingName ? (
                   <input
                     ref={nameInputRef}
