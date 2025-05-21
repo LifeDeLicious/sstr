@@ -26,7 +26,7 @@ export default function SessionsCollapseTable({ sessions }) {
             {sessions.map((session) => (
               <tr
                 key={session.sessionID}
-                className="hover:bg-base-300"
+                className="hover:bg-base-300 cursor-pointer"
                 onClick={() => handleRowClick(session.sessionID)} //handleRowClick(session.sessionID)
               >
                 <td>

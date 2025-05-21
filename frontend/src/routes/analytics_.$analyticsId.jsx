@@ -279,12 +279,12 @@ function RouteComponent() {
     <>
       <div className="flex flex-col items-center ">
         <div className="w-350">
-          <div className="grid grid-cols-5">
+          <div className="flex w-full justify-between items-center mb-8">
             {/* <h1 className="text-3xl mb-8 col-span-4">
               {"Analysis name inside a textbox/outline"}
             </h1> */}
             <div
-              className="tooltip"
+              className="tooltip flex-grow mr-4"
               data-tip="Type in and press Enter to change analysis name"
             >
               <div className="col-span-4 mr-20">
@@ -300,7 +300,7 @@ function RouteComponent() {
                   />
                 ) : (
                   <h1
-                    className="text-3xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
+                    className="text-2xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
                     onClick={() => setIsEditingName(true)}
                   >
                     {analysisName || "Untitled analysis"}
@@ -308,7 +308,7 @@ function RouteComponent() {
                 )}
               </div>
             </div>
-            <div className="join col-span-2 mr-auto">
+            <div className="join flex-shring-0">
               <button className="btn h-8 join-item bg-slate-400">
                 {analyticsData.isPublic ? "Public" : "Private"}
               </button>
