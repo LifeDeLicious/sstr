@@ -299,9 +299,8 @@ const deleteSession = async (req, res) => {
       .select({
         fileKey: Laps.LapFileKey,
       })
-      .from(Sessions)
-      .innerJoin(Laps, eq(Sessions.SessionID, sessionID))
-      .where(eq(Sessions.SessionID, sessionID));
+      .from(Laps)
+      .where(eq(Laps.SessionID, sessionID));
 
     for (let i = 0; i < userFileKeys.length; i++) {
       const item = userFileKeys[i];
@@ -313,6 +312,14 @@ const deleteSession = async (req, res) => {
     }
     //console.log("filekeys:", fileKeys);
     deleteFilesByKeys(fileKeys);
+
+    const deletedLaps = await db
+      .delete(Laps)
+      .where(eq(Laps.SessionID, sessionID));
+
+    const deletedSession = await db
+      .delete(Sessions)
+      .where(eq(Sessions.SessionID, sessionID));
 
     console.log(`sessionid:${sessionID} deleted`);
     res.status(200).json({ message: "Session successfully deleted" });
