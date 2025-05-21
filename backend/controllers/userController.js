@@ -11,25 +11,20 @@ import { Laps } from "../db/schema/Laps.js";
 
 import { deleteFilesByKeys } from "./fileOperations.js";
 
-export const getUser = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
-    const { id } = req.query;
-    console.log("getuser", id);
-
-    if (!id) {
-      return res.status(400).json({ message: "User ID is required" });
-    }
+    const userID = req.user.UserID;
 
     //const db = await getDb();
     const user = await db
       .select({
-        id: Users.UserID,
         username: Users.Username,
         email: Users.Email,
         isAdmin: Users.IsAdmin,
+        dateRegistered: Users.DateRegistered,
       })
       .from(Users)
-      .where(eq(Users.UserID, id))
+      .where(eq(Users.UserID, userID))
       .limit(1);
 
     if (user.length === 0) {

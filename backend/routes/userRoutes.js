@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/register", userController.registerUser);
 
-router.get("/user", userController.getUser);
+router.get("/usersettings", requireAuth, userController.getUserProfile);
 
 router.post("/login", userController.loginUser);
 

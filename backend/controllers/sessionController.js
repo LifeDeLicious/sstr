@@ -281,7 +281,6 @@ const deleteSession = async (req, res) => {
       `deletesession called , sessionid:${sessionID}, userid:${UserID}`
     );
 
-    // Simplified ownership check
     const session = await db
       .select({
         id: Sessions.SessionID,
@@ -299,14 +298,11 @@ const deleteSession = async (req, res) => {
     }
 
     try {
-      // Delete in correct order to respect foreign key constraints
       await db.transaction(async (tx) => {
-        // Delete UserSessions first
         await tx
           .delete(UserSessions)
           .where(eq(UserSessions.SessionID, sessionID));
 
-        // Get and process lap files before deleting laps
         const laps = await tx
           .select({
             fileKey: Laps.LapFileKey,
@@ -323,15 +319,12 @@ const deleteSession = async (req, res) => {
           })
           .filter(Boolean);
 
-        // Delete lap files if they exist
         if (fileKeys.length > 0) {
           await deleteFilesByKeys(fileKeys);
         }
 
-        // Delete laps
         await tx.delete(Laps).where(eq(Laps.SessionID, sessionID));
 
-        // Finally delete the session
         await tx.delete(Sessions).where(eq(Sessions.SessionID, sessionID));
       });
 
@@ -345,86 +338,6 @@ const deleteSession = async (req, res) => {
     console.error("Error deleting session:", error);
     res.status(500).json({ message: "Failed to delete session" });
   }
-
-  // try {
-  //   const UserID = req.user.UserID || req.user.userId;
-  //   const { sessionID } = req.body;
-  //   console.log(
-  //     `deletesession called , sessionid:${sessionID}, userid:${UserID}`
-  //   );
-
-  //   const isUsersSession = await db
-  //     .select(Sessions.SessionID)
-  //     .from(Sessions)
-  //     .where(
-  //       and(eq(Sessions.SessionID, sessionID), eq(Sessions.UserID, UserID))
-  //     );
-
-  //   if (isUsersSession.length === 0) {
-  //     return res
-  //       .status(401)
-  //       .json({ message: "Session does not belong to user" });
-  //   }
-
-  //   const laps = await db
-  //     .select({
-  //       LapFileKey: Laps.LapFileKey,
-  //     })
-  //     .from(Laps)
-  //     .where(eq(Laps.SessionID, sessionID));
-
-  //   // Extract file keys from the laps
-  //   const fileKeys = laps
-  //     .map((lap) => {
-  //       if (lap && lap.LapFileKey && lap.LapFileKey.length > 0) {
-  //         const withoutFirstChar = lap.LapFileKey.substring(1);
-  //         return withoutFirstChar + ".json";
-  //       }
-  //       return null;
-  //     })
-  //     .filter(Boolean);
-
-  //   // Delete files from storage
-  //   if (fileKeys.length > 0) {
-  //     deleteFilesByKeys(fileKeys);
-  //   }
-
-  //   // const fileKeys = [];
-  //   // const userFileKeys = await db
-  //   //   .select({
-  //   //     fileKey: Laps.LapFileKey,
-  //   //   })
-  //   //   .from(Laps)
-  //   //   .where(eq(Laps.SessionID, sessionID));
-
-  //   // for (let i = 0; i < userFileKeys.length; i++) {
-  //   //   const item = userFileKeys[i];
-  //   //   if (item && item.fileKey && item.fileKey.length > 0) {
-  //   //     const withoutFirstChar = item.fileKey.substring(1);
-  //   //     const withJsonExtension = withoutFirstChar + ".json";
-  //   //     fileKeys.push(withJsonExtension);
-  //   //   }
-  //   // }
-  //   //console.log("filekeys:", fileKeys);
-  //   // deleteFilesByKeys(fileKeys);
-  //   const deletedUserSessions = await db
-  //     .delete(UserSessions)
-  //     .where(eq(UserSessions.SessionID, sessionID));
-
-  //   const deletedLaps = await db
-  //     .delete(Laps)
-  //     .where(eq(Laps.SessionID, sessionID));
-
-  //   const deletedSession = await db
-  //     .delete(Sessions)
-  //     .where(eq(Sessions.SessionID, sessionID));
-
-  //   console.log(`sessionid:${sessionID} deleted`);
-  //   res.status(200).json({ message: "Session successfully deleted" });
-  // } catch (error) {
-  //   console.error("Error deleting session:", error);
-  //   res.status(500).json({ message: "Failed to delete session" });
-  // }
 };
 
 async function carGetOrInsert(carName) {
