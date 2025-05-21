@@ -6,6 +6,7 @@ import { Laps } from "../db/schema/Laps.js";
 import { Cars } from "../db/schema/Cars.js";
 import { Tracks } from "../db/schema/Tracks.js";
 import { Users } from "../db/schema/Users.js";
+import { deleteFilesByKeys } from "./fileOperations.js";
 
 const createSession = async (req, res) => {
   try {
@@ -272,6 +273,55 @@ const changeSessionAccessibility = async (req, res) => {
   }
 };
 
+const deleteSession = async (req, res) => {
+  try {
+    const UserID = req.user.UserID || req.user.userId;
+    const { sessionID } = req.body;
+    console.log(
+      `deletesession called , sessionid:${sessionID}, userid:${UserID}`
+    );
+
+    const isUsersSession = await db
+      .select(Sessions.SessionID)
+      .from(Sessions)
+      .where(
+        and(eq(Sessions.SessionID, sessionID), eq(Sessions.UserID, UserID))
+      );
+
+    if (isUsersSession.length === 0) {
+      return res
+        .status(401)
+        .json({ message: "Session does not belong to user" });
+    }
+
+    const fileKeys = [];
+    const userFileKeys = await db
+      .select({
+        fileKey: Laps.LapFileKey,
+      })
+      .from(Sessions)
+      .innerJoin(Laps, eq(Sessions.SessionID, sessionID))
+      .where(eq(Sessions.SessionID, sessionID));
+
+    for (let i = 0; i < userFileKeys.length; i++) {
+      const item = userFileKeys[i];
+      if (item && item.fileKey && item.fileKey.length > 0) {
+        const withoutFirstChar = item.fileKey.substring(1);
+        const withJsonExtension = withoutFirstChar + ".json";
+        fileKeys.push(withJsonExtension);
+      }
+    }
+    //console.log("filekeys:", fileKeys);
+    deleteFilesByKeys(fileKeys);
+
+    console.log(`sessionid:${sessionID} deleted`);
+    res.status(200).json({ message: "Session successfully deleted" });
+  } catch (error) {
+    console.error("Error deleting session:", error);
+    res.status(500).json({ message: "Failed to delete session" });
+  }
+};
+
 async function carGetOrInsert(carName) {
   const existing = await db
     .select()
@@ -345,6 +395,7 @@ const sessionController = {
   getSessionSummaries,
   getSessionData,
   changeSessionAccessibility,
+  deleteSession,
   //postCar,
 };
 

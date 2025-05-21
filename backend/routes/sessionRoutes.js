@@ -28,4 +28,6 @@ router.post(
   sessionController.changeSessionAccessibility
 );
 
+router.post("/delete", requireAuth, sessionController.deleteSession);
+
 export default router;
