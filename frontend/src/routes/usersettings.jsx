@@ -50,15 +50,19 @@ function RouteComponent() {
   }
   return (
     <>
-      <h1 className="ml-65 text-3xl mb-8">User settings</h1>
-      <div className="flex flex-col items-center ">
-        <div className="w-350">
-          <h2>Username: {userData.username}</h2>
-          <button className="btn btn-outline">Change</button>
-          <br></br>
-          <h3>Email: {userData.email}</h3>
-          <h3>Sign up date: {userData.dateRegistered}</h3>
-          <button className="btn btn-outline btn-error">Delete account</button>
+      <div className="max-w-3xl mx-auto py-8 px-4">
+        <h1 className="text-3xl font-medium mb-8">My account</h1>
+        <div className="flex flex-col items-center ">
+          <div className="w-350">
+            <h2>Username: {userData.username}</h2>
+            <button className="btn btn-outline">Change</button>
+            <br></br>
+            <h3>Email: {userData.email}</h3>
+            <h3>Sign up date: {userData.dateRegistered}</h3>
+            <button className="btn btn-outline btn-error">
+              Delete account
+            </button>
+          </div>
         </div>
       </div>
     </>
