@@ -8,6 +8,7 @@ import SessionLapsTable from "../components/SessionLapsTable.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import formatLapTime from "../utils/timeFromatter.js";
+import { useState } from "react";
 
 export const Route = createFileRoute("/session/$sessionId")({
   // loader: async ({ params }) => {
@@ -23,6 +24,7 @@ function RouteComponent() {
   console.log("router params: ", Route.useParams());
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   //console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
@@ -59,6 +61,18 @@ function RouteComponent() {
   }
 
   console.log("userid", user.UserID);
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDeleteSuccess = () => {
+    navigate({ to: "/sessions" });
+  };
 
   const handleChangeAccess = async () => {
     try {
@@ -168,11 +182,109 @@ function RouteComponent() {
             </div>
           )} */}
           {/* <SessionLapsTable /> */}
-          <button className="btn btn-outline btn-error mt-30">
-            Delete analysis
+          <button
+            className="btn btn-outline btn-error mt-30"
+            onClick={openDeleteModal}
+          >
+            Delete session
           </button>
         </div>
       </div>
+      <DeleteSessionModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        sessionID={sessionId}
+        sessionName={
+          `Session from ${new Date(sessionData?.session?.dateTime).toLocaleString()}` ||
+          "this session"
+        }
+        onDeleteSuccess={handleDeleteSuccess}
+      />
     </>
+  );
+}
+
+function DeleteSessionModal({
+  isOpen,
+  onClose,
+  sessionID,
+  sessionName,
+  onDeleteSuccess,
+}) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState(null);
+
+  if (!isOpen) return null;
+
+  const handleDeleteSession = async () => {
+    try {
+      setIsDeleting(true);
+      setError(null);
+
+      const response = await fetch(
+        `https://api.sstr.reinis.space/session/delete`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sessionID }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete session");
+      }
+
+      onDeleteSuccess();
+    } catch (error) {
+      setError(error.message);
+      console.error("Error deleting session:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="modal-box bg-base-200 p-6 rounded-lg max-w-md w-full">
+        <h3 className="font-bold text-lg mb-4">Delete Session</h3>
+        <p className="mb-6">
+          Are you sure you want to delete this session? This action cannot be
+          undone.
+        </p>
+
+        {error && (
+          <div className="alert alert-error mb-4">
+            <span>{error}</span>
+          </div>
+        )}
+
+        <div className="flex justify-end gap-2">
+          <button
+            className="btn btn-outline"
+            onClick={onClose}
+            disabled={isDeleting}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-error"
+            onClick={handleDeleteSession}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <>
+                <span className="loading loading-spinner loading-sm"></span>
+                Deleting...
+              </>
+            ) : (
+              "Delete Session"
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
