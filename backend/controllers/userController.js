@@ -8,6 +8,8 @@ import { generateToken } from "../utils/jwtutil.js";
 import { Cars } from "../db/schema/Cars.js";
 import { Tracks } from "../db/schema/Tracks.js";
 import { Laps } from "../db/schema/Laps.js";
+import { Sessions } from "../db/schema/Sessions.js";
+import { UserSessions } from "../db/schema/UserSessions.js";
 
 import { deleteFilesByKeys } from "./fileOperations.js";
 
@@ -63,23 +65,68 @@ export const userChangeUsername = async (req, res) => {
 
 export const userDeleteProfile = async (req, res) => {
   try {
-    const userID = req.user.UserID;
+    const UserID = req.user.UserID || req.user.userId;
+    const { sessionID } = req.body;
+    console.log(
+      `deletesession called , sessionid:${sessionID}, userid:${UserID}`
+    );
 
-    const userUpdated = await db
-      .update(Users)
-      .set({
-        Username: newUsername,
-      })
-      .where(eq(Users.UserID, userID));
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(UserSessions)
+          .where(eq(UserSessions.SessionID, sessionID));
 
-    if (userUpdated.length === 0) {
-      return res.status(404).json({ message: "User not found" });
+        const laps = await tx
+          .select({
+            fileKey: Laps.LapFileKey,
+          })
+          .from(Laps)
+          .where(eq(Laps.SessionID, sessionID));
+
+        const fileKeys = laps
+          .map((lap) => {
+            if (lap?.fileKey?.length > 0) {
+              return lap.fileKey.substring(1) + ".json";
+            }
+            return null;
+          })
+          .filter(Boolean);
+
+        if (fileKeys.length > 0) {
+          await deleteFilesByKeys(fileKeys);
+        }
+
+        await tx.delete(Laps).where(eq(Laps.SessionID, sessionID));
+
+        await tx.delete(Sessions).where(eq(Sessions.SessionID, sessionID));
+
+        await db.transaction(async (tx) => {
+          // Delete user sessions relationships
+          await tx.delete(UserSessions).where(eq(UserSessions.UserID, userID));
+
+          // Delete user laps
+          await tx.delete(Laps).where(eq(Laps.UserID, userID));
+
+          // Delete user sessions
+          await tx.delete(Sessions).where(eq(Sessions.UserID, userID));
+
+          // Finally delete the user
+          await tx.delete(Users).where(eq(Users.UserID, userID));
+        });
+      });
+
+      console.log(`userid:${UserID} deleted`);
+      res.status(200).json({ message: "Account successfully deleted" });
+    } catch (txError) {
+      console.error("Transaction error:", txError);
+      throw txError;
     }
 
-    res.status(200).json({ message: "username change successful" });
+    //await db.delete(Users).where(eq(Users.UserID, UserID));
   } catch (error) {
-    console.error("Error changing username:", error);
-    res.status(500).json({ message: "Error changing username" });
+    console.error("Error deleting session:", error);
+    res.status(500).json({ message: "Failed to delete session" });
   }
 };
 
