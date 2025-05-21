@@ -300,7 +300,7 @@ function RouteComponent() {
                   />
                 ) : (
                   <h1
-                    className="text-2xl mb-8 cursor-pointer hover:bg-base-200 p-2 rounded"
+                    className="text-2xl mb-8 mt-8 cursor-pointer hover:bg-base-200 p-2 rounded"
                     onClick={() => setIsEditingName(true)}
                   >
                     {analysisName || "Untitled analysis"}
