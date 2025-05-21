@@ -95,6 +95,7 @@ const getAnalysisData = async (req, res) => {
 
     const analysisConfigQuery = await db
       .select({
+        analysisName: Analysis.AnalysisName,
         carID: Cars.CarID,
         carName: Cars.CarModel,
         carAssetName: Cars.CarAssetName,
@@ -147,6 +148,7 @@ const getAnalysisData = async (req, res) => {
 
     const response = {
       analysisID: Number(analysisID),
+      analysisName: analysisConfig.analysisName,
       carID: analysisConfig.carID,
       carName: analysisConfig.carName,
       carAssetName: analysisConfig.carAssetName,
