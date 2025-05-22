@@ -32,7 +32,6 @@ export default function DeleteAnalysisModal({
         throw new Error("Failed to delete analysis");
       }
 
-      // Call the success callback
       onDeleteSuccess();
       onClose();
     } catch (error) {

@@ -20,7 +20,6 @@ const dataColors = ["#eb4034", "#2842eb", "#ff0dff"];
 const heightValue = 127;
 
 function mergeTelemetryData(...dataSources) {
-  // Step 1: Collect all unique TrackPositions from all datasets
   const allTrackPositions = dataSources.flatMap((ds) =>
     ds.map((d) => d.TrackPosition)
   );
@@ -28,15 +27,13 @@ function mergeTelemetryData(...dataSources) {
     (a, b) => a - b
   );
 
-  // Step 2: Create a merged entry for each TrackPosition
   return uniqueTrackPositions.map((trackPos) => {
     const entry = { TrackPosition: trackPos };
 
-    // Step 3: For each data source, find the closest value for this TrackPosition
     dataSources.forEach((source, index) => {
       const closest = source.find(
         (d) => Math.abs(d.TrackPosition - trackPos) < 0.0001
-      ); // Small tolerance
+      );
       entry[`Speed${index + 1}`] = closest?.Speed ?? null;
       entry[`Throttle${index + 1}`] = closest?.Throttle ?? null;
       entry[`Brake${index + 1}`] = closest?.Brake ?? null;
@@ -65,8 +62,6 @@ export default function AnalysisGraphsCharts({
   const [positionData, setPositionData] = useState([]);
 
   const CustomTooltip = ({ active, payload, label, dataKey }) => {
-    // Update active point when tooltip is active
-    //
     useEffect(() => {
       if (active && payload && payload.length) {
         const trackPos = payload[0].payload.TrackPosition;
@@ -130,7 +125,6 @@ export default function AnalysisGraphsCharts({
     let minY = Infinity,
       maxY = -Infinity;
 
-    // Go through all laps and find min/max X and Y
     telemetryDataArray.forEach((_, index) => {
       combined.forEach((point) => {
         const x = point[`PositionX${index + 1}`];
@@ -147,7 +141,7 @@ export default function AnalysisGraphsCharts({
 
     return {
       xDomain: [minX, maxX],
-      yDomain: [minY, maxY], // Reversed Y axis
+      yDomain: [minY, maxY],
     };
   };
 
@@ -214,7 +208,6 @@ export default function AnalysisGraphsCharts({
           };
         });
 
-        //setTelemetryDataArray(result.telemetry || []);
         setTelemetryDataArray(telemetryWithColors);
 
         const orderedColors = telemetryWithColors.map((item) => item.color);
@@ -235,7 +228,6 @@ export default function AnalysisGraphsCharts({
     try {
       const dataSources = telemetryDataArray.map((item) => item.data);
 
-      // Extract raw position data
       const rawPositionData = telemetryDataArray.map((item) => {
         return item.data
           .filter(
@@ -249,10 +241,8 @@ export default function AnalysisGraphsCharts({
           }));
       });
 
-      // Store it
       setPositionData(rawPositionData);
 
-      // Continue with existing merge logic
       const mergedData = mergeTelemetryData(...dataSources);
       setCombined(mergedData);
     } catch (error) {
@@ -386,7 +376,6 @@ export default function AnalysisGraphsCharts({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
               <YAxis />
               <Tooltip
@@ -398,7 +387,6 @@ export default function AnalysisGraphsCharts({
                 <Line
                   isAnimationActive={false}
                   key={`speed-line-${index}`}
-                  //data={combined}
                   type="monotone"
                   dataKey={`Speed${index + 1}`}
                   stroke={
@@ -430,7 +418,6 @@ export default function AnalysisGraphsCharts({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
               <YAxis />
               <Tooltip
@@ -473,7 +460,6 @@ export default function AnalysisGraphsCharts({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
               <YAxis />
               <Tooltip
@@ -516,7 +502,6 @@ export default function AnalysisGraphsCharts({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
               <YAxis domain={[0, 7]} />
               <Tooltip
@@ -559,7 +544,6 @@ export default function AnalysisGraphsCharts({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="TrackPosition" />
               <YAxis />
               <Tooltip

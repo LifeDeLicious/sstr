@@ -8,17 +8,6 @@ export const Route = createFileRoute("/sessions")({
   component: Sessions,
 });
 
-const sessionsOverview = [
-  {
-    car: "Porsche 911 GT3 R (992)",
-    track: "Algarve International Circuit (Grand Prix)",
-    amountOfEvents: 1,
-    totalLaps: 25,
-    lastDriven: "03.02.2025",
-    totalTrackTime: 5600,
-  },
-];
-
 function Sessions() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -51,14 +40,12 @@ function Sessions() {
   }
 
   if (!user) {
-    //indow.location.href = "/";
     navigate({ to: "/" });
     return null;
   }
 
   return (
     <>
-      {/* <h1 className="ml-65 text-3xl mb-8">Recent activity</h1> */}
       <div className="flex flex-col items-center ">
         <div className="w-350">
           <h1 className="text-3xl mb-4">Recent activity</h1>

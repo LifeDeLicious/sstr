@@ -58,8 +58,6 @@ export default function SessionLapsTable({
     <>
       <div className="overflow-x-auto">
         <table className="table bg-base-200 mb-10">
-          {/*mb- mazaku, jo tas ir tiri lai nav jascrollo lai aizsniegtu pedejo copylap dropdwna pogu */}
-          {/* head */}
           <thead>
             <tr>
               <th className=" w-140">Lap</th>

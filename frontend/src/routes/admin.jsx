@@ -12,7 +12,6 @@ function RouteComponent() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Show loading state
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -21,7 +20,6 @@ function RouteComponent() {
     );
   }
 
-  // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
   } else if (!user.IsAdmin) {

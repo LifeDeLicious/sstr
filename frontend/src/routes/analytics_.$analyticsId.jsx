@@ -57,7 +57,6 @@ function RouteComponent() {
       if (error.message === "private") {
         return false;
       }
-      // Retry other errors up to 3 times
       return failureCount < 3;
     },
   });
@@ -225,11 +224,7 @@ function RouteComponent() {
       }
 
       handleLapAdded(lapID);
-      //onLapAdded && onLapAdded(lapID);
-      //handleLapAdded && handleLapAdded(lapID);
-      //onClose();
     } catch (error) {
-      //setError(error.message);
       console.error("Error adding lap:", error);
     }
   };
@@ -280,9 +275,6 @@ function RouteComponent() {
       <div className="flex flex-col items-center ">
         <div className="w-350">
           <div className="flex w-full justify-between items-center mb-8">
-            {/* <h1 className="text-3xl mb-8 col-span-4">
-              {"Analysis name inside a textbox/outline"}
-            </h1> */}
             <div
               className="tooltip flex-grow mr-4"
               data-tip="Type in and press Enter to change analysis name"

@@ -29,8 +29,6 @@ function RouteComponent() {
   const { analyticsId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  // const [telemetryData, setTelemetryData] = useState(null);
-  // const [isLoadingTelemetry, setIsLoadingTelemetry] = useState(false);
 
   const {
     data: analyticsGraphData,
@@ -106,11 +104,6 @@ function RouteComponent() {
       </div>
       <div className="divider mt-0 mb-0"></div>
       <div className="w-full">
-        {/* <div className="border col-span-1">
-          <LineChart width={500} height={400} data={data}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-          </LineChart>
-        </div> */}
         <div className="">
           <AnalysisGraphsCharts
             analyticsGraphData={analyticsGraphData}

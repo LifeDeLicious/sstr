@@ -25,7 +25,6 @@ export default function Navbar() {
     navigate({ to: "/" });
   };
 
-  //
   return (
     <div className="navbar light bg-base-100 shadow-sm">
       <div className="navbar-start">

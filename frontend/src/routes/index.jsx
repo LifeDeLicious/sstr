@@ -14,9 +14,7 @@ function Index() {
         <br></br>
         <AuthForm type="register" className="" />
       </div>
-      <div className="p-2">
-        {/* <h3 className="text-bold">Welcome Home!</h3> */}
-      </div>
+      <div className="p-2"></div>
     </>
   );
 }

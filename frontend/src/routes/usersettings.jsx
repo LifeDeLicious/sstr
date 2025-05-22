@@ -68,9 +68,7 @@ function RouteComponent() {
       return response.json();
     },
     onSuccess: () => {
-      // Refetch user data to update the UI
       queryClient.invalidateQueries({ queryKey: ["userData"] });
-      // Close modal and reset states
       closeUsernameModal();
     },
     onError: (error) => {
@@ -99,7 +97,6 @@ function RouteComponent() {
       return response.json();
     },
     onSuccess: () => {
-      // On successful deletion, log the user out and redirect to home
       logout();
       navigate({ to: "/" });
     },
@@ -146,7 +143,6 @@ function RouteComponent() {
     setUsernameError("");
   };
 
-  // Show loading state
   if (userLoading || loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -155,7 +151,6 @@ function RouteComponent() {
     );
   }
 
-  // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
   }

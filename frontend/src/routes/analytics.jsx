@@ -29,7 +29,6 @@ function RouteComponent() {
     enabled: !!user,
   });
 
-  // Show loading state
   if (loading || analyticsListLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -38,7 +37,6 @@ function RouteComponent() {
     );
   }
 
-  // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
   }
@@ -51,7 +49,6 @@ function RouteComponent() {
           <AnalysisEvent analyticsList={analyticsList} />
 
           <br></br>
-          {/* <Accordion /> */}
           <Outlet />
         </div>
       </div>

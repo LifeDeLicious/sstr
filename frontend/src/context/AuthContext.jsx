@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
         }
       );
 
-      console.log("auth status", response.status);
+      //console.log("auth status", response.status);
 
       if (!response.ok) {
         if (response.status === 401) {

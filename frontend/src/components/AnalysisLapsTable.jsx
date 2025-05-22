@@ -4,12 +4,6 @@ import { useState } from "react";
 import { BlockPicker, CompactPicker } from "react-color";
 import { useEffect } from "react";
 
-const sessionsDropdown = [
-  {
-    event: "03.02.2024",
-  },
-];
-
 export default function AnalysisLapsTable({
   analyticsLaps: initialAnalyticsLaps,
   analyticsID,
@@ -88,7 +82,6 @@ export default function AnalysisLapsTable({
 
   const handleLapVisibilityChange = async (lapID, isLapVisible) => {
     try {
-      //const lapID = lapID;
       const newVisibility = !isLapVisible;
       const response = await fetch(
         `https://api.sstr.reinis.space/analysis/lapvisibility`,
@@ -132,7 +125,6 @@ export default function AnalysisLapsTable({
     <>
       <div className="overflow-x-auto">
         <table className="table bg-base-200">
-          {/* head */}
           <thead>
             <tr>
               <th className=" w-15">Lap</th>

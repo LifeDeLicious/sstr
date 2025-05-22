@@ -33,14 +33,6 @@ export default function AnalysisEvent({ analyticsList }) {
                 </p>
               </div>
               <div className="col-span-2">
-                {/* <p className="absolute top-3 right-100">Events: {5}</p>
-              <p className="absolute top-3 right-40">
-                Last driven: {"2 months"}
-              </p>
-              <p className="absolute top-10 right-101">Laps: {40}</p>
-              <p className="absolute top-10 right-38">
-                Total time on track: {53}
-              </p> */}
                 <p className="mt-7">
                   {analysisEvent.creationDate
                     ? formatDistanceToNow(
@@ -55,7 +47,6 @@ export default function AnalysisEvent({ analyticsList }) {
               <div className="col-span-1">
                 <Link to={`/analytics/${analysisEvent.analysisID}`}>
                   <button className="btn h-17 bg-slate-600 mt-1.75 ml-25">
-                    {/* Config */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -84,11 +75,6 @@ export default function AnalysisEvent({ analyticsList }) {
               <p className=" invisible"></p>
             </div>
           </summary>
-          {/* <div className="divider mt-0 mb-0"></div> */}
-          {/* <div className="collapse-content text-sm">
-          but upatikami samazinat starpu starp divideru un tabulas headingiem
-          <SessionsCollapseTable className="" />
-        </div> */}
         </details>
       ))}
     </>

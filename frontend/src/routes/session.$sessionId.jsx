@@ -21,7 +21,6 @@ export const Route = createFileRoute("/session/$sessionId")({
 function RouteComponent() {
   const { user, loading } = useAuth();
   const { sessionId } = Route.useParams();
-  console.log("router params: ", Route.useParams());
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -79,8 +78,6 @@ function RouteComponent() {
       const sessionID = sessionId;
       const isPublic = sessionData.session.isPublic;
 
-      console.log(`is analysis public:${isPublic}`);
-
       const response = await fetch(
         `https://api.sstr.reinis.space/session/accessibility`,
         {
@@ -134,12 +131,14 @@ function RouteComponent() {
           <strong>Driver: {sessionData.session.userUsername}</strong>
           <div className="grid grid-cols-2">
             <p className="text-lg">
-              <strong>Track:</strong> {sessionData.session.trackAssetName} (
-              {sessionData.session.trackLayout})
+              <strong>Track:</strong>{" "}
+              {sessionData.session.trackName ||
+                sessionData.session.trackAssetName}{" "}
+              ({sessionData.session.trackLayout})
             </p>
             <p className="text-lg">
-              {/*inline relative left-105 top-[-27px]  */}
-              <strong>Car:</strong> {sessionData.session.carAssetName}
+              <strong>Car:</strong>{" "}
+              {sessionData.session.carName || sessionData.session.carAssetName}
             </p>
             <p className="">
               <strong>Laps:</strong> {sessionData.session.amountOfLaps}
@@ -170,18 +169,6 @@ function RouteComponent() {
               navigate({ to: `/analytics/${analysisID}` })
             }
           />
-          {/* {sessionData && sessionData.length > 0 ? (
-            <SessionLapsTable
-              key={`${sessionData.session.sessionID}-${sessionData.session.carAssetName}-${sessionData.session.trackAssetName}`}
-              laps={sessionData.laps}
-            />
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-lg">No session laps found.</p>
-              <p>Start driving to record telemetry data!</p>
-            </div>
-          )} */}
-          {/* <SessionLapsTable /> */}
           <button
             className="btn btn-outline btn-error mt-30"
             onClick={openDeleteModal}
