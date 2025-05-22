@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
-import Accordion from "../components/Accordion";
 import AnalysisEvent from "../components/AnalysisEvent";
 import { useAuth } from "./../context/AuthContext.jsx";
 import { useQuery } from "@tanstack/react-query";
