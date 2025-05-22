@@ -9,11 +9,9 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import formatLapTime from "../utils/timeFromatter.js";
 import { useState } from "react";
+import { format } from "date-fns";
 
 export const Route = createFileRoute("/session/$sessionId")({
-  // loader: async ({ params }) => {
-  //   return fetchPost(params.sessionId);
-  // },
   defaultPreload: "intent",
   component: RouteComponent,
 });
@@ -24,7 +22,6 @@ function RouteComponent() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  //console.log(sessionId);
 
   const { data: sessionData, isLoading: sessionLoading } = useQuery({
     queryKey: ["sessionData", sessionId],
@@ -45,7 +42,6 @@ function RouteComponent() {
     enabled: !!user && !!sessionId,
   });
 
-  // Show loading state
   if (loading || sessionLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -54,7 +50,6 @@ function RouteComponent() {
     );
   }
 
-  // Redirect if not authenticated
   if (!user) {
     navigate({ to: "/" });
   }
@@ -151,7 +146,11 @@ function RouteComponent() {
               <strong>Average lap time:</strong> {40}
             </p>
             <p className="">
-              <strong>Date:</strong> {sessionData.session.dateTime}
+              <strong>Date:</strong>
+              {format(
+                new Date(sessionData.session.dateTime),
+                "MMM d, yyyy HH:mm"
+              )}
             </p>
           </div>
           <div className="">
