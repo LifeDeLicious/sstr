@@ -154,7 +154,10 @@ function RouteComponent() {
             </p>
           </div>
           <div className="">
-            <p>temperaturas</p>
+            <strong>
+              Track temperature: {sessionData.session.trackTemperature} Air
+              temperature: {sessionData.session.airTemperature}
+            </strong>
           </div>
           {/* <p>lap table</p> */}
           <br></br>
