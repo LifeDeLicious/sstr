@@ -7,7 +7,9 @@ export const AnalysisLaps = mysqlTable("AnalysisLaps", {
   AnalysisID: int("AnalysisID").references(() => Analysis.AnalysisID, {
     onDelete: "cascade",
   }),
-  LapID: int("LapID").references(() => Laps.LapID),
+  LapID: int("LapID").references(() => Laps.LapID, {
+    onDelete: "cascade",
+  }),
   LapColor: varchar("LapColor", { length: 7 }).default("#CCCCCC"),
   LapIsVisible: boolean("LapIsVisible").default(true).notNull(),
 });
