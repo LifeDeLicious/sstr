@@ -162,11 +162,6 @@ export const registerUser = async (req, res) => {
 
     const user = users[0];
 
-    await db.insert(UserLogs).values({
-      UserID: user.UserID,
-      EventType: "LOGIN",
-    });
-
     const token = generateToken(user);
 
     res.cookie("auth_token", token, {
