@@ -1,9 +1,7 @@
 import { verifyToken } from "./jwtutil.js";
 
 export const requireAuth = (req, res, next) => {
-  console.log("auth middleware called");
   const token = req.cookies.auth_token;
-  console.log("token exists:", !!token);
 
   if (!token) {
     return res.status(401).json({ message: "Authentication requried" });
