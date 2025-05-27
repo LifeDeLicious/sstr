@@ -130,9 +130,6 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    //const db = await getDb();
-
-    // Check if user already exists
     const existingUser = await db
       .select()
       .from(Users)
@@ -144,10 +141,8 @@ export const registerUser = async (req, res) => {
         .json({ message: "Username or email already in use" });
     }
 
-    // Hash password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Insert user
     const result = await db.insert(Users).values({
       Username: username,
       Email: email,
@@ -158,8 +153,6 @@ export const registerUser = async (req, res) => {
       UserID: result.insertID,
       EventType: "REGISTER",
     });
-
-    //?added
 
     const users = await db
       .select()
@@ -178,7 +171,6 @@ export const registerUser = async (req, res) => {
 
     res.cookie("auth_token", token, {
       httpOnly: true,
-      //secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 21 * 24 * 60 * 60 * 1000,
     });
@@ -188,8 +180,6 @@ export const registerUser = async (req, res) => {
       UserID: user.UserID,
       Username: user.Username,
     });
-
-    //return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error registering user:", error);
     return res.status(500).json({ message: "Error registering user" });
@@ -249,7 +239,6 @@ export const loginUser = async (req, res) => {
 
       res.cookie("auth_token", token, {
         httpOnly: true,
-        //secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         maxAge: 21 * 24 * 60 * 60 * 1000,
       });
@@ -271,7 +260,6 @@ export const logoutUser = (req, res) => {
     httpOnly: true,
     expires: new Date(0),
     sameSite: "lax",
-    //secure: process.env.NODE_ENV === "production",
   });
 
   res.status(200).json({ message: "Logged out successfully" });
