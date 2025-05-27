@@ -34,12 +34,6 @@ const postLap = async (req, res) => {
       .where(eq(Laps.LapID, lapID));
 
     console.log("updated lapid: ", lapUpdate[0].LapID);
-    //!db insertott apla keyu - /laps/lap-{lapid}
-    //db insert lap
-    //returningid
-    //!db insertot lapfilekey - /laps/lap-{lapid}
-
-    //uploadTelemetryFile ( apla id, userID, telemetryData )??
 
     console.log(`session id: ${sessionID}`);
     console.log(`userid: ${userID}`);
@@ -62,11 +56,7 @@ const getTelemetryFiles = async (req, res) => {
       return res.status(400).json({ message: "invalid file keys" });
     }
 
-    //const telemetryResults = [];
-
     const telemetryPromises = fileKeys.map(async (fileKey) => {
-      //const telemetryData = await fetch
-
       try {
         const telemetryData = await getTelemetryFile(fileKey);
         return {

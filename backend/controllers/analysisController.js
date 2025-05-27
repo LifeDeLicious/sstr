@@ -46,12 +46,9 @@ const createAnalysis = async (req, res) => {
 
 const getAnalysisData = async (req, res) => {
   try {
-    //!check vai analysis ispublic un vai anaysis ir useranalysis listaa ar konkreto usera id
-
     const analysisID = req.params.analysisID;
     const userID = req.user.UserID;
-    //const userId = req.user.userID || req.user.userId;
-    //const { UserID } = req.body;
+
     console.log(`getanalysisdata userID:${userID}`);
 
     const analysisPublicCheck = await db
@@ -76,8 +73,6 @@ const getAnalysisData = async (req, res) => {
         )
       )
       .limit(1);
-
-    //const userAnalysis = userAnalysisCheck[0];
 
     if (isPublic && userAnalysisCheck.length === 0) {
       const addUserAnalysis = await db.insert(UserAnalysis).values({
@@ -117,7 +112,6 @@ const getAnalysisData = async (req, res) => {
 
     const analysisConfig = analysisConfigQuery[0];
 
-    //!lap visibility!!!! true/false boolean
     const lapsQuery = await db
       .select({
         lapID: Laps.LapID,
@@ -324,8 +318,8 @@ const getUsersBestLaps = async (req, res) => {
           .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
           .where(
             and(
-              eq(Sessions.CarID, carID), //parseInt(carID)
-              eq(Sessions.TrackID, trackID), //parseInt(trackID)
+              eq(Sessions.CarID, carID),
+              eq(Sessions.TrackID, trackID),
               eq(Sessions.IsSessionPublic, true)
             )
           )
@@ -343,8 +337,8 @@ const getUsersBestLaps = async (req, res) => {
       .innerJoin(Sessions, eq(Laps.SessionID, Sessions.SessionID))
       .where(
         and(
-          eq(Sessions.CarID, carID), //parseInt(carID)
-          eq(Sessions.TrackID, trackID), //parseInt(trackID)
+          eq(Sessions.CarID, carID),
+          eq(Sessions.TrackID, trackID),
           eq(Sessions.IsSessionPublic, true)
         )
       )
@@ -372,7 +366,6 @@ const getUsersBestLaps = async (req, res) => {
 
 const addAnalysisLap = async (req, res) => {
   try {
-    //const { analysisID } = req.params.analysisID;
     const { analysisID, lapID, userID } = req.body;
     console.log(
       `addanalysislap called, analysisid:${analysisID}, lapid:${lapID}`

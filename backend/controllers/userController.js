@@ -198,15 +198,14 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, password, loginSource } = req.body; //username vieta email
+    const { email, password, loginSource } = req.body;
     console.log("/login", { email });
 
     if (!email || !password) {
-      //labot uz email
       console.log("email or password missing");
       return res
         .status(400)
-        .json({ message: "Username and password are requried!" });
+        .json({ message: "Email and password are requried!" });
     }
 
     console.log("looking up user with emial");
@@ -214,7 +213,7 @@ export const loginUser = async (req, res) => {
       .select()
       .from(Users)
       .where(eq(Users.Email, email))
-      .limit(1); //labot uz email
+      .limit(1);
 
     console.log("query completed, found user", users.length);
 

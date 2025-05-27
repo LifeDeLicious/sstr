@@ -20,17 +20,11 @@ const createSession = async (req, res) => {
       airTemperature,
       fastestLapTime,
     } = req.body;
-    console.log("createsession");
-    console.log(`airtemp: ${airTemperature}`);
-    console.log(`tracktemp: ${trackTemperature}`);
-    console.log("endcreatesession");
-    //insert car
+
     const carID = await carGetOrInsert(carAssetName);
 
-    //insert track
     const trackID = await trackGetOrInsert(trackAssetName, trackLayoutName);
 
-    //insert session
     const session = await db
       .insert(Sessions)
       .values({
@@ -46,24 +40,11 @@ const createSession = async (req, res) => {
 
     const sessionID = session[0].SessionID;
 
-    //insert usersession
     const userSession = await db.insert(UserSessions).values({
       SessionID: sessionID,
       UserID: userID,
     });
-    //pectam jau var postot aplus
 
-    // const carResult = await db
-    //   .insert(Cars)
-    //   .values({
-    //     CarAssetName: carAssetName,
-    //   })
-    //   .$returningId();
-    //const [carIdResult] = await db.select({ insertId: sql`LAST_INSERT_ID()`});
-    //const carID = carResult.id;
-    //console.log("inserted carid: ", carID);
-
-    //const session = await db.insert(Sessions).values({});
     console.log("session created, id: ", sessionID);
     res.status(200).json({ message: "session created", sessionID: sessionID });
   } catch (error) {
@@ -249,7 +230,6 @@ const getSessionData = async (req, res) => {
 };
 
 const changeSessionAccessibility = async (req, res) => {
-  //! kopets no analysis
   try {
     const { sessionID, isPublic } = req.body;
     console.log(
@@ -414,7 +394,6 @@ const sessionController = {
   getSessionData,
   changeSessionAccessibility,
   deleteSession,
-  //postCar,
 };
 
 export default sessionController;

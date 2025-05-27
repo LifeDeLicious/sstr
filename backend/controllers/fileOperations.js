@@ -32,8 +32,6 @@ export async function getTelemetryFile(fileKey) {
 
 const fetchObject = async (params) => {
   try {
-    //const data = await s3Client.send(new GetObjectCommand(params));
-
     const command = new GetObjectCommand(params);
     const data = await s3Client.send(command, { requestTimeout: 5000 });
 
@@ -55,29 +53,6 @@ const fetchObject = async (params) => {
     throw error;
   }
 };
-
-// const fetchObject = async (params) => {
-//   try {
-//     const data = await s3Client.send(new GetObjectCommand(params));
-
-//     const streamToString = async (stream) => {
-//       const chunks = [];
-//       for await (const chunk of stream) {
-//         chunks.push(chunk);
-//       }
-//       return Buffer.concat(chunks).toString("utf-8");
-//     };
-
-//     const bodyString = await streamToString(data.Body);
-
-//     const jsonData = JSON.parse(bodyString);
-
-//     console.log("received json", jsonData);
-//     return data;
-//   } catch (error) {
-//     console.log("fileoperations getobject error: ", error);
-//   }
-// };
 
 export async function uploadTelemetryFile(lapID, userID, telemetryData) {
   console.log("amongus");
@@ -121,7 +96,7 @@ export async function deleteFilesByKeys(fileKeysToDelete) {
       Bucket: "sstr-laps",
       Delete: {
         Objects: fileKeysToDelete.map((key) => ({ Key: key })),
-        Quiet: false, // Set to true if you don't need details of deleted objects in the response
+        Quiet: false,
       },
     };
 
@@ -135,7 +110,7 @@ export async function deleteFilesByKeys(fileKeysToDelete) {
         `Successfully initiated deletion of ${fileKeysToDelete.length} files.`
       );
       if (deleteResult.Deleted) {
-        console.log("Successfully deleted:", deleteResult.Deleted); // Uncomment to see details
+        console.log("Successfully deleted:", deleteResult.Deleted);
       }
     }
   } catch (error) {
