@@ -132,7 +132,7 @@ export default function AnalysisLapsTable({
               <th className="w-40">Driver</th>
               <th className="w-15">Lap time</th>
               <th className="w-20">Track conditions</th>
-              <th className="hover:bg-yellow-100 w-40">button</th>
+              <th className=" w-40"></th>
             </tr>
           </thead>
           <tbody>

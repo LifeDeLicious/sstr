@@ -61,39 +61,6 @@ export default function AnalysisGraphsCharts({
 
   const [positionData, setPositionData] = useState([]);
 
-  const CustomTooltip = ({ active, payload, label, dataKey }) => {
-    useEffect(() => {
-      if (active && payload && payload.length) {
-        const trackPos = payload[0].payload.TrackPosition;
-        setActivePoint(trackPos);
-      } else {
-        setActivePoint(null);
-      }
-    }, [active, payload]);
-
-    if (active && payload && payload.length) {
-      return (
-        <div
-          className="custom-tooltip"
-          style={{
-            backgroundColor: "#222c42",
-            padding: "10px",
-            border: "1px solid #ccc",
-          }}
-        >
-          <p>Track Position: {payload[0].payload.TrackPosition.toFixed(3)}</p>
-          {payload.map((p, i) => (
-            <p key={i} style={{ color: p.color }}>
-              {p.name}: {p.value !== null ? p.value : "N/A"}
-            </p>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   const ScatterTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const point = payload[0].payload;
