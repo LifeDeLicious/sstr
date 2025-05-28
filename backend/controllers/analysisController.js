@@ -411,7 +411,7 @@ const pasteAnalysisLap = async (req, res) => {
         LapID: lapID,
       });
     } else {
-      res.status(403).json({ message: "Lap is from a private session" });
+      return res.status(403).json({ message: "Lap is from a private session" });
     }
     res.status(200).json({ message: "Lap added to analysis" });
   } catch (error) {
