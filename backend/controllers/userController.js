@@ -124,7 +124,6 @@ export const userDeleteProfile = async (req, res) => {
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log("/register", { username, email });
 
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -170,11 +169,7 @@ export const registerUser = async (req, res) => {
       maxAge: 21 * 24 * 60 * 60 * 1000,
     });
 
-    console.log("login successful");
-    res.status(201).json({
-      UserID: user.UserID,
-      Username: user.Username,
-    });
+    res.status(201).json({ UserID: user.UserID, Username: user.Username });
   } catch (error) {
     console.error("Error registering user:", error);
     return res.status(500).json({ message: "Error registering user" });
