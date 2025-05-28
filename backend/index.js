@@ -11,7 +11,7 @@ const app = express();
 
 const port = 3000;
 
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "20mb" }));
 
 app.use(express.urlencoded({ limit: "20mb", extended: true }));
 

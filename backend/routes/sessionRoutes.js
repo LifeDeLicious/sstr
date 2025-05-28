@@ -9,8 +9,6 @@ router.get("/summaries", requireAuth, sessionController.getSessionSummaries);
 
 router.get("/data/:sessionID", requireAuth, sessionController.getSessionData);
 
-router.get("/list");
-
 router.post(
   "/accessibility",
   requireAuth,

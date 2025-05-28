@@ -16,8 +16,6 @@ const s3Client = new S3({
 });
 
 export async function getTelemetryFile(fileKey) {
-  console.log("getteleemtryfile: ", fileKey);
-
   const strippedKey = fileKey.substring(1);
 
   const key = `${strippedKey}.json`;
