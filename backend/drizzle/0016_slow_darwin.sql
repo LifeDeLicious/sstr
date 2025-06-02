@@ -1,0 +1,1 @@
+ALTER TABLE `Tracks` DROP COLUMN `TrackImageAssetName`;

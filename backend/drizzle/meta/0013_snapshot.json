@@ -1,0 +1,736 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "5d02690b-938c-406d-a868-36a8953d303f",
+  "prevId": "74bd363d-ab8e-4d08-96d7-ff955583aa58",
+  "tables": {
+    "Analysis": {
+      "name": "Analysis",
+      "columns": {
+        "AnalysisID": {
+          "name": "AnalysisID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "AnalysisName": {
+          "name": "AnalysisName",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "TrackID": {
+          "name": "TrackID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "CarID": {
+          "name": "CarID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "IsAnalysisPublic": {
+          "name": "IsAnalysisPublic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "AnalysisDate": {
+          "name": "AnalysisDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Analysis_TrackID_Tracks_TrackID_fk": {
+          "name": "Analysis_TrackID_Tracks_TrackID_fk",
+          "tableFrom": "Analysis",
+          "tableTo": "Tracks",
+          "columnsFrom": [
+            "TrackID"
+          ],
+          "columnsTo": [
+            "TrackID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Analysis_CarID_Cars_CarID_fk": {
+          "name": "Analysis_CarID_Cars_CarID_fk",
+          "tableFrom": "Analysis",
+          "tableTo": "Cars",
+          "columnsFrom": [
+            "CarID"
+          ],
+          "columnsTo": [
+            "CarID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Analysis_AnalysisID": {
+          "name": "Analysis_AnalysisID",
+          "columns": [
+            "AnalysisID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "AnalysisLaps": {
+      "name": "AnalysisLaps",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "AnalysisID": {
+          "name": "AnalysisID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "LapID": {
+          "name": "LapID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "LapColor": {
+          "name": "LapColor",
+          "type": "varchar(7)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'#CCCCCC'"
+        },
+        "LapIsVisible": {
+          "name": "LapIsVisible",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "AnalysisLaps_AnalysisID_Analysis_AnalysisID_fk": {
+          "name": "AnalysisLaps_AnalysisID_Analysis_AnalysisID_fk",
+          "tableFrom": "AnalysisLaps",
+          "tableTo": "Analysis",
+          "columnsFrom": [
+            "AnalysisID"
+          ],
+          "columnsTo": [
+            "AnalysisID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "AnalysisLaps_LapID_Laps_LapID_fk": {
+          "name": "AnalysisLaps_LapID_Laps_LapID_fk",
+          "tableFrom": "AnalysisLaps",
+          "tableTo": "Laps",
+          "columnsFrom": [
+            "LapID"
+          ],
+          "columnsTo": [
+            "LapID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "AnalysisLaps_ID": {
+          "name": "AnalysisLaps_ID",
+          "columns": [
+            "ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Cars": {
+      "name": "Cars",
+      "columns": {
+        "CarID": {
+          "name": "CarID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "CarModel": {
+          "name": "CarModel",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "CarManufacturer": {
+          "name": "CarManufacturer",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "CarAssetName": {
+          "name": "CarAssetName",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Cars_CarID": {
+          "name": "Cars_CarID",
+          "columns": [
+            "CarID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Laps": {
+      "name": "Laps",
+      "columns": {
+        "LapID": {
+          "name": "LapID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "LapFileKey": {
+          "name": "LapFileKey",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "LapTime": {
+          "name": "LapTime",
+          "type": "double",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "SessionID": {
+          "name": "SessionID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "IsFastestLapOfSession": {
+          "name": "IsFastestLapOfSession",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Laps_UserID_Users_UserID_fk": {
+          "name": "Laps_UserID_Users_UserID_fk",
+          "tableFrom": "Laps",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserID"
+          ],
+          "columnsTo": [
+            "UserID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "Laps_SessionID_Sessions_SessionID_fk": {
+          "name": "Laps_SessionID_Sessions_SessionID_fk",
+          "tableFrom": "Laps",
+          "tableTo": "Sessions",
+          "columnsFrom": [
+            "SessionID"
+          ],
+          "columnsTo": [
+            "SessionID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Laps_LapID": {
+          "name": "Laps_LapID",
+          "columns": [
+            "LapID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Sessions": {
+      "name": "Sessions",
+      "columns": {
+        "SessionID": {
+          "name": "SessionID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "CarID": {
+          "name": "CarID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "TrackID": {
+          "name": "TrackID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "DateTime": {
+          "name": "DateTime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "TrackTemperature": {
+          "name": "TrackTemperature",
+          "type": "varchar(4)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "AirTemperature": {
+          "name": "AirTemperature",
+          "type": "varchar(4)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "FastestLapTime": {
+          "name": "FastestLapTime",
+          "type": "double",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "AmountOfLaps": {
+          "name": "AmountOfLaps",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "IsSessionPublic": {
+          "name": "IsSessionPublic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Sessions_UserID_Users_UserID_fk": {
+          "name": "Sessions_UserID_Users_UserID_fk",
+          "tableFrom": "Sessions",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserID"
+          ],
+          "columnsTo": [
+            "UserID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "Sessions_CarID_Cars_CarID_fk": {
+          "name": "Sessions_CarID_Cars_CarID_fk",
+          "tableFrom": "Sessions",
+          "tableTo": "Cars",
+          "columnsFrom": [
+            "CarID"
+          ],
+          "columnsTo": [
+            "CarID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Sessions_TrackID_Tracks_TrackID_fk": {
+          "name": "Sessions_TrackID_Tracks_TrackID_fk",
+          "tableFrom": "Sessions",
+          "tableTo": "Tracks",
+          "columnsFrom": [
+            "TrackID"
+          ],
+          "columnsTo": [
+            "TrackID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Sessions_SessionID": {
+          "name": "Sessions_SessionID",
+          "columns": [
+            "SessionID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Tracks": {
+      "name": "Tracks",
+      "columns": {
+        "TrackID": {
+          "name": "TrackID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "TrackName": {
+          "name": "TrackName",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "TrackLayout": {
+          "name": "TrackLayout",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "TrackAssetName": {
+          "name": "TrackAssetName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "TrackImageAssetName": {
+          "name": "TrackImageAssetName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Tracks_TrackID": {
+          "name": "Tracks_TrackID",
+          "columns": [
+            "TrackID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "UserAnalysis": {
+      "name": "UserAnalysis",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "AnalysisID": {
+          "name": "AnalysisID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserAnalysis_AnalysisID_Analysis_AnalysisID_fk": {
+          "name": "UserAnalysis_AnalysisID_Analysis_AnalysisID_fk",
+          "tableFrom": "UserAnalysis",
+          "tableTo": "Analysis",
+          "columnsFrom": [
+            "AnalysisID"
+          ],
+          "columnsTo": [
+            "AnalysisID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "UserAnalysis_UserID_Users_UserID_fk": {
+          "name": "UserAnalysis_UserID_Users_UserID_fk",
+          "tableFrom": "UserAnalysis",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserID"
+          ],
+          "columnsTo": [
+            "UserID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "UserAnalysis_ID": {
+          "name": "UserAnalysis_ID",
+          "columns": [
+            "ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "UserLogs": {
+      "name": "UserLogs",
+      "columns": {
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "EventType": {
+          "name": "EventType",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "AnalysisDate": {
+          "name": "AnalysisDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserLogs_UserID_Users_UserID_fk": {
+          "name": "UserLogs_UserID_Users_UserID_fk",
+          "tableFrom": "UserLogs",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserID"
+          ],
+          "columnsTo": [
+            "UserID"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "Users": {
+      "name": "Users",
+      "columns": {
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Username": {
+          "name": "Username",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Email": {
+          "name": "Email",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "PasswordHash": {
+          "name": "PasswordHash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "DateRegistered": {
+          "name": "DateRegistered",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "IsAdmin": {
+          "name": "IsAdmin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Users_UserID": {
+          "name": "Users_UserID",
+          "columns": [
+            "UserID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "UserSessions": {
+      "name": "UserSessions",
+      "columns": {
+        "ID": {
+          "name": "ID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "SessionID": {
+          "name": "SessionID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "UserID": {
+          "name": "UserID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserSessions_SessionID_Sessions_SessionID_fk": {
+          "name": "UserSessions_SessionID_Sessions_SessionID_fk",
+          "tableFrom": "UserSessions",
+          "tableTo": "Sessions",
+          "columnsFrom": [
+            "SessionID"
+          ],
+          "columnsTo": [
+            "SessionID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "UserSessions_UserID_Users_UserID_fk": {
+          "name": "UserSessions_UserID_Users_UserID_fk",
+          "tableFrom": "UserSessions",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserID"
+          ],
+          "columnsTo": [
+            "UserID"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "UserSessions_ID": {
+          "name": "UserSessions_ID",
+          "columns": [
+            "ID"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}

@@ -8,25 +8,32 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersettingsImport } from './routes/usersettings'
+import { Route as SessionsImport } from './routes/sessions'
 import { Route as PostsImport } from './routes/posts'
-
-// Create Virtual Routes
-
-const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
+import { Route as AnalyticsImport } from './routes/analytics'
+import { Route as AdminImport } from './routes/admin'
+import { Route as IndexImport } from './routes/index'
+import { Route as SessionSessionIdImport } from './routes/session.$sessionId'
+import { Route as AnalyticsAnalyticsIdImport } from './routes/analytics_.$analyticsId'
+import { Route as AnalyticsAnalyticsIdGraphsImport } from './routes/analytics_.$analyticsId_.graphs'
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const UsersettingsRoute = UsersettingsImport.update({
+  id: '/usersettings',
+  path: '/usersettings',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any)
+
+const SessionsRoute = SessionsImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PostsRoute = PostsImport.update({
   id: '/posts',
@@ -34,11 +41,43 @@ const PostsRoute = PostsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const AnalyticsRoute = AnalyticsImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminRoute = AdminImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
+
+const SessionSessionIdRoute = SessionSessionIdImport.update({
+  id: '/session/$sessionId',
+  path: '/session/$sessionId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AnalyticsAnalyticsIdRoute = AnalyticsAnalyticsIdImport.update({
+  id: '/analytics_/$analyticsId',
+  path: '/analytics/$analyticsId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AnalyticsAnalyticsIdGraphsRoute = AnalyticsAnalyticsIdGraphsImport.update(
+  {
+    id: '/analytics_/$analyticsId_/graphs',
+    path: '/analytics/$analyticsId/graphs',
+    getParentRoute: () => rootRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -48,7 +87,21 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminImport
+      parentRoute: typeof rootRoute
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsImport
       parentRoute: typeof rootRoute
     }
     '/posts': {
@@ -58,11 +111,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/sessions': {
+      id: '/sessions'
+      path: '/sessions'
+      fullPath: '/sessions'
+      preLoaderRoute: typeof SessionsImport
+      parentRoute: typeof rootRoute
+    }
+    '/usersettings': {
+      id: '/usersettings'
+      path: '/usersettings'
+      fullPath: '/usersettings'
+      preLoaderRoute: typeof UsersettingsImport
+      parentRoute: typeof rootRoute
+    }
+    '/analytics_/$analyticsId': {
+      id: '/analytics_/$analyticsId'
+      path: '/analytics/$analyticsId'
+      fullPath: '/analytics/$analyticsId'
+      preLoaderRoute: typeof AnalyticsAnalyticsIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/session/$sessionId': {
+      id: '/session/$sessionId'
+      path: '/session/$sessionId'
+      fullPath: '/session/$sessionId'
+      preLoaderRoute: typeof SessionSessionIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/analytics_/$analyticsId_/graphs': {
+      id: '/analytics_/$analyticsId_/graphs'
+      path: '/analytics/$analyticsId/graphs'
+      fullPath: '/analytics/$analyticsId/graphs'
+      preLoaderRoute: typeof AnalyticsAnalyticsIdGraphsImport
       parentRoute: typeof rootRoute
     }
   }
@@ -71,43 +152,101 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
+  '/analytics/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics/$analyticsId/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
+  '/analytics/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics/$analyticsId/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/posts': typeof PostsRoute
-  '/about': typeof AboutLazyRoute
+  '/sessions': typeof SessionsRoute
+  '/usersettings': typeof UsersettingsRoute
+  '/analytics_/$analyticsId': typeof AnalyticsAnalyticsIdRoute
+  '/session/$sessionId': typeof SessionSessionIdRoute
+  '/analytics_/$analyticsId_/graphs': typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/posts' | '/about'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
+    | '/analytics/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics/$analyticsId/graphs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts' | '/about'
-  id: '__root__' | '/' | '/posts' | '/about'
+  to:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
+    | '/analytics/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics/$analyticsId/graphs'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/posts'
+    | '/sessions'
+    | '/usersettings'
+    | '/analytics_/$analyticsId'
+    | '/session/$sessionId'
+    | '/analytics_/$analyticsId_/graphs'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   PostsRoute: typeof PostsRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  SessionsRoute: typeof SessionsRoute
+  UsersettingsRoute: typeof UsersettingsRoute
+  AnalyticsAnalyticsIdRoute: typeof AnalyticsAnalyticsIdRoute
+  SessionSessionIdRoute: typeof SessionSessionIdRoute
+  AnalyticsAnalyticsIdGraphsRoute: typeof AnalyticsAnalyticsIdGraphsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AnalyticsRoute: AnalyticsRoute,
   PostsRoute: PostsRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  SessionsRoute: SessionsRoute,
+  UsersettingsRoute: UsersettingsRoute,
+  AnalyticsAnalyticsIdRoute: AnalyticsAnalyticsIdRoute,
+  SessionSessionIdRoute: SessionSessionIdRoute,
+  AnalyticsAnalyticsIdGraphsRoute: AnalyticsAnalyticsIdGraphsRoute,
 }
 
 export const routeTree = rootRoute
@@ -121,18 +260,42 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/admin",
+        "/analytics",
         "/posts",
-        "/about"
+        "/sessions",
+        "/usersettings",
+        "/analytics_/$analyticsId",
+        "/session/$sessionId",
+        "/analytics_/$analyticsId_/graphs"
       ]
     },
     "/": {
-      "filePath": "index.lazy.jsx"
+      "filePath": "index.jsx"
+    },
+    "/admin": {
+      "filePath": "admin.jsx"
+    },
+    "/analytics": {
+      "filePath": "analytics.jsx"
     },
     "/posts": {
       "filePath": "posts.jsx"
     },
-    "/about": {
-      "filePath": "about.lazy.jsx"
+    "/sessions": {
+      "filePath": "sessions.jsx"
+    },
+    "/usersettings": {
+      "filePath": "usersettings.jsx"
+    },
+    "/analytics_/$analyticsId": {
+      "filePath": "analytics_.$analyticsId.jsx"
+    },
+    "/session/$sessionId": {
+      "filePath": "session.$sessionId.jsx"
+    },
+    "/analytics_/$analyticsId_/graphs": {
+      "filePath": "analytics_.$analyticsId_.graphs.jsx"
     }
   }
 }

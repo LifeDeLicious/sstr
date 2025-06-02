@@ -1,0 +1,125 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1746520532419,
+      "tag": "0000_simple_arachne",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1746546397559,
+      "tag": "0001_free_violations",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1746614337861,
+      "tag": "0002_right_the_professor",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1746615181795,
+      "tag": "0003_faithful_shinko_yamashiro",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1747034041904,
+      "tag": "0004_ordinary_imperial_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1747034398600,
+      "tag": "0005_polite_stellaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1747166676684,
+      "tag": "0006_bitter_gamora",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1747503963161,
+      "tag": "0007_harsh_emma_frost",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1747643050279,
+      "tag": "0008_clammy_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1747643895498,
+      "tag": "0009_ambitious_glorian",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1747758841469,
+      "tag": "0010_curvy_silver_samurai",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1747765521140,
+      "tag": "0011_peaceful_vance_astro",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1747765760818,
+      "tag": "0012_brief_george_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1747765863513,
+      "tag": "0013_careful_rachel_grey",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1747772679704,
+      "tag": "0014_conscious_tony_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "5",
+      "when": 1747842475475,
+      "tag": "0015_lethal_mattie_franklin",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1747845518776,
+      "tag": "0016_slow_darwin",
+      "breakpoints": true
+    }
+  ]
+}

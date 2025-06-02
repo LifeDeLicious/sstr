@@ -1,0 +1,1 @@
+ALTER TABLE `Cars` DROP COLUMN `CarManufacturer`;
